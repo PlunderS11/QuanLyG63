@@ -43,25 +43,26 @@ public class FrameTrangChu extends JFrame{
 		JLabel lblNgayHienTai = new JLabel("Hiện tại:");
 		lblNgayHienTai.setFont(new Font("Arial", Font.BOLD, 40));
 		lblNgayHienTai.setForeground(Color.WHITE);
-		lblNgayHienTai.setBounds(650, 15, 200, 100);
+		lblNgayHienTai.setBounds(400, 15, 200, 100);
 		pnlHeader.add(lblNgayHienTai);
 		
 		JLabel lblTenNVHienTai = new JLabel("-tenNV-");
 		lblTenNVHienTai.setFont(new Font("Arial", Font.BOLD, 30));
 		lblTenNVHienTai.setForeground(Color.WHITE);
-		lblTenNVHienTai.setBounds(1400, 5, 200, 100);
+		lblTenNVHienTai.setBounds(1000, 0, 200, 100);
 		pnlHeader.add(lblTenNVHienTai);
 		
 		JLabel lblMaNVHienTai = new JLabel("-MaNV-");
 		lblMaNVHienTai.setFont(new Font("Arial", Font.BOLD, 30));
 		lblMaNVHienTai.setForeground(Color.WHITE);
-		lblMaNVHienTai.setBounds(1400, 50, 200, 100);
+		lblMaNVHienTai.setBounds(1000, 45, 200, 100);
 		pnlHeader.add(lblMaNVHienTai);
 		
 		JButton btnDangXuat = new JButton("Đăng Xuất");
-		btnDangXuat.setBackground(new Color(236, 43, 43));
+		
 		btnDangXuat.setForeground(Color.WHITE);
-		btnDangXuat.setBounds(1800, 30, 100, 35);
+		btnDangXuat.setBackground(new Color(107,96,236));
+		btnDangXuat.setBounds(1400, 30, 100, 35);
 		pnlHeader.add(btnDangXuat);
 
 		return pnlHeader;
@@ -91,7 +92,7 @@ public class FrameTrangChu extends JFrame{
 
 		JPanel pnlTrangChu = createPanelTrangChu();
 		JPanel pnlKhachHang = (JPanel) frameKH.getContentPane();
-		JPanel pnlNhanVien = frameNV.createPanelNhanVien();
+		JPanel pnlNhanVien = (JPanel) frameNV.getContentPane();
 		JPanel pnlHopDong = frameHopDong.createPanelHopDong();
 		JPanel pnlHoaDon = frameHD.createPanelHoaDon();
 		JPanel pnlThongKe = frameTK.createPanelThongKe();
