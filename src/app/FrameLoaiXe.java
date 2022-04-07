@@ -13,7 +13,7 @@ public class FrameLoaiXe extends JFrame{
 		JPanel pnlContentPane = new JPanel();
 		pnlContentPane.setBackground(Color.WHITE);
 		setContentPane(pnlContentPane);
-		pnlContentPane.add(lbl = new JButton("Gảgagag"));
+		pnlContentPane.add(lbl = new JButton("Gagag"));
 		return pnlContentPane;
 	}
 }
