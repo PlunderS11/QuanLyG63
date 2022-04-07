@@ -8,12 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class FrameLoaiXe extends JFrame{	
-	private JButton lbl;
-	public JPanel createPanelLoaiXe() {
-		JPanel pnlContentPane = new JPanel();
-		pnlContentPane.setBackground(Color.WHITE);
-		setContentPane(pnlContentPane);
-		pnlContentPane.add(lbl = new JButton("Gảgagag"));
-		return pnlContentPane;
+	public FrameLoaiXe() {
+		// TODO Auto-generated constructor stub
 	}
 }

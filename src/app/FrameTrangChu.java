@@ -95,7 +95,7 @@ public class FrameTrangChu extends JFrame{
 		JPanel pnlNhanVien = (JPanel) frameNV.getContentPane();
 		JPanel pnlHopDong = frameHopDong.createPanelHopDong();
 		JPanel pnlHoaDon = frameHD.createPanelHoaDon();
-		JPanel pnlThongKe = frameTK.createPanelThongKe();
+		JPanel pnlThongKe = (JPanel) frameTK.getContentPane();
 		
 		JTabbedPane tabHangHoa = new JTabbedPane();
 		tabHangHoa.setBackground(new Color(79, 12, 132));
@@ -104,9 +104,9 @@ public class FrameTrangChu extends JFrame{
 		FrameXe frameXe = new FrameXe();
 		FrameLoaiXe frameLoaiXe = new FrameLoaiXe();
 		FrameHangSanXuat frameHangSX = new FrameHangSanXuat();
-		JPanel pnlXe = frameXe.createPanelXe();
-		JPanel pnlLoaiXe = frameLoaiXe.createPanelLoaiXe();
-		JPanel pnlHangSX = frameHangSX.createPanelHangSX();
+		JPanel pnlXe = (JPanel) frameXe.getContentPane();
+		JPanel pnlLoaiXe = (JPanel) frameLoaiXe.getContentPane();
+		JPanel pnlHangSX = (JPanel) frameHangSX.getContentPane();
 		
 		tabHangHoa.addTab("XE", new ImageIcon("image/doanhthu.png"), pnlXe, "Xe");
 		tabHangHoa.addTab("LOẠI XE", new ImageIcon("image/khachhang.png"), pnlLoaiXe, "LOẠI XE");
