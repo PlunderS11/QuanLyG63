@@ -86,7 +86,6 @@ public class FrameTrangChu extends JFrame{
 		FrameKhachHang frameKH = new FrameKhachHang();
 		FrameNhanVien frameNV = new FrameNhanVien();
 		FrameHopDong frameHopDong = new FrameHopDong();
-		FrameHangHoa frameHH = new FrameHangHoa();
 		FrameHoaDon frameHD = new FrameHoaDon();
 		FrameThongKe frameTK = new FrameThongKe();
 
@@ -94,16 +93,30 @@ public class FrameTrangChu extends JFrame{
 		JPanel pnlKhachHang = frameKH.createPanelKhachHang();
 		JPanel pnlNhanVien = frameNV.createPanelNhanVien();
 		JPanel pnlHopDong = frameHopDong.createPanelHopDong();
-		JPanel pnlHangHoa = frameHH.createPanelHangHoa();
 		JPanel pnlHoaDon = frameHD.createPanelHoaDon();
 		JPanel pnlThongKe = frameTK.createPanelThongKe();
+		
+		JTabbedPane tabHangHoa = new JTabbedPane();
+		tabHangHoa.setBackground(new Color(79, 12, 132));
+		tabHangHoa.setForeground(Color.WHITE);
+		tabHangHoa.setFont(new Font("Tahoma", Font.BOLD, 13));
+		FrameXe frameXe = new FrameXe();
+		FrameLoaiXe frameLoaiXe = new FrameLoaiXe();
+		FrameHangSanXuat frameHangSX = new FrameHangSanXuat();
+		JPanel pnlXe = frameXe.createPanelXe();
+		JPanel pnlLoaiXe = frameLoaiXe.createPanelLoaiXe();
+		JPanel pnlHangSX = frameHangSX.createPanelHangSX();
+		
+		tabHangHoa.addTab("XE", new ImageIcon("image/doanhthu.png"), pnlXe, "Xe");
+		tabHangHoa.addTab("LOẠI XE", new ImageIcon("image/khachhang.png"), pnlLoaiXe, "LOẠI XE");
+		tabHangHoa.addTab("HÃNG SẢN XUẤT", new ImageIcon("image/khachhang.png"), pnlHangSX, "HÃNG SẢN XUẤT");
 
 			
 		/* add tab with JPanel */
 		tabbedPane.addTab("TRANG CHỦ", new ImageIcon("image/trangchu.png"), pnlTrangChu, "TRANG CHỦ");
 		tabbedPane.addTab("KHÁCH HÀNG", new ImageIcon("image/khachhang.png"), pnlKhachHang, "KHÁCH HÀNG");
 		tabbedPane.addTab("NHÂN VIÊN", new ImageIcon("image/nhanvien.png"), pnlNhanVien, "NHÂN VIÊN");
-		tabbedPane.addTab("HÀNG HÓA", new ImageIcon("image/hanghoa.png"), pnlHangHoa, "HÀNG HÓA");
+		tabbedPane.addTab("HÀNG HÓA", new ImageIcon("image/hanghoa.png"), tabHangHoa, "HÀNG HÓA");
 		tabbedPane.addTab("HỢP ĐỒNG", new ImageIcon("image/hopdong.png"), pnlHopDong, "HỢP ĐÔNG");
 		tabbedPane.addTab("HÓA ĐƠN", new ImageIcon("image/thongke.png"), pnlHoaDon, "HÓA ĐƠN");
 		tabbedPane.addTab("THỐNG KÊ", new ImageIcon("image/thongke.png"), pnlThongKe, "THỐNG KÊ");
