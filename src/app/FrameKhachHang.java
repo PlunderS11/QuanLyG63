@@ -137,7 +137,7 @@ public class FrameKhachHang extends JFrame{
 		
 		JButton btnThemKH = new JButton("Thêm");
 		
-		btnThemKH.setIcon(new ImageIcon("D:\\HSK_JAVA\\WorkspaceWB\\QuanLyG63\\image\\them.png"));
+		btnThemKH.setIcon(new ImageIcon("image\\them.png"));
 		
 		btnThemKH.setForeground(Color.WHITE);
 		btnThemKH.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -146,7 +146,7 @@ public class FrameKhachHang extends JFrame{
 		panel.add(btnThemKH);
 		
 		JButton btnXoaKH = new JButton("Xóa");
-		btnXoaKH.setIcon(new ImageIcon("D:\\HSK_JAVA\\WorkspaceWB\\QuanLyG63\\image\\xoa.png"));
+		btnXoaKH.setIcon(new ImageIcon("image\\xoa.png"));
 		btnXoaKH.setForeground(Color.WHITE);
 		btnXoaKH.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnXoaKH.setBackground(new Color(107,96,236));
@@ -155,7 +155,7 @@ public class FrameKhachHang extends JFrame{
 		
 		JButton btnSuaKH = new JButton("Sửa");
 	
-		btnSuaKH.setIcon(new ImageIcon("D:\\HSK_JAVA\\WorkspaceWB\\QuanLyG63\\image\\capnhat.png"));
+		btnSuaKH.setIcon(new ImageIcon("image\\capnhat.png"));
 		btnSuaKH.setForeground(Color.WHITE);
 		btnSuaKH.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnSuaKH.setBackground(new Color(107,96,236));
@@ -163,7 +163,7 @@ public class FrameKhachHang extends JFrame{
 		panel.add(btnSuaKH);
 		
 		JButton btnLamMoiKH = new JButton("Làm mới");
-		btnLamMoiKH.setIcon(new ImageIcon("D:\\HSK_JAVA\\WorkspaceWB\\QuanLyG63\\image\\lammoi.png"));
+		btnLamMoiKH.setIcon(new ImageIcon("image\\lammoi.png"));
 		btnLamMoiKH.setForeground(Color.WHITE);
 		btnLamMoiKH.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnLamMoiKH.setBackground(new Color(107,96,236));
@@ -195,7 +195,7 @@ public class FrameKhachHang extends JFrame{
 		getContentPane().add(txtTimKH);
 		
 		JButton btnTimKH = new JButton("Tìm");
-		btnTimKH.setIcon(new ImageIcon("D:\\HSK_JAVA\\WorkspaceWB\\QuanLyG63\\image\\timkiem.png"));
+		btnTimKH.setIcon(new ImageIcon("image\\timkiem.png"));
 	
 		
 		btnTimKH.setForeground(Color.WHITE);
