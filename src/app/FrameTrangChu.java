@@ -21,7 +21,7 @@ import javax.swing.plaf.basic.BasicTabbedPaneUI;
 public class FrameTrangChu extends JFrame{
 	
 	public FrameTrangChu() throws ParseException {
-		setTitle("KARAOKE DIAMOND");
+		setTitle("QUANLYG63");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setSize(1000, 800);
@@ -72,7 +72,7 @@ public class FrameTrangChu extends JFrame{
 		tabbedPane.setUI(new BasicTabbedPaneUI() {
 			@Override
 			protected int calculateTabHeight(int tabPlacement, int tabIndex, int fontHeight) {
-				return 80;
+				return 96;
 			}
 			@Override
 			protected int calculateTabWidth(int tabPlacement, int tabIndex, FontMetrics metrics) {
@@ -90,7 +90,7 @@ public class FrameTrangChu extends JFrame{
 		FrameThongKe frameTK = new FrameThongKe();
 
 		JPanel pnlTrangChu = createPanelTrangChu();
-		JPanel pnlKhachHang = frameKH.createPanelKhachHang();
+		JPanel pnlKhachHang = (JPanel) frameKH.getContentPane();
 		JPanel pnlNhanVien = frameNV.createPanelNhanVien();
 		JPanel pnlHopDong = frameHopDong.createPanelHopDong();
 		JPanel pnlHoaDon = frameHD.createPanelHoaDon();
@@ -118,7 +118,7 @@ public class FrameTrangChu extends JFrame{
 		tabbedPane.addTab("NHÂN VIÊN", new ImageIcon("image/nhanvien.png"), pnlNhanVien, "NHÂN VIÊN");
 		tabbedPane.addTab("HÀNG HÓA", new ImageIcon("image/hanghoa.png"), tabHangHoa, "HÀNG HÓA");
 		tabbedPane.addTab("HỢP ĐỒNG", new ImageIcon("image/hopdong.png"), pnlHopDong, "HỢP ĐÔNG");
-		tabbedPane.addTab("HÓA ĐƠN", new ImageIcon("image/thongke.png"), pnlHoaDon, "HÓA ĐƠN");
+		tabbedPane.addTab("HÓA ĐƠN", new ImageIcon("image/hoadon.png"), pnlHoaDon, "HÓA ĐƠN");
 		tabbedPane.addTab("THỐNG KÊ", new ImageIcon("image/thongke.png"), pnlThongKe, "THỐNG KÊ");
 
 		return tabbedPane;
