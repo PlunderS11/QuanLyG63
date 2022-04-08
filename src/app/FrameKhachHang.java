@@ -15,6 +15,9 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
+
+import com.toedter.calendar.JDateChooser;
+
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.border.LineBorder;
@@ -68,8 +71,8 @@ public class FrameKhachHang extends JFrame{
 		lblNewLabel_1_1.setBounds(62, 139, 159, 20);
 		panel.add(lblNewLabel_1_1);
 		
-		txtNgaySinhKH = new JTextField();
-		txtNgaySinhKH.setColumns(10);
+		txtNgaySinhKH = new JDateChooser();
+		txtNgaySinhKH.setDateFormatString("yyyy-MM-dd");;
 		txtNgaySinhKH.setBounds(231, 134, 214, 32);
 		panel.add(txtNgaySinhKH);
 		
@@ -249,7 +252,7 @@ public class FrameKhachHang extends JFrame{
 		scrollPane.setViewportView(table);	
 	}
 	private JTextField txtTenKH;
-	private JTextField txtNgaySinhKH;
+	private JDateChooser txtNgaySinhKH;
 	private JTextField txtDiaChiKH;
 	private JTextField txtSDTKH;
 	private JTextField txtCCCDKH;
