@@ -23,6 +23,8 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
 import com.toedter.calendar.JDateChooser;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class FrameNhanVien extends JFrame{
 	
@@ -53,7 +55,7 @@ public class FrameNhanVien extends JFrame{
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		panel.setBackground(new Color(166, 169, 248));
-		panel.setBounds(0, 0, 506, 668);
+		panel.setBounds(0, 0, 516, 668);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -175,38 +177,46 @@ public class FrameNhanVien extends JFrame{
 		grNV.add(radMaleNV);
 		grNV.add(radFemaleNV);
 		
-		btnThemNV = new JButton("Thêm");
+		btnThemNV = new FixButton("Thêm");
+		
+		
 		
 		btnThemNV.setIcon(new ImageIcon("image\\them.png"));
 		
 		btnThemNV.setForeground(Color.WHITE);
 		btnThemNV.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnThemNV.setBackground(new Color(107,96,236));
-		btnThemNV.setBounds(0,428, 115, 49);
+		btnThemNV.setBounds(10,400, 123, 49);
 		panel.add(btnThemNV);
 		
-		btnXoaNV = new JButton("Xóa");
+		btnXoaNV = new FixButton("Xóa");
+		
 		btnXoaNV.setIcon(new ImageIcon("image\\xoa.png"));
 		btnXoaNV.setForeground(Color.WHITE);
 		btnXoaNV.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnXoaNV.setBackground(new Color(107,96,236));
-		btnXoaNV.setBounds(125, 428, 115, 49);
+		btnXoaNV.setBounds(139, 400, 105, 49);
 		panel.add(btnXoaNV);
 		
-		btnSuaNV = new JButton("Sửa");
+		btnSuaNV = new FixButton("Sửa");
+
 		btnSuaNV.setIcon(new ImageIcon("image\\capnhat.png"));
 		btnSuaNV.setForeground(Color.WHITE);
 		btnSuaNV.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnSuaNV.setBackground(new Color(107,96,236));
-		btnSuaNV.setBounds(250, 428, 115, 49);
+		btnSuaNV.setBounds(250, 400, 105, 49);
 		panel.add(btnSuaNV);
 		
-		btnLamMoiNV = new JButton("Làm mới");
+		btnLamMoiNV = new FixButton("Làm mới");
+		btnLamMoiNV.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnLamMoiNV.setIcon(new ImageIcon("image\\lammoi.png"));
 		btnLamMoiNV.setForeground(Color.WHITE);
 		btnLamMoiNV.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnLamMoiNV.setBackground(new Color(107,96,236));
-		btnLamMoiNV.setBounds(375, 428, 138, 49);
+		btnLamMoiNV.setBounds(361, 400, 136, 49);
 		panel.add(btnLamMoiNV);
 		
 		cbbChucVu = new JComboBox();
@@ -215,6 +225,10 @@ public class FrameNhanVien extends JFrame{
 		cbbChucVu.setBackground(Color.WHITE);
 		cbbChucVu.setBounds(235, 141, 214, 32);
 		panel.add(cbbChucVu);
+		
+		JLabel lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.setBounds(105, 549, 45, 13);
+		panel.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_1_2_1_1 = new JLabel("Tìm kiếm:");
 		lblNewLabel_1_2_1_1.setHorizontalAlignment(SwingConstants.LEFT);
@@ -229,7 +243,7 @@ public class FrameNhanVien extends JFrame{
 		txtTimNV.setBounds(604, 10, 214, 32);
 		getContentPane().add(txtTimNV);
 		
-		btnTimNV = new JButton("Tìm");
+		btnTimNV = new FixButton("Tìm");
 		btnTimNV.setIcon(new ImageIcon("image\\timkiem.png"));
 	
 		
@@ -302,5 +316,4 @@ public class FrameNhanVien extends JFrame{
 	public static void main(String[] args) {
 		new FrameNhanVien().setVisible(true);
 	}
-	
 }

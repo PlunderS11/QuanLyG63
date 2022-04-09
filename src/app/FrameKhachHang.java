@@ -72,13 +72,13 @@ public class FrameKhachHang extends JFrame{
 		panel.add(lblNewLabel_1_1);
 		
 		txtNgaySinhKH = new JDateChooser();
-<<<<<<< HEAD
+//<<<<<<< HEAD
 		txtNgaySinhKH.setDateFormatString("yyyy-MM-dd");
 		txtNgaySinhKH.setBounds(231, 134, 214, 32);
-=======
+//=======
 		txtNgaySinhKH.setDateFormatString("yyyy-MM-dd");;
 		txtNgaySinhKH.setBounds(231, 192, 214, 32);
->>>>>>> 440fba64e3710320448831bbffc372d51d913f80
+//>>>>>>> 440fba64e3710320448831bbffc372d51d913f80
 		panel.add(txtNgaySinhKH);
 		
 		JLabel lblNewLabel_1_2 = new JLabel("Địa chỉ:");
@@ -141,10 +141,6 @@ public class FrameKhachHang extends JFrame{
 		grKH.add(radFemaleKH);
 		
 		JButton btnThemKH = new FixButton("Thêm");
-		btnThemKH.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		btnThemKH.setIcon(new ImageIcon("image\\them.png"));
 		btnThemKH.setForeground(Color.WHITE);
 		btnThemKH.setFont(new Font("Tahoma", Font.BOLD, 14));

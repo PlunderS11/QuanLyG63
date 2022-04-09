@@ -8,8 +8,12 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,12 +32,12 @@ public class FrameTrangChu extends JFrame{
 	public FrameTrangChu() throws ParseException {
 		
 		setTitle("QUANLYG63");
-		setSize(1550, 847);
-//		setExtendedState(JFrame.MAXIMIZED_BOTH);
-//		setSize(1000, 800);
+		//setSize(1550, 847);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setSize(1000, 800);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
-		setResizable(false);
+		//setResizable(false);
 		UIManager.put("TabbedPane.selected", new Color(200,191,231));
 		getContentPane().add(pnlHeader(), BorderLayout.NORTH);
 		getContentPane().add(createTabbedPane());
@@ -143,8 +147,24 @@ public class FrameTrangChu extends JFrame{
 	}
 	private JPanel createPanelTrangChu() {
 		JPanel pnlContentPane = new JPanel();
-		pnlContentPane.setBackground(new Color(204, 0, 0));
 		pnlContentPane.setLayout(null);
+		
+		BufferedImage myPicture = null;
+		try {
+			myPicture = ImageIO.read(new File("image/home.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		JLabel picLabel = new JLabel(new ImageIcon(myPicture));
+		picLabel.setBounds(0,0,824,460);
+		pnlContentPane.add(picLabel);
+		
+		
+		
+		
+		pnlContentPane.setBackground(new Color(196, 196, 196));
+		
 		
 		return pnlContentPane;
 	}
