@@ -56,79 +56,79 @@ public class FrameKhachHang extends JFrame{
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1.setBounds(62, 97, 159, 20);
+		lblNewLabel_1.setBounds(62, 136, 159, 30);
 		panel.add(lblNewLabel_1);
 		
 		txtTenKH = new JTextField();
 		txtTenKH.setColumns(10);
-		txtTenKH.setBounds(231, 92, 214, 32);
+		txtTenKH.setBounds(231, 134, 214, 32);
 		panel.add(txtTenKH);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Ngày sinh:");
 		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_1.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1_1.setBounds(62, 139, 159, 20);
+		lblNewLabel_1_1.setBounds(62, 194, 159, 30);
 		panel.add(lblNewLabel_1_1);
 		
 		txtNgaySinhKH = new JDateChooser();
 		txtNgaySinhKH.setDateFormatString("yyyy-MM-dd");;
-		txtNgaySinhKH.setBounds(231, 134, 214, 32);
+		txtNgaySinhKH.setBounds(231, 192, 214, 32);
 		panel.add(txtNgaySinhKH);
 		
 		JLabel lblNewLabel_1_2 = new JLabel("Địa chỉ:");
 		lblNewLabel_1_2.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_2.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1_2.setBounds(62, 181, 159, 20);
+		lblNewLabel_1_2.setBounds(62, 252, 159, 30);
 		panel.add(lblNewLabel_1_2);
 		
 		txtDiaChiKH = new JTextField();
 		txtDiaChiKH.setColumns(10);
-		txtDiaChiKH.setBounds(231, 176, 214, 32);
+		txtDiaChiKH.setBounds(231, 250, 214, 32);
 		panel.add(txtDiaChiKH);
 		
 		JLabel lblNewLabel_1_2_1 = new JLabel("Số điện thoại:");
 		lblNewLabel_1_2_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_2_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_2_1.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1_2_1.setBounds(62, 223, 159, 20);
+		lblNewLabel_1_2_1.setBounds(62, 310, 159, 30);
 		panel.add(lblNewLabel_1_2_1);
 		
 		txtSDTKH = new JTextField();
 		txtSDTKH.setColumns(10);
-		txtSDTKH.setBounds(231, 218, 214, 32);
+		txtSDTKH.setBounds(231, 308, 214, 32);
 		panel.add(txtSDTKH);
 		
 		JLabel lblNewLabel_1_2_2 = new JLabel("CCCD:");
 		lblNewLabel_1_2_2.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_2_2.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_2_2.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1_2_2.setBounds(62, 265, 159, 20);
+		lblNewLabel_1_2_2.setBounds(62, 368, 159, 30);
 		panel.add(lblNewLabel_1_2_2);
 		
 		txtCCCDKH = new JTextField();
 		txtCCCDKH.setColumns(10);
-		txtCCCDKH.setBounds(231, 260, 214, 32);
+		txtCCCDKH.setBounds(231, 366, 214, 32);
 		panel.add(txtCCCDKH);
 		
 		JLabel lblNewLabel_1_2_3 = new JLabel("Giới tính:");
 		lblNewLabel_1_2_3.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_2_3.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_2_3.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1_2_3.setBounds(62, 307, 159, 20);
+		lblNewLabel_1_2_3.setBounds(62, 426, 159, 20);
 		panel.add(lblNewLabel_1_2_3);
 		
 		JRadioButton radMaleKH = new JRadioButton("Nam");
 		radMaleKH.setFont(new Font("Tahoma", Font.BOLD, 16));
 		radMaleKH.setBackground(new Color(166, 169, 248));
-		radMaleKH.setBounds(231, 307, 63, 20);
+		radMaleKH.setBounds(231, 426, 63, 20);
 		panel.add(radMaleKH);
 		
 		JRadioButton radFemaleKH = new JRadioButton("Nữ");
 		radFemaleKH.setFont(new Font("Tahoma", Font.BOLD, 16));
 		radFemaleKH.setBackground(new Color(166, 169, 248));
-		radFemaleKH.setBounds(310, 307, 63, 20);
+		radFemaleKH.setBounds(312, 426, 63, 20);
 		panel.add(radFemaleKH);
 		
 		ButtonGroup grKH = new ButtonGroup();
@@ -136,11 +136,15 @@ public class FrameKhachHang extends JFrame{
 		grKH.add(radFemaleKH);
 		
 		JButton btnThemKH = new FixButton("Thêm");
+		btnThemKH.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnThemKH.setIcon(new ImageIcon("image\\them.png"));
 		btnThemKH.setForeground(Color.WHITE);
 		btnThemKH.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnThemKH.setBackground(new Color(107,96,236));
-		btnThemKH.setBounds(10, 336, 110, 49);
+		btnThemKH.setBounds(10, 476, 123, 49);
 		panel.add(btnThemKH);
 		
 		JButton btnXoaKH = new FixButton("Xóa");
@@ -148,7 +152,7 @@ public class FrameKhachHang extends JFrame{
 		btnXoaKH.setForeground(Color.WHITE);
 		btnXoaKH.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnXoaKH.setBackground(new Color(107,96,236));
-		btnXoaKH.setBounds(133, 336, 105, 49);
+		btnXoaKH.setBounds(139, 476, 105, 49);
 		panel.add(btnXoaKH);
 		
 		JButton btnSuaKH = new FixButton("Sửa");	
@@ -156,7 +160,7 @@ public class FrameKhachHang extends JFrame{
 		btnSuaKH.setForeground(Color.WHITE);
 		btnSuaKH.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnSuaKH.setBackground(new Color(107,96,236));
-		btnSuaKH.setBounds(250, 336, 105, 49);
+		btnSuaKH.setBounds(250, 476, 105, 49);
 		panel.add(btnSuaKH);
 		
 		JButton btnLamMoiKH = new FixButton("Làm mới");
@@ -164,19 +168,19 @@ public class FrameKhachHang extends JFrame{
 		btnLamMoiKH.setForeground(Color.WHITE);
 		btnLamMoiKH.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnLamMoiKH.setBackground(new Color(107,96,236));
-		btnLamMoiKH.setBounds(365, 336, 130, 49);
+		btnLamMoiKH.setBounds(361, 476, 136, 49);
 		panel.add(btnLamMoiKH);
 		
 		txtMaKH = new JTextField();
 		txtMaKH.setColumns(10);
-		txtMaKH.setBounds(231, 53, 214, 32);
+		txtMaKH.setBounds(231, 76, 214, 32);
 		panel.add(txtMaKH);
 		
 		JLabel lblNewLabel_1_3 = new JLabel("Mã khách hàng:");
 		lblNewLabel_1_3.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_3.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_3.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1_3.setBounds(62, 58, 159, 20);
+		lblNewLabel_1_3.setBounds(62, 78, 159, 30);
 		panel.add(lblNewLabel_1_3);
 		
 		JLabel lblNewLabel_1_2_1_1 = new JLabel("Tìm kiếm:");
