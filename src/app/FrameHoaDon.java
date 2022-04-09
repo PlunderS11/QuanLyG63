@@ -40,24 +40,24 @@ public class FrameHoaDon extends JFrame{
 		lblNewLabel_1_3_7.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_3_7.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_3_7.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1_3_7.setBounds(97, 560, 159, 30);
+		lblNewLabel_1_3_7.setBounds(97, 575, 159, 30);
 		getContentPane().add(lblNewLabel_1_3_7);
 		
 		txtNgayLap = new JDateChooser();
 		txtNgayLap.setDateFormatString("yyyy-MM-dd");
-		txtNgayLap.setBounds(266, 560, 351, 32);
+		txtNgayLap.setBounds(266, 575, 351, 32);
 		getContentPane().add(txtNgayLap);
 		
 		JLabel lblNewLabel_1_3_7_1 = new JLabel("Số lượng:");
 		lblNewLabel_1_3_7_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_3_7_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_3_7_1.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1_3_7_1.setBounds(97, 604, 159, 30);
+		lblNewLabel_1_3_7_1.setBounds(97, 619, 159, 30);
 		getContentPane().add(lblNewLabel_1_3_7_1);
 		
 		txtSoLuong = new JTextField();
 		txtSoLuong.setColumns(10);
-		txtSoLuong.setBounds(266, 604, 351, 32);
+		txtSoLuong.setBounds(266, 619, 351, 32);
 		getContentPane().add(txtSoLuong);
 		
 		JPanel panel = new JPanel();
@@ -88,7 +88,7 @@ public class FrameHoaDon extends JFrame{
 		panel_2.setBackground(new Color(166, 169, 248));
 		panel_2.setBorder(new TitledBorder(new TitledBorder(new LineBorder(Color.BLACK, 1, true), "Khách hàng",
 				TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 0))));
-		panel_2.setBounds(97, 112, 520, 276);
+		panel_2.setBounds(97, 112, 520, 285);
 		getContentPane().add(panel_2);
 		panel_2.setLayout(null);
 		
@@ -158,7 +158,7 @@ public class FrameHoaDon extends JFrame{
 		panel_2.add(txtSDT);
 		
 		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(712, 108, 520, 437);
+		panel_3.setBounds(712, 108, 520, 454);
 		panel_3.setBackground(new Color(166, 169, 248));
 		panel_3.setBorder(new TitledBorder(new TitledBorder(new LineBorder(Color.BLACK, 1, true), "Sản phẩm",
 				TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 0))));
@@ -169,7 +169,7 @@ public class FrameHoaDon extends JFrame{
 		lblNewLabel_1_3_8.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_3_8.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_3_8.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1_3_8.setBounds(10, 20, 159, 30);
+		lblNewLabel_1_3_8.setBounds(10, 22, 159, 30);
 		panel_3.add(lblNewLabel_1_3_8);
 		
 		txtMaXe = new JTextField();
@@ -182,82 +182,95 @@ public class FrameHoaDon extends JFrame{
 		lblNewLabel_1_3_1_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_3_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_3_1_1.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1_3_1_1.setBounds(10, 82, 159, 30);
+		lblNewLabel_1_3_1_1.setBounds(10, 78, 159, 30);
 		panel_3.add(lblNewLabel_1_3_1_1);
 		
 		txtTenXe = new JTextField();
 		txtTenXe.setEditable(false);
 		txtTenXe.setColumns(10);
-		txtTenXe.setBounds(179, 82, 331, 32);
+		txtTenXe.setBounds(179, 76, 331, 32);
 		panel_3.add(txtTenXe);
 		
 		JLabel lblNewLabel_1_3_2_1 = new JLabel("Màu xe:");
 		lblNewLabel_1_3_2_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_3_2_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_3_2_1.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1_3_2_1.setBounds(10, 144, 159, 30);
+		lblNewLabel_1_3_2_1.setBounds(10, 134, 159, 30);
 		panel_3.add(lblNewLabel_1_3_2_1);
 		
 		txtMauXe = new JTextField();
 		txtMauXe.setEditable(false);
 		txtMauXe.setColumns(10);
-		txtMauXe.setBounds(179, 144, 331, 32);
+		txtMauXe.setBounds(179, 132, 331, 32);
 		panel_3.add(txtMauXe);
 		
 		JLabel lblNewLabel_1_3_3_1 = new JLabel("Số khung:");
 		lblNewLabel_1_3_3_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_3_3_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_3_3_1.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1_3_3_1.setBounds(10, 206, 159, 30);
+		lblNewLabel_1_3_3_1.setBounds(10, 190, 159, 30);
 		panel_3.add(lblNewLabel_1_3_3_1);
 		
 		txtSoKhung = new JTextField();
 		txtSoKhung.setEditable(false);
 		txtSoKhung.setColumns(10);
-		txtSoKhung.setBounds(179, 206, 331, 32);
+		txtSoKhung.setBounds(179, 188, 331, 32);
 		panel_3.add(txtSoKhung);
 		
 		JLabel lblNewLabel_1_3_4_1 = new JLabel("Số máy:");
 		lblNewLabel_1_3_4_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_3_4_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_3_4_1.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1_3_4_1.setBounds(10, 268, 159, 30);
+		lblNewLabel_1_3_4_1.setBounds(10, 246, 159, 30);
 		panel_3.add(lblNewLabel_1_3_4_1);
 		
 		txtSoMay = new JTextField();
 		txtSoMay.setEditable(false);
 		txtSoMay.setColumns(10);
-		txtSoMay.setBounds(179, 268, 331, 32);
+		txtSoMay.setBounds(179, 244, 331, 32);
 		panel_3.add(txtSoMay);
 		
 		JLabel lblNewLabel_1_3_5_1 = new JLabel("Loại xe:");
 		lblNewLabel_1_3_5_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_3_5_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_3_5_1.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1_3_5_1.setBounds(10, 330, 159, 30);
+		lblNewLabel_1_3_5_1.setBounds(10, 302, 159, 30);
 		panel_3.add(lblNewLabel_1_3_5_1);
 		
 		txtLoaiXe = new JTextField();
 		txtLoaiXe.setEditable(false);
 		txtLoaiXe.setColumns(10);
-		txtLoaiXe.setBounds(179, 330, 331, 32);
+		txtLoaiXe.setBounds(179, 300, 331, 32);
 		panel_3.add(txtLoaiXe);
 		
 		JLabel lblNewLabel_1_3_6_1 = new JLabel("Hãng sản xuất:");
 		lblNewLabel_1_3_6_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_3_6_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_3_6_1.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1_3_6_1.setBounds(10, 392, 159, 30);
+		lblNewLabel_1_3_6_1.setBounds(10, 358, 159, 30);
 		panel_3.add(lblNewLabel_1_3_6_1);
 		
 		txtHangSX = new JTextField();
 		txtHangSX.setEditable(false);
 		txtHangSX.setColumns(10);
-		txtHangSX.setBounds(179, 392, 331, 32);
+		txtHangSX.setBounds(179, 356, 331, 32);
 		panel_3.add(txtHangSX);
 		
+		txtGiaXe = new JTextField();
+		txtGiaXe.setEditable(false);
+		txtGiaXe.setColumns(10);
+		txtGiaXe.setBounds(179, 412, 331, 32);
+		panel_3.add(txtGiaXe);
+		
+		JLabel lblNewLabel_1_3_6_1_1 = new JLabel("Giá xe:");
+		lblNewLabel_1_3_6_1_1.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_1_3_6_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_1_3_6_1_1.setBackground(new Color(166, 169, 248));
+		lblNewLabel_1_3_6_1_1.setBounds(10, 414, 159, 30);
+		panel_3.add(lblNewLabel_1_3_6_1_1);
+		
 		JPanel panel_4 = new JPanel();
-		panel_4.setBounds(97, 398, 520, 144);
+		panel_4.setBounds(97, 418, 520, 144);
 		panel_4.setBackground(new Color(166, 170, 248));
 		panel_4.setBorder(new TitledBorder(new TitledBorder(new LineBorder(Color.BLACK, 1, true), "Nhân viên",
 				TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 0))));
@@ -293,7 +306,7 @@ public class FrameHoaDon extends JFrame{
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(null);
 		panel_1.setBackground(new Color(147, 112, 219));
-		panel_1.setBounds(712, 557, 523, 79);
+		panel_1.setBounds(712, 572, 523, 79);
 		getContentPane().add(panel_1);
 		
 		JLabel lblThnhTin = new JLabel("Thành tiền:");
@@ -304,7 +317,7 @@ public class FrameHoaDon extends JFrame{
 		panel_1.add(lblThnhTin);
 		
 		JLabel lblThanhTien = new JLabel("...");
-		lblThanhTien.setForeground(Color.BLACK);
+		lblThanhTien.setForeground(new Color(247, 237, 0));
 		lblThanhTien.setFont(new Font("Tahoma", Font.BOLD, 30));
 		lblThanhTien.setBounds(140, 24, 237, 37);
 		panel_1.add(lblThanhTien);
@@ -345,6 +358,7 @@ public class FrameHoaDon extends JFrame{
 	private JTextField txtHangSX;
 	private JTextField txtMaNV;
 	private JTextField txtTenNV;
+	private JTextField txtGiaXe;
 	public JPanel createPanelHoaDon() {
 		JPanel pnlContentPane = new JPanel();
 		pnlContentPane.setBackground(Color.WHITE);

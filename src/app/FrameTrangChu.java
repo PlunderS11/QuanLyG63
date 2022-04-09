@@ -157,7 +157,7 @@ public class FrameTrangChu extends JFrame{
 			e.printStackTrace();
 		}
 		JLabel picLabel = new JLabel(new ImageIcon(myPicture));
-		picLabel.setBounds(0,0,824,460);
+		picLabel.setBounds(0,0,1345, 705);
 		pnlContentPane.add(picLabel);
 		
 		
