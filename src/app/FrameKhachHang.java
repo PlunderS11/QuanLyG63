@@ -72,7 +72,7 @@ public class FrameKhachHang extends JFrame{
 		panel.add(lblNewLabel_1_1);
 		
 		txtNgaySinhKH = new JDateChooser();
-		txtNgaySinhKH.setDateFormatString("yyyy-MM-dd");;
+		txtNgaySinhKH.setDateFormatString("yyyy-MM-dd");
 		txtNgaySinhKH.setBounds(231, 134, 214, 32);
 		panel.add(txtNgaySinhKH);
 		

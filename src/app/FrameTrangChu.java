@@ -1,5 +1,7 @@
 package app;
 
+
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -24,6 +26,7 @@ public class FrameTrangChu extends JFrame{
 	private JLabel lblDoiMK;
 	private JLabel lblDangXuat;
 	public FrameTrangChu() throws ParseException {
+		
 		setTitle("QUANLYG63");
 		setSize(1550, 847);
 //		setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -147,3 +150,4 @@ public class FrameTrangChu extends JFrame{
 		new FrameTrangChu().setVisible(true);
 	}
 }
+
