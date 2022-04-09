@@ -2,6 +2,7 @@ package app;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -20,12 +21,16 @@ import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
 public class FrameTrangChu extends JFrame{
 	
+	private JLabel lblDoiMK;
+	private JLabel lblDangXuat;
 	public FrameTrangChu() throws ParseException {
 		setTitle("QUANLYG63");
+		setSize(1550, 847);
+//		setExtendedState(JFrame.MAXIMIZED_BOTH);
+//		setSize(1000, 800);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
-		setSize(1000, 800);
 		setLocationRelativeTo(null);
+		setResizable(false);
 		UIManager.put("TabbedPane.selected", new Color(200,191,231));
 		getContentPane().add(pnlHeader(), BorderLayout.NORTH);
 		getContentPane().add(createTabbedPane());
@@ -58,12 +63,19 @@ public class FrameTrangChu extends JFrame{
 		lblMaNVHienTai.setBounds(1000, 45, 200, 100);
 		pnlHeader.add(lblMaNVHienTai);
 		
-		JButton btnDangXuat = new JButton("Đăng Xuất");
-		
-		btnDangXuat.setForeground(Color.WHITE);
-		btnDangXuat.setBackground(new Color(107,96,236));
-		btnDangXuat.setBounds(1400, 30, 100, 35);
-		pnlHeader.add(btnDangXuat);
+		lblDoiMK = new JLabel("<HTML><U>ĐỔI MẬT KHẨU</U></HTML>");
+		lblDoiMK.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblDoiMK.setFont(new Font("Tahoma", Font.ITALIC, 16));
+		lblDoiMK.setForeground(Color.WHITE);
+		lblDoiMK.setBounds(1400, 15, 120, 42);
+		pnlHeader.add(lblDoiMK);
+
+		lblDangXuat = new JLabel("<HTML><U>ĐĂNG XUẤT</U></HTML>");
+		lblDangXuat.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblDangXuat.setFont(new Font("Tahoma", Font.ITALIC, 16));
+		lblDangXuat.setForeground(Color.WHITE);
+		lblDangXuat.setBounds(1400, 55, 150, 42);
+		pnlHeader.add(lblDangXuat);
 
 		return pnlHeader;
 	}
@@ -93,8 +105,8 @@ public class FrameTrangChu extends JFrame{
 		JPanel pnlTrangChu = createPanelTrangChu();
 		JPanel pnlKhachHang = (JPanel) frameKH.getContentPane();
 		JPanel pnlNhanVien = (JPanel) frameNV.getContentPane();
-		JPanel pnlHopDong = frameHopDong.createPanelHopDong();
-		JPanel pnlHoaDon = frameHD.createPanelHoaDon();
+		JPanel pnlHopDong = (JPanel) frameHopDong.getContentPane();
+		JPanel pnlHoaDon = (JPanel) frameHD.getContentPane();
 		JPanel pnlThongKe = (JPanel) frameTK.getContentPane();
 		
 		JTabbedPane tabHangHoa = new JTabbedPane();
@@ -116,13 +128,13 @@ public class FrameTrangChu extends JFrame{
 
 			
 		/* add tab with JPanel */
-		tabbedPane.addTab("TRANG CHỦ", new ImageIcon("image/trangchu.png"), pnlTrangChu, "TRANG CHỦ");
-		tabbedPane.addTab("KHÁCH HÀNG", new ImageIcon("image/khachhang.png"), pnlKhachHang, "KHÁCH HÀNG");
-		tabbedPane.addTab("NHÂN VIÊN", new ImageIcon("image/nhanvien.png"), pnlNhanVien, "NHÂN VIÊN");
-		tabbedPane.addTab("HÀNG HÓA", new ImageIcon("image/hanghoa.png"), tabHangHoa, "HÀNG HÓA");
-		tabbedPane.addTab("HỢP ĐỒNG", new ImageIcon("image/hopdong.png"), pnlHopDong, "HỢP ĐÔNG");
-		tabbedPane.addTab("HÓA ĐƠN", new ImageIcon("image/hoadon.png"), pnlHoaDon, "HÓA ĐƠN");
-		tabbedPane.addTab("THỐNG KÊ", new ImageIcon("image/thongke.png"), pnlThongKe, "THỐNG KÊ");
+		tabbedPane.addTab("TRANG CHỦ", new ImageIcon("image/trangchu.png"), pnlTrangChu, "Giới thiệu sơ lược về cửa hàng");
+		tabbedPane.addTab("KHÁCH HÀNG", new ImageIcon("image/khachhang.png"), pnlKhachHang, "Gồm các thông tin của khách hàng");
+		tabbedPane.addTab("NHÂN VIÊN", new ImageIcon("image/nhanvien.png"), pnlNhanVien, "Gồm các thông tin của nhân viên");
+		tabbedPane.addTab("HÀNG HÓA", new ImageIcon("image/hanghoa.png"), tabHangHoa, "Gồm các thông tin của hàng hóa");
+		tabbedPane.addTab("HỢP ĐỒNG", new ImageIcon("image/hopdong.png"), pnlHopDong, "Gồm các thông tin của hợp đồng");
+		tabbedPane.addTab("HÓA ĐƠN", new ImageIcon("image/hoadon.png"), pnlHoaDon, "Hiển thị hóa đơn và thanh toán");
+		tabbedPane.addTab("THỐNG KÊ", new ImageIcon("image/thongke.png"), pnlThongKe, "Thống kê các khoảng doanh thu");
 
 		return tabbedPane;
 	}
