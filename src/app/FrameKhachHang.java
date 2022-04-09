@@ -32,10 +32,7 @@ public class FrameKhachHang extends JFrame{
 		setSize(1345, 705);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
-		
 		getContentPane().setBackground(new Color(166, 169, 248));
-		
-		
 		getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
@@ -136,9 +133,7 @@ public class FrameKhachHang extends JFrame{
 		grKH.add(radFemaleKH);
 		
 		JButton btnThemKH = new JButton("Thêm");
-		
 		btnThemKH.setIcon(new ImageIcon("image\\them.png"));
-		
 		btnThemKH.setForeground(Color.WHITE);
 		btnThemKH.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnThemKH.setBackground(new Color(107,96,236));
@@ -153,8 +148,7 @@ public class FrameKhachHang extends JFrame{
 		btnXoaKH.setBounds(125, 336, 109, 49);
 		panel.add(btnXoaKH);
 		
-		JButton btnSuaKH = new JButton("Sửa");
-	
+		JButton btnSuaKH = new JButton("Sửa");	
 		btnSuaKH.setIcon(new ImageIcon("image\\capnhat.png"));
 		btnSuaKH.setForeground(Color.WHITE);
 		btnSuaKH.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -195,9 +189,7 @@ public class FrameKhachHang extends JFrame{
 		getContentPane().add(txtTimKH);
 		
 		JButton btnTimKH = new JButton("Tìm");
-		btnTimKH.setIcon(new ImageIcon("image\\timkiem.png"));
-	
-		
+		btnTimKH.setIcon(new ImageIcon("image\\timkiem.png"));	
 		btnTimKH.setForeground(Color.WHITE);
 		btnTimKH.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnTimKH.setBackground(new Color(107,96,236));
@@ -222,7 +214,6 @@ public class FrameKhachHang extends JFrame{
 			}
 		};
 		table.setBackground(Color.WHITE);
-		
 		table.setFont(new Font("Times New Roman", Font.PLAIN, 15));
 		table.setGridColor(getBackground());
 		table.setRowHeight(table.getRowHeight() + 20);
@@ -255,16 +246,8 @@ public class FrameKhachHang extends JFrame{
 				return columnEditables[column];
 			}
 		});
-		scrollPane.setViewportView(table);
-		
-		
-		
-	
-		
-		
-		
+		scrollPane.setViewportView(table);	
 	}
-
 	private JTextField txtTenKH;
 	private JTextField txtNgaySinhKH;
 	private JTextField txtDiaChiKH;
@@ -276,11 +259,7 @@ public class FrameKhachHang extends JFrame{
 	public JPanel createPanelKhachHang() {
 		JPanel pnlContentPane = new JPanel();
 		pnlContentPane.setBackground(Color.WHITE);
-		setContentPane(pnlContentPane);
-		
+		setContentPane(pnlContentPane);		
 		return pnlContentPane;
-	}
-	public static void main(String[] args) {
-		new FrameKhachHang().setVisible(true);
 	}
 }

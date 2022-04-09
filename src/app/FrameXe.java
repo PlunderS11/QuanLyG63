@@ -65,10 +65,10 @@ public class FrameXe extends JFrame{
 		cboMauXe.setBounds(103, 130, 214, 28);
 		panel.add(cboMauXe);
 		
-		JLabel lblSoKhung = new JLabel("Số khung:");
-		lblSoKhung.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblSoKhung.setBounds(10, 170, 102, 23);
-		panel.add(lblSoKhung);
+		JLabel lblSoXeung = new JLabel("Số Khung:");
+		lblSoXeung.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblSoXeung.setBounds(10, 170, 102, 23);
+		panel.add(lblSoXeung);
 		
 		txtSoKhung = new JTextField();
 		txtSoKhung.setBounds(103, 165, 214, 28);
@@ -143,15 +143,15 @@ public class FrameXe extends JFrame{
 		panel.add(txtTimKiem);
 		txtTimKiem.setColumns(10);
 		
-		JButton btnTimKH = new FixButton("Tìm");
-		btnTimKH.setIcon(new ImageIcon("image\\timkiem.png"));
+		JButton btnTimXe = new FixButton("Tìm");
+		btnTimXe.setIcon(new ImageIcon("image\\timkiem.png"));
 	
 		
-		btnTimKH.setForeground(Color.WHITE);
-		btnTimKH.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnTimKH.setBackground(new Color(107,96,236));
-		btnTimKH.setBounds(605, 15, 99, 32);
-		panel.add(btnTimKH);
+		btnTimXe.setForeground(Color.WHITE);
+		btnTimXe.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnTimXe.setBackground(new Color(107,96,236));
+		btnTimXe.setBounds(605, 15, 99, 32);
+		panel.add(btnTimXe);
 		
 		
 		JPanel pChucNang = new JPanel();
@@ -162,40 +162,40 @@ public class FrameXe extends JFrame{
 				TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		getContentPane().add(pChucNang);
 		
-		JButton btnThemKH = new FixButton("Thêm");
+		JButton btnThemXe = new FixButton("Thêm");
 		
-		btnThemKH.setIcon(new ImageIcon("image\\them.png"));
+		btnThemXe.setIcon(new ImageIcon("image\\them.png"));
 		
-		btnThemKH.setForeground(Color.WHITE);
-		btnThemKH.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnThemKH.setBackground(new Color(107,96,236));
-		btnThemKH.setBounds(0, 336, 115, 49);
-		pChucNang.add(btnThemKH);
+		btnThemXe.setForeground(Color.WHITE);
+		btnThemXe.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnThemXe.setBackground(new Color(107,96,236));
+		btnThemXe.setBounds(0, 336, 115, 49);
+		pChucNang.add(btnThemXe);
 		
-		JButton btnXoaKH = new FixButton("Xóa");
-		btnXoaKH.setIcon(new ImageIcon("image\\xoa.png"));
-		btnXoaKH.setForeground(Color.WHITE);
-		btnXoaKH.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnXoaKH.setBackground(new Color(107,96,236));
-		btnXoaKH.setBounds(125, 336, 109, 49);
-		pChucNang.add(btnXoaKH);
+		JButton btnXoaXe = new FixButton("Xóa");
+		btnXoaXe.setIcon(new ImageIcon("image\\xoa.png"));
+		btnXoaXe.setForeground(Color.WHITE);
+		btnXoaXe.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnXoaXe.setBackground(new Color(107,96,236));
+		btnXoaXe.setBounds(125, 336, 109, 49);
+		pChucNang.add(btnXoaXe);
 		
-		JButton btnSuaKH = new FixButton("Sửa");
+		JButton btnSuaXe = new FixButton("Sửa");
 	
-		btnSuaKH.setIcon(new ImageIcon("image\\capnhat.png"));
-		btnSuaKH.setForeground(Color.WHITE);
-		btnSuaKH.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnSuaKH.setBackground(new Color(107,96,236));
-		btnSuaKH.setBounds(244, 336, 109, 49);
-		pChucNang.add(btnSuaKH);
+		btnSuaXe.setIcon(new ImageIcon("image\\capnhat.png"));
+		btnSuaXe.setForeground(Color.WHITE);
+		btnSuaXe.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnSuaXe.setBackground(new Color(107,96,236));
+		btnSuaXe.setBounds(244, 336, 109, 49);
+		pChucNang.add(btnSuaXe);
 		
-		JButton btnLamMoiKH = new FixButton("Làm mới");
-		btnLamMoiKH.setIcon(new ImageIcon("image\\lammoi.png"));
-		btnLamMoiKH.setForeground(Color.WHITE);
-		btnLamMoiKH.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnLamMoiKH.setBackground(new Color(107,96,236));
-		btnLamMoiKH.setBounds(366, 336, 138, 49);
-		pChucNang.add(btnLamMoiKH);
+		JButton btnLamMoiXe = new FixButton("Làm mới");
+		btnLamMoiXe.setIcon(new ImageIcon("image\\lammoi.png"));
+		btnLamMoiXe.setForeground(Color.WHITE);
+		btnLamMoiXe.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnLamMoiXe.setBackground(new Color(107,96,236));
+		btnLamMoiXe.setBounds(366, 336, 138, 49);
+		pChucNang.add(btnLamMoiXe);
 		
 		JPanel pSapXep = new JPanel();
 		pSapXep.setLayout(null);
@@ -255,7 +255,7 @@ public class FrameXe extends JFrame{
 					{null, null, null, null, null, null, null, null, null, null},
 				},
 				new String[] {
-					"Mã xe", "Tên xe", "Màu xe", "Số khung", "Số máy", "Nhà cung cấp", "Hãng sản xuất", "Loại xe", "Giá", "Trạng thái"
+					"Mã xe", "Tên xe", "Màu xe", "Số Xeung", "Số máy", "Nhà cung cấp", "Hãng sản xuất", "Loại xe", "Giá", "Trạng thái"
 				}
 			) {
 				boolean[] columnEditables = new boolean[] {
@@ -284,5 +284,6 @@ public class FrameXe extends JFrame{
 	
 	public static void main(String[] args) {
 		new FrameXe().setVisible(true);
-	}
+
 }
+	}
