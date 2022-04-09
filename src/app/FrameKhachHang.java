@@ -41,7 +41,7 @@ public class FrameKhachHang extends JFrame{
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		panel.setBackground(new Color(166, 169, 248));
-		panel.setBounds(10, 10, 506, 668);
+		panel.setBounds(10, 10, 506, 658);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -187,12 +187,12 @@ public class FrameKhachHang extends JFrame{
 		lblNewLabel_1_2_1_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_2_1_1.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1_2_1_1.setBounds(516, 10, 88, 32);
+		lblNewLabel_1_2_1_1.setBounds(525, 10, 88, 32);
 		getContentPane().add(lblNewLabel_1_2_1_1);
 		
 		txtTimKH = new JTextField();
 		txtTimKH.setColumns(10);
-		txtTimKH.setBounds(604, 10, 214, 32);
+		txtTimKH.setBounds(613, 10, 214, 32);
 		getContentPane().add(txtTimKH);
 		
 		JButton btnTimKH = new FixButton("Tìm");
@@ -200,7 +200,7 @@ public class FrameKhachHang extends JFrame{
 		btnTimKH.setForeground(Color.WHITE);
 		btnTimKH.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnTimKH.setBackground(new Color(107,96,236));
-		btnTimKH.setBounds(828, 10, 99, 32);
+		btnTimKH.setBounds(837, 10, 99, 32);
 		getContentPane().add(btnTimKH);
 		
 		JScrollPane scrollPane = new JScrollPane();
