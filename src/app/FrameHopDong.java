@@ -131,7 +131,7 @@ public class FrameHopDong extends JFrame{
 		txtGiaTien.setBounds(173, 460, 210, 32);
 		panel.add(txtGiaTien);
 		
-		JButton btnThemKH = new JButton("Thêm");
+		JButton btnThemKH = new FixButton("Thêm");
 		btnThemKH.setIcon(new ImageIcon("image\\them.png"));
 		btnThemKH.setForeground(Color.WHITE);
 		btnThemKH.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -139,7 +139,7 @@ public class FrameHopDong extends JFrame{
 		btnThemKH.setBounds(54, 544, 115, 49);
 		panel.add(btnThemKH);
 		
-		JButton btnLamMoi = new JButton("Làm mới");
+		JButton btnLamMoi = new FixButton("Làm mới");
 		btnLamMoi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -164,7 +164,7 @@ public class FrameHopDong extends JFrame{
 		lblNewLabel_1_2_1_1.setBounds(10, 14, 183, 32);
 		pnlTimKH.add(lblNewLabel_1_2_1_1);
 		
-		JButton btnTimKH = new JButton("Tìm");
+		JButton btnTimKH = new FixButton("Tìm");
 		btnTimKH.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -291,7 +291,7 @@ public class FrameHopDong extends JFrame{
 		txtGiaNhap.setBounds(940, 102, 193, 32);
 		getContentPane().add(txtGiaNhap);
 		
-		JButton btnTimXe = new JButton("Tìm");
+		JButton btnTimXe = new FixButton("Tìm");
 		btnTimXe.setIcon(new ImageIcon("image\\timkiem.png"));
 		btnTimXe.setForeground(Color.WHITE);
 		btnTimXe.setFont(new Font("Tahoma", Font.BOLD, 14));
