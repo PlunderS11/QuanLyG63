@@ -41,7 +41,7 @@ public class FrameKhachHang extends JFrame{
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		panel.setBackground(new Color(166, 169, 248));
-		panel.setBounds(10, 10, 506, 658);
+		panel.setBounds(4, 1, 512, 667);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		

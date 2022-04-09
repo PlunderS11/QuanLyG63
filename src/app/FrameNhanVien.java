@@ -234,13 +234,13 @@ public class FrameNhanVien extends JFrame{
 		lblNewLabel_1_2_1_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_2_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_2_1_1.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1_2_1_1.setBounds(516, 10, 88, 32);
+		lblNewLabel_1_2_1_1.setBounds(525, 10, 88, 32);
 		getContentPane().add(lblNewLabel_1_2_1_1);
 		
 		
 		txtTimNV = new JTextField();
 		txtTimNV.setColumns(10);
-		txtTimNV.setBounds(604, 10, 214, 32);
+		txtTimNV.setBounds(613, 10, 214, 32);
 		getContentPane().add(txtTimNV);
 		
 		btnTimNV = new FixButton("Tìm");
@@ -250,7 +250,7 @@ public class FrameNhanVien extends JFrame{
 		btnTimNV.setForeground(Color.WHITE);
 		btnTimNV.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnTimNV.setBackground(new Color(107,96,236));
-		btnTimNV.setBounds(828, 10, 99, 32);
+		btnTimNV.setBounds(837, 10, 99, 32);
 		getContentPane().add(btnTimNV);
 		
 		JScrollPane scrollPane = new JScrollPane();
