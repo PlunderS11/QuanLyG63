@@ -113,12 +113,14 @@ public class FrameTrangChu extends JFrame{
 		tabHangHoa.setBackground(new Color(79, 12, 132));
 		tabHangHoa.setForeground(Color.WHITE);
 		tabHangHoa.setFont(new Font("Tahoma", Font.BOLD, 13));
-		FrameXe frameXe = new FrameXe();
+		FrameXe  frameXe = new FrameXe();
 		FrameLoaiXe frameLoaiXe = new FrameLoaiXe();
 		FrameHangSanXuat frameHangSX = new FrameHangSanXuat();
 		JPanel pnlXe = (JPanel) frameXe.getContentPane();
 		JPanel pnlLoaiXe = (JPanel) frameLoaiXe.getContentPane();
-		JPanel pnlHangSX = (JPanel) frameHangSX.getContentPane();
+		JPanel pnlHangSX =(JPanel) frameHangSX.getContentPane();
+		
+
 		
 		tabHangHoa.addTab("XE", new ImageIcon("image/doanhthu.png"), pnlXe, "Xe");
 		tabHangHoa.addTab("LOẠI XE", new ImageIcon("image/khachhang.png"), pnlLoaiXe, "LOẠI XE");
