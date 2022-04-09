@@ -41,7 +41,7 @@ public class FrameKhachHang extends JFrame{
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		panel.setBackground(new Color(166, 169, 248));
-		panel.setBounds(0, 0, 506, 668);
+		panel.setBounds(10, 10, 506, 668);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -135,36 +135,36 @@ public class FrameKhachHang extends JFrame{
 		grKH.add(radMaleKH);
 		grKH.add(radFemaleKH);
 		
-		JButton btnThemKH = new JButton("Thêm");
+		JButton btnThemKH = new FixButton("Thêm");
 		btnThemKH.setIcon(new ImageIcon("image\\them.png"));
 		btnThemKH.setForeground(Color.WHITE);
 		btnThemKH.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnThemKH.setBackground(new Color(107,96,236));
-		btnThemKH.setBounds(0, 336, 115, 49);
+		btnThemKH.setBounds(10, 336, 110, 49);
 		panel.add(btnThemKH);
 		
-		JButton btnXoaKH = new JButton("Xóa");
+		JButton btnXoaKH = new FixButton("Xóa");
 		btnXoaKH.setIcon(new ImageIcon("image\\xoa.png"));
 		btnXoaKH.setForeground(Color.WHITE);
 		btnXoaKH.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnXoaKH.setBackground(new Color(107,96,236));
-		btnXoaKH.setBounds(125, 336, 109, 49);
+		btnXoaKH.setBounds(133, 336, 105, 49);
 		panel.add(btnXoaKH);
 		
-		JButton btnSuaKH = new JButton("Sửa");	
+		JButton btnSuaKH = new FixButton("Sửa");	
 		btnSuaKH.setIcon(new ImageIcon("image\\capnhat.png"));
 		btnSuaKH.setForeground(Color.WHITE);
 		btnSuaKH.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnSuaKH.setBackground(new Color(107,96,236));
-		btnSuaKH.setBounds(244, 336, 109, 49);
+		btnSuaKH.setBounds(250, 336, 105, 49);
 		panel.add(btnSuaKH);
 		
-		JButton btnLamMoiKH = new JButton("Làm mới");
+		JButton btnLamMoiKH = new FixButton("Làm mới");
 		btnLamMoiKH.setIcon(new ImageIcon("image\\lammoi.png"));
 		btnLamMoiKH.setForeground(Color.WHITE);
 		btnLamMoiKH.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnLamMoiKH.setBackground(new Color(107,96,236));
-		btnLamMoiKH.setBounds(366, 336, 138, 49);
+		btnLamMoiKH.setBounds(365, 336, 130, 49);
 		panel.add(btnLamMoiKH);
 		
 		txtMaKH = new JTextField();
@@ -191,7 +191,7 @@ public class FrameKhachHang extends JFrame{
 		txtTimKH.setBounds(604, 10, 214, 32);
 		getContentPane().add(txtTimKH);
 		
-		JButton btnTimKH = new JButton("Tìm");
+		JButton btnTimKH = new FixButton("Tìm");
 		btnTimKH.setIcon(new ImageIcon("image\\timkiem.png"));	
 		btnTimKH.setForeground(Color.WHITE);
 		btnTimKH.setFont(new Font("Tahoma", Font.BOLD, 14));

@@ -122,9 +122,9 @@ public class FrameTrangChu extends JFrame{
 		
 
 		
-		tabHangHoa.addTab("XE", new ImageIcon("image/doanhthu.png"), pnlXe, "Xe");
-		tabHangHoa.addTab("LOẠI XE", new ImageIcon("image/khachhang.png"), pnlLoaiXe, "LOẠI XE");
-		tabHangHoa.addTab("HÃNG SẢN XUẤT", new ImageIcon("image/khachhang.png"), pnlHangSX, "HÃNG SẢN XUẤT");
+		tabHangHoa.addTab("XE", new ImageIcon("image/xe.png"), pnlXe, "Xe");
+		tabHangHoa.addTab("LOẠI XE", new ImageIcon("image/loaixe.png"), pnlLoaiXe, "LOẠI XE");
+		tabHangHoa.addTab("HÃNG SẢN XUẤT", new ImageIcon("image/hangsx.png"), pnlHangSX, "HÃNG SẢN XUẤT");
 
 			
 		/* add tab with JPanel */
