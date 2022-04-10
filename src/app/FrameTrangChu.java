@@ -8,6 +8,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -32,9 +33,9 @@ public class FrameTrangChu extends JFrame{
 	public FrameTrangChu() throws ParseException {
 		
 		setTitle("QUANLYG63");
-		//setSize(1550, 847);
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
-		setSize(1000, 800);
+		setSize(1550, 847);
+//		setExtendedState(JFrame.MAXIMIZED_BOTH);
+//		setSize(1000, 800);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		//setResizable(false);
@@ -148,24 +149,47 @@ public class FrameTrangChu extends JFrame{
 	private JPanel createPanelTrangChu() {
 		JPanel pnlContentPane = new JPanel();
 		pnlContentPane.setLayout(null);
-		
-		BufferedImage myPicture = null;
-		try {
-			myPicture = ImageIO.read(new File("image/home.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		JLabel picLabel = new JLabel(new ImageIcon(myPicture));
-		picLabel.setBounds(0,0,1345, 705);
-		pnlContentPane.add(picLabel);
-		
-		
-		
-		
-		pnlContentPane.setBackground(new Color(196, 196, 196));
-		
-		
+		JLabel lblBackground = new JLabel();
+		lblBackground.setBounds(0, 0, 1345, 705);
+		lblBackground.setIcon(new ImageIcon("image/bg.jpg"));
+		lblBackground.setLayout(null);
+		pnlContentPane.add(lblBackground);
+		/*intro*/
+		ImageIcon icon1 = new ImageIcon("image/dienthoai.png");
+		Image logo1 = icon1.getImage();
+		Image logo1Resize = logo1.getScaledInstance(32, 32, Image.SCALE_SMOOTH);
+		JLabel lblLogo1 = new JLabel(new ImageIcon(logo1Resize));
+		lblLogo1.setBounds(30, 614, 32, 32);
+		lblBackground.add(lblLogo1);
+		JLabel lblLienhe = new JLabel("Booking: (083)11223344");
+		lblLienhe.setBounds(70, 580, 500, 100);
+		lblLienhe.setFont(new Font("DialogInput", Font.BOLD, 25));
+		lblLienhe.setForeground(Color.WHITE);
+		lblBackground.add(lblLienhe);
+
+		ImageIcon icon2 = new ImageIcon("image/hotline.png");
+		Image logo2 = icon2.getImage();
+		Image logo2Resize = logo2.getScaledInstance(32, 32, Image.SCALE_SMOOTH);
+		JLabel lblLogo2 = new JLabel(new ImageIcon(logo2Resize));
+		lblLogo2.setBounds(30, 574, 32, 32);
+		lblBackground.add(lblLogo2);
+		JLabel lblLienhe2 = new JLabel("Hotline: 0888244212");
+		lblLienhe2.setBounds(70, 540, 500, 100);
+		lblLienhe2.setFont(new Font("DialogInput", Font.BOLD, 25));
+		lblLienhe2.setForeground(Color.WHITE);
+		lblBackground.add(lblLienhe2);
+
+		ImageIcon icon3 = new ImageIcon("image/diachi.png");
+		Image logo3 = icon3.getImage();
+		Image logo3Resize = logo3.getScaledInstance(32, 32, Image.SCALE_SMOOTH);
+		JLabel lblLogo3 = new JLabel(new ImageIcon(logo3Resize));
+		lblLogo3.setBounds(30, 534, 32, 32);
+		lblBackground.add(lblLogo3);
+		JLabel lblLienhe3 = new JLabel("Address: 12 Nguyễn Văn Bảo, Phường 4, Gò Vấp, TP.Hồ Chí Minh");
+		lblLienhe3.setBounds(70, 500, 900, 100);
+		lblLienhe3.setFont(new Font("DialogInput", Font.BOLD, 25));
+		lblLienhe3.setForeground(Color.WHITE);
+		lblBackground.add(lblLienhe3);
 		return pnlContentPane;
 	}
 	public static void main(String[] args) throws ParseException {
