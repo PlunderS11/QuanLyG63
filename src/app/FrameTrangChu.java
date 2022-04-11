@@ -192,8 +192,5 @@ public class FrameTrangChu extends JFrame{
 		lblBackground.add(lblLienhe3);
 		return pnlContentPane;
 	}
-	public static void main(String[] args) throws ParseException {
-		new FrameTrangChu().setVisible(true);
-	}
 }
 
