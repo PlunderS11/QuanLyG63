@@ -255,7 +255,7 @@ public class FrameXe extends JFrame{
 					{null, null, null, null, null, null, null, null, null, null},
 				},
 				new String[] {
-					"Mã xe", "Tên xe", "Màu xe", "Số Xeung", "Số máy", "Nhà cung cấp", "Hãng sản xuất", "Loại xe", "Giá", "Trạng thái"
+					"Mã xe", "Tên xe", "Màu xe", "Số khung", "Số máy", "Nhà cung cấp", "Hãng sản xuất", "Loại xe", "Giá", "Trạng thái"
 				}
 			) {
 				boolean[] columnEditables = new boolean[] {

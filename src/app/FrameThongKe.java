@@ -54,7 +54,7 @@ public class FrameThongKe extends JFrame{
 		lblNewLabel.setBounds(10, 10, 331, 37);
 		panel.add(lblNewLabel);
 		
-		JButton btnLamMoi = new JButton("Làm mới");
+		JButton btnLamMoi = new FixButton("Làm mới");
 		btnLamMoi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -66,7 +66,7 @@ public class FrameThongKe extends JFrame{
 		btnLamMoi.setBounds(218, 412, 134, 49);
 		panel.add(btnLamMoi);
 		
-		JButton btnLoc = new JButton("Lọc");
+		JButton btnLoc = new FixButton("Lọc");
 		btnLoc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
