@@ -1,6 +1,7 @@
 package app;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 
 import javax.swing.ImageIcon;
@@ -8,15 +9,22 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
 
 public class FrameHangSanXuat extends JFrame{
 	private JTextField txtTimKiem;
 	private JTextField txtMaHangXe;
 	private JTextField txtTenHangXe;
 	private JTextField textField;
+	private JTable tableHangXe;
+	private JTable tableTenXe;
 
 	public FrameHangSanXuat() {
 		// TODO Auto-generated constructor stub
@@ -127,5 +135,113 @@ public class FrameHangSanXuat extends JFrame{
 		btnLamMoiHX.setBackground(new Color(107,96,236));
 		btnLamMoiHX.setBounds(366, 336, 138, 49);
 		pChucNang.add(btnLamMoiHX);
+		
+		JScrollPane scrlHangXe = new JScrollPane();
+		scrlHangXe.setBounds(52, 140, 1267, 204);
+		getContentPane().add(scrlHangXe);
+		
+		//tableLoaiXe = new JTable();
+		tableHangXe = new JTable(){
+			public Component prepareRenderer(TableCellRenderer rederer, int row, int column) {
+				Component c = super.prepareRenderer(rederer, row, column);
+				Color color1 = new Color(220,220,220);
+				Color color2 = Color.WHITE;
+				if (!c.getBackground().equals(getSelectionBackground())) {
+					Color coleur = (row % 2 == 0 ? color1 : color2);
+					c.setBackground(coleur);
+					coleur=null;
+				}
+				return c;
+			}
+		};
+		tableHangXe.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		tableHangXe.setGridColor(getBackground());
+		tableHangXe.setRowHeight(tableHangXe.getRowHeight() + 20);
+		tableHangXe.setSelectionBackground(new Color(166, 169, 248));
+		
+		JTableHeader tableHeaderHangXe = tableHangXe.getTableHeader();
+		tableHeaderHangXe.setBackground(new Color(79, 12, 132));
+		tableHeaderHangXe.setForeground(Color.WHITE);
+		tableHeaderHangXe.setFont(new Font("Tahoma", Font.BOLD, 13));
+		
+		tableHangXe.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		tableHangXe	.setModel(new DefaultTableModel(
+				new Object[][] {
+					{null, null, null},
+					{null, null, null},
+					{null, null, null},
+					{null, null, null},
+					{null, null, null},
+					{null, null, null},
+					{null, null, null},
+					{null, null, null},
+				},
+				new String[] {
+					"Mã hãng xe", "Tên Hãng xe", "Nguồn gốc"
+				}
+			) {
+				boolean[] columnEditables = new boolean[] {
+					false, false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});
+		scrlHangXe.setViewportView(tableHangXe);
+		
+		JScrollPane scrlTenXe = new JScrollPane();
+		scrlTenXe.setBounds(52, 371, 1267, 259);
+		
+		
+		getContentPane().add(scrlTenXe);
+		
+		tableTenXe = new JTable(){
+			public Component prepareRenderer(TableCellRenderer rederer, int row, int column) {
+				Component c = super.prepareRenderer(rederer, row, column);
+				Color color1 = new Color(220,220,220);
+				Color color2 = Color.WHITE;
+				if (!c.getBackground().equals(getSelectionBackground())) {
+					Color coleur = (row % 2 == 0 ? color1 : color2);
+					c.setBackground(coleur);
+					coleur=null;
+				}
+				return c;
+			}
+		};
+		tableTenXe.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		tableTenXe.setGridColor(getBackground());
+		tableTenXe.setRowHeight(tableTenXe.getRowHeight() + 20);
+		tableTenXe.setSelectionBackground(new Color(166, 169, 248));
+		
+		JTableHeader tableHeaderTenXe = tableTenXe.getTableHeader();
+		tableHeaderTenXe.setBackground(new Color(79, 12, 132));
+		tableHeaderTenXe.setForeground(Color.WHITE);
+		tableHeaderTenXe.setFont(new Font("Tahoma", Font.BOLD, 13));
+		
+		tableTenXe.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		tableTenXe.setModel(new DefaultTableModel(
+				new Object[][] {
+					{null, null, null, null},
+					{null, null, null, null},
+					{null, null, null, null},
+					{null, null, null, null},
+					{null, null, null, null},
+					{null, null, null, null},
+					{null, null, null, null},
+					{null, null, null, null},
+				},
+				new String[] {
+					"Mã xe", "Mã hãng xe", "Tên xe", "Tên hãng xe"
+				}
+			) {
+				boolean[] columnEditables = new boolean[] {
+					false, false, false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});
+		scrlTenXe.setViewportView(tableTenXe);
+		
 	}
 }

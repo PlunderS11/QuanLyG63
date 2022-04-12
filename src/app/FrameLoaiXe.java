@@ -133,7 +133,7 @@ public class FrameLoaiXe extends JFrame{
 		pChucNang.add(btnLamMoiLX);
 		
 		JScrollPane scrlLoaiXe = new JScrollPane();
-		scrlLoaiXe.setBounds(52, 126, 1267, 204);
+		scrlLoaiXe.setBounds(52, 140, 1267, 204);
 		getContentPane().add(scrlLoaiXe);
 		
 		//tableLoaiXe = new JTable();
@@ -191,7 +191,52 @@ public class FrameLoaiXe extends JFrame{
 		
 		getContentPane().add(scrlTenXe);
 		
-		tableTenXe = new JTable();
+		tableTenXe = new JTable(){
+			public Component prepareRenderer(TableCellRenderer rederer, int row, int column) {
+				Component c = super.prepareRenderer(rederer, row, column);
+				Color color1 = new Color(220,220,220);
+				Color color2 = Color.WHITE;
+				if (!c.getBackground().equals(getSelectionBackground())) {
+					Color coleur = (row % 2 == 0 ? color1 : color2);
+					c.setBackground(coleur);
+					coleur=null;
+				}
+				return c;
+			}
+		};
+		tableTenXe.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		tableTenXe.setGridColor(getBackground());
+		tableTenXe.setRowHeight(tableTenXe.getRowHeight() + 20);
+		tableTenXe.setSelectionBackground(new Color(166, 169, 248));
+		
+		JTableHeader tableHeaderTenXe = tableTenXe.getTableHeader();
+		tableHeaderTenXe.setBackground(new Color(79, 12, 132));
+		tableHeaderTenXe.setForeground(Color.WHITE);
+		tableHeaderTenXe.setFont(new Font("Tahoma", Font.BOLD, 13));
+		
+		tableTenXe.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		tableTenXe.setModel(new DefaultTableModel(
+				new Object[][] {
+					{null, null, null, null},
+					{null, null, null, null},
+					{null, null, null, null},
+					{null, null, null, null},
+					{null, null, null, null},
+					{null, null, null, null},
+					{null, null, null, null},
+					{null, null, null, null},
+				},
+				new String[] {
+					"Mã xe", "Mã loại xe", "Tên xe", "Tên loại xe"
+				}
+			) {
+				boolean[] columnEditables = new boolean[] {
+					false, false, false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});
 		scrlTenXe.setViewportView(tableTenXe);
 		
 	}

@@ -72,13 +72,10 @@ public class FrameKhachHang extends JFrame{
 		panel.add(lblNewLabel_1_1);
 		
 		txtNgaySinhKH = new JDateChooser();
-//<<<<<<< HEAD
 		txtNgaySinhKH.setDateFormatString("yyyy-MM-dd");
 		txtNgaySinhKH.setBounds(231, 134, 214, 32);
-//=======
 		txtNgaySinhKH.setDateFormatString("yyyy-MM-dd");;
 		txtNgaySinhKH.setBounds(231, 192, 214, 32);
-//>>>>>>> 440fba64e3710320448831bbffc372d51d913f80
 		panel.add(txtNgaySinhKH);
 		
 		JLabel lblNewLabel_1_2 = new JLabel("Địa chỉ:");
