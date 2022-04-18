@@ -13,21 +13,36 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
+
+import connection.ConnectDB;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import java.awt.Font;
+import java.sql.SQLException;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 public class FrameXe extends JFrame{
 
 	public FrameXe() {
+		
+		try {
+			ConnectDB.getinstance().connect();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
 		setSize(1345, 705);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		getContentPane().setBackground(new Color(166, 169, 248));	
 		getContentPane().setLayout(null);
+		
+		
 		
 		JPanel panel = new JPanel();
 		//panel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
