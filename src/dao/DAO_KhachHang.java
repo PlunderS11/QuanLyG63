@@ -19,7 +19,7 @@ public class DAO_KhachHang {
 	public  ArrayList<KhachHang> getAllKH() {
 		
 		ArrayList<KhachHang> dsKH = new ArrayList<KhachHang>();		
-		ConnectDB.getinstance();
+		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();			
 		try {
 			String sql = "Select * from KhachHang";
@@ -45,7 +45,7 @@ public class DAO_KhachHang {
 	public String getMaKHCuoi() {
 		
 		String maCuoi = null;	
-		ConnectDB.getinstance();
+		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();			
 		try {
 			String sql = "select top 1 maKH from dbo.KhachHang order by maKH desc";
@@ -63,7 +63,7 @@ public class DAO_KhachHang {
 	}
 	
 	public boolean create(KhachHang kh){
-		ConnectDB.getinstance();
+		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stmt = null;
 		int n = 0;
@@ -92,7 +92,7 @@ public class DAO_KhachHang {
 	}
 	
 	public boolean delete(String ma){
-		ConnectDB.getinstance();
+		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stmt = null;
 		int n = 0;
@@ -115,7 +115,7 @@ public class DAO_KhachHang {
 	}
 	
 	public boolean update(KhachHang kh){
-		ConnectDB.getinstance();
+		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		PreparedStatement stmt = null;
 		int n = 0;

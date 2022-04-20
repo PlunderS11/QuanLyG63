@@ -45,7 +45,7 @@ public class FrameKhachHang extends JFrame{
 	private DAO_KhachHang khachHang;
 	public FrameKhachHang() {
 		try {
-			ConnectDB.getinstance().connect();
+			ConnectDB.getInstance().connect();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
