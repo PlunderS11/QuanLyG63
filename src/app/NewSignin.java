@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -15,11 +18,27 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
+
+import connection.ConnectDB;
+import dao.TaiKhoan_DAO;
+import entity.TaiKhoan;
 
 public class NewSignin extends JFrame{
 	private JTextField txtTK;
 	private JPasswordField txtMK;
+	private TaiKhoan_DAO taikhoan_dao;
 	public NewSignin() {
+		
+		// khởi tạo kết nối đến CSDL
+		try {
+			ConnectDB.getInstance().connect();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		//...................................
+		taikhoan_dao = new TaiKhoan_DAO();
+		
 		setTitle("Đăng nhập");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(767, 569);
@@ -28,6 +47,7 @@ public class NewSignin extends JFrame{
 		
 		JPanel pnlDN = new JPanel();
 		pnlDN.setBackground(new Color(148, 0, 211));
+		pnlDN.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		pnlDN.setBounds(0, 0, 422, 534);
 		getContentPane().add(pnlDN);
 		pnlDN.setLayout(null);
@@ -66,9 +86,22 @@ public class NewSignin extends JFrame{
 		btnLogIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(arg0.getSource()==btnLogIn) {
-					String tk = txtTK.getText().toString();
-					String mk = txtMK.getText().toString();
-					if(tk.trim().equals("123") && mk.trim().equals("123")) {
+					String tentk = txtTK.getText();
+					String mk = txtMK.getText();
+					
+					int flag = 0;
+					List<TaiKhoan> dsTK = taikhoan_dao.getAllTaiKhoan();
+					for(TaiKhoan tk : dsTK) {
+						if(tk.getTenTaiKhoan().trim().equals(tentk) && tk.getMatKhau().trim().equals(mk)) {
+							flag = 1;
+							break;
+						}
+					}
+					if(flag == 0) {
+						JOptionPane.showMessageDialog(null, "Đăng nhập thất bại!!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+						txtTK.requestFocus();
+						return;
+					}else {
 						FrameTrangChu home;
 						try {
 							home = new FrameTrangChu();
@@ -123,7 +156,7 @@ public class NewSignin extends JFrame{
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel();
-		lblNewLabel.setIcon(new ImageIcon("D:\\code\\QuanLyG63\\image\\Logo.jfif"));
+		lblNewLabel.setIcon(new ImageIcon("image\\Logo.jfif"));
 		lblNewLabel.setBounds(70, 146, 206, 113);
 		panel.add(lblNewLabel);
 	}

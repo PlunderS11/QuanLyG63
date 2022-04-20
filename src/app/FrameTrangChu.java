@@ -33,7 +33,7 @@ public class FrameTrangChu extends JFrame{
 	public FrameTrangChu() throws ParseException {
 		
 		setTitle("QUANLYG63");
-		setSize(1550, 847);
+		setSize(1550, 839);
 //		setExtendedState(JFrame.MAXIMIZED_BOTH);
 //		setSize(1000, 800);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);

@@ -30,7 +30,7 @@ public class FrameXe extends JFrame{
 	public FrameXe() {
 		
 		try {
-			ConnectDB.getinstance().connect();
+			ConnectDB.getInstance().connect();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
