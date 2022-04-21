@@ -9,28 +9,56 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
-import javax.imageio.ImageIO;
-import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
-public class FrameTrangChu extends JFrame{
+import connection.ConnectDB;
+import dao.TrangChu_DAO;
+import entity.NhanVien;
+
+public class FrameTrangChu extends JFrame implements ActionListener, MouseListener{
 	
-	private JLabel lblDoiMK;
-	private JLabel lblDangXuat;
+	private FixButton lblDoiMK;
+	private FixButton lblDangXuat;
+	private TrangChu_DAO trangchu_dao;
+	private JLabel lblTenNVHienTai;
+	private JLabel lblMaNVHienTai;
+	private JLabel txtNgayHienTai;
+	private SimpleDateFormat timeFormat;
+	private JLabel lblTime;
+	private String time;
+	private Calendar calendar;
 	public FrameTrangChu() throws ParseException {
+		
+		//Khởi tạo kết nối đến CSDL
+		try {
+			ConnectDB.getInstance().connect();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		trangchu_dao = new TrangChu_DAO();
+		//---------------------------------
 		
 		setTitle("QUANLYG63");
 		setSize(1550, 839);
@@ -53,36 +81,90 @@ public class FrameTrangChu extends JFrame{
 		lblHeader.setBounds(15, 2, icon.getIconWidth(), icon.getIconHeight());
 		pnlHeader.add(lblHeader);
 		
-		JLabel lblNgayHienTai = new JLabel("Hiện tại:");
-		lblNgayHienTai.setFont(new Font("Arial", Font.BOLD, 40));
-		lblNgayHienTai.setForeground(Color.WHITE);
-		lblNgayHienTai.setBounds(400, 15, 200, 100);
-		pnlHeader.add(lblNgayHienTai);
+		JPanel pnlThoiGian = new JPanel();
+		pnlThoiGian.setPreferredSize(new Dimension(100, 120));
+		pnlThoiGian.setLayout(null);
+		pnlThoiGian.setBackground(Color.BLACK);
+		pnlThoiGian.setBounds(430, 10, 380, 110);
+		pnlHeader.add(pnlThoiGian);
 		
-		JLabel lblTenNVHienTai = new JLabel("-tenNV-");
-		lblTenNVHienTai.setFont(new Font("Arial", Font.BOLD, 30));
+		JLabel lblNgayHienTai = new JLabel("Hiện tại:");
+		lblNgayHienTai.setFont(new Font("Arial", Font.BOLD, 35));
+		lblNgayHienTai.setForeground(new Color(0x00FF00));
+		lblNgayHienTai.setBounds(20, -10, 150, 100);
+		pnlThoiGian.add(lblNgayHienTai);
+		
+		txtNgayHienTai = new JLabel();
+		txtNgayHienTai.setFont(new Font("Arial", Font.BOLD, 35));
+		txtNgayHienTai.setForeground(new Color(0x00FF00));
+		txtNgayHienTai.setBounds(170, -10, 200, 100);
+		Date ngayHienTai = new Date();
+		DateFormat dateFormat = null;
+        dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String ngay = dateFormat.format(ngayHienTai);
+        txtNgayHienTai.setText(ngay);
+		pnlThoiGian.add(txtNgayHienTai);
+		
+		lblTime = new JLabel();
+		lblTime.setFont(new Font("Arial", Font.BOLD, 28));
+		lblTime.setForeground(new Color(0x00FF00));
+		lblTime.setBounds(20, 30, 300, 100);
+		layThoiGian();
+		pnlThoiGian.add(lblTime);
+		
+		ImageIcon iconNV = new ImageIcon("image/image002.png");
+		JLabel lbliconNV = new JLabel(iconNV);
+		lbliconNV.setBounds(880, -15, 150, 150);
+		pnlHeader.add(lbliconNV);
+		
+		lblTenNVHienTai = new JLabel();
+		lblTenNVHienTai.setFont(new Font("Arial", Font.BOLD, 20));
 		lblTenNVHienTai.setForeground(Color.WHITE);
-		lblTenNVHienTai.setBounds(1000, 0, 200, 100);
+		lblTenNVHienTai.setBounds(1000, 5, 400, 100);
+		NhanVien nv = trangchu_dao.getNhanVienSuDung(NewSignin.getTaiKhoan());
+		lblTenNVHienTai.setText(nv.getTenNV());
 		pnlHeader.add(lblTenNVHienTai);
 		
-		JLabel lblMaNVHienTai = new JLabel("-MaNV-");
-		lblMaNVHienTai.setFont(new Font("Arial", Font.BOLD, 30));
+		lblMaNVHienTai = new JLabel();
+		lblMaNVHienTai.setFont(new Font("Arial", Font.BOLD, 20));
 		lblMaNVHienTai.setForeground(Color.WHITE);
-		lblMaNVHienTai.setBounds(1000, 45, 200, 100);
+		lblMaNVHienTai.setBounds(1000, 30, 200, 100);
+		lblMaNVHienTai.setText(nv.getMaNV());
 		pnlHeader.add(lblMaNVHienTai);
 		
-		lblDoiMK = new JLabel("<HTML><U>ĐỔI MẬT KHẨU</U></HTML>");
+		lblDoiMK = new FixButton("ĐỔI MẬT KHẨU");
+		lblDoiMK.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				FrameDoiMatKhau doimk = new FrameDoiMatKhau();
+				doimk.setVisible(true);
+				doimk.setDefaultCloseOperation(EXIT_ON_CLOSE);
+				doimk.setLocationRelativeTo(null);
+			}
+		});
 		lblDoiMK.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblDoiMK.setFont(new Font("Tahoma", Font.ITALIC, 16));
+		lblDoiMK.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblDoiMK.setForeground(Color.WHITE);
-		lblDoiMK.setBounds(1400, 15, 120, 42);
+		lblDoiMK.setBounds(1350, 15, 160, 30);
 		pnlHeader.add(lblDoiMK);
 
-		lblDangXuat = new JLabel("<HTML><U>ĐĂNG XUẤT</U></HTML>");
+		lblDangXuat = new FixButton("ĐĂNG XUẤT");
+		lblDangXuat.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn đăng xuất?", "?!", 
+						JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
+					NewSignin ns = new NewSignin();
+					ns.setVisible(true);
+					ns.setLocationRelativeTo(null);
+					dispose();
+				}
+			}
+		});
 		lblDangXuat.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		lblDangXuat.setFont(new Font("Tahoma", Font.ITALIC, 16));
+		lblDangXuat.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblDangXuat.setForeground(Color.WHITE);
-		lblDangXuat.setBounds(1400, 55, 150, 42);
+		lblDangXuat.setBounds(1350, 55, 160, 30);
 		pnlHeader.add(lblDangXuat);
 
 		return pnlHeader;
@@ -191,6 +273,51 @@ public class FrameTrangChu extends JFrame{
 		lblLienhe3.setForeground(Color.WHITE);
 		lblBackground.add(lblLienhe3);
 		return pnlContentPane;
+	}
+	public void layThoiGian() {
+		Thread layThoiGian = new Thread() {
+			public void run() {
+				try {
+					for(;;) {
+						timeFormat = new SimpleDateFormat("hh:mm:ss a");
+						lblTime.setText("Time: "+timeFormat.format(Calendar.getInstance().getTime()));
+						sleep(1000);
+					}
+				}catch (InterruptedException e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+			}
+		};
+		layThoiGian.start();
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 

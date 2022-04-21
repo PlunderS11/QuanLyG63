@@ -77,17 +77,17 @@ public class TaiKhoan_DAO {
 		PreparedStatement stmt = null;
 		int n = 0;
 		try {
-			stmt = con.prepareStatement("update TaiKhoan set matKhau = ? where taiKhoan = ?");
+			stmt = con.prepareStatement("update TaiKhoan set matKhau = ? where tenTaiKhoan = ?");
 			stmt.setString(1, mkMoi);
 			stmt.setString(2, tk.getTenTaiKhoan());
 			n = stmt.executeUpdate();
 		}catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}finally {
 			try {
 				stmt.close();
 			}catch (Exception e) {
-				// TODO: handle exception
+				e.printStackTrace();
 			}
 		}return n > 0;
 	}

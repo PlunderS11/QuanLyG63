@@ -87,7 +87,11 @@ public class NhanVien implements Serializable{
 	public NhanVien() {
 		super();
 	}
-	
+	public NhanVien(String maNV, String tenNV) {
+		super();
+		this.maNV = maNV;
+		this.tenNV = tenNV;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -207,7 +207,7 @@ public class FrameNhanVien extends JFrame{
 				if(!validInput())
 					return;
 				else {
-					String maNV = null;
+					String maNV = txtMaNV.getText();
 					String tenNV = txtTenNV.getText();
 					boolean gioiTinh = radMaleNV.isSelected();
 					String cccd = txtCCCD.getText();
@@ -216,7 +216,6 @@ public class FrameNhanVien extends JFrame{
 					String chucVu = cbbChucVu.getSelectedItem().toString();
 					Date ngaySinhNV = txtNgaySinh.getDate();
 					java.sql.Date ngaySinh = new java.sql.Date(ngaySinhNV.getYear(), ngaySinhNV.getMonth(), ngaySinhNV.getDate());
-				
 					TaiKhoan tk = new TaiKhoan(maNV, "123");
 					NhanVien nv = new NhanVien(maNV, tenNV, ngaySinh, diaChi, sdt, cccd, gioiTinh, chucVu, tk);
 					taikhoan_dao.createTK(tk);
@@ -438,11 +437,17 @@ public class FrameNhanVien extends JFrame{
 		new FrameNhanVien().setVisible(true);
 	}
 	private boolean validInput() {
+		String maNV = txtMaNV.getText();
 		String tenNV = txtTenNV.getText();
 		Date ngaySinh = txtNgaySinh.getDate();
 		String cccd = txtCCCD.getText();
 		String sdt = txtSoDT.getText();
 		String diaChi = txtDiaChi.getText();
+		
+		if(maNV.equals("")) {
+			JOptionPane.showMessageDialog(null, "Vui lòng phát sinh mã Nhân viên!","Lỗi", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
 		if (tenNV.trim().length() > 0) {
 			if (!(tenNV.matches("[^\\@\\!\\$\\^\\&\\*\\(\\)]+"))) {
 				JOptionPane.showMessageDialog(this, "Tên nhân viên không chứa ký tự đặc biệt", "Lỗi",

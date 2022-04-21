@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +25,13 @@ import javax.swing.border.LineBorder;
 import connection.ConnectDB;
 import dao.TaiKhoan_DAO;
 import entity.TaiKhoan;
+import java.awt.event.KeyAdapter;
 
-public class NewSignin extends JFrame{
-	private JTextField txtTK;
+public class NewSignin extends JFrame implements KeyListener{
+	private static JTextField txtTK;
 	private JPasswordField txtMK;
 	private TaiKhoan_DAO taikhoan_dao;
+	private JButton btnLogIn;
 	public NewSignin() {
 		
 		// khởi tạo kết nối đến CSDL
@@ -79,7 +83,7 @@ public class NewSignin extends JFrame{
 		txtMK.setBorder(BorderFactory.createLineBorder(new Color(169, 224, 49)));
 		pnlDN.add(txtMK);
 		
-		JButton btnLogIn = new JButton("Sign In");
+		btnLogIn = new JButton("Sign In");
 		btnLogIn.setFont(new Font("Arial", Font.BOLD, 20));
 		btnLogIn.setBackground(new Color(152, 201, 45));
 		btnLogIn.setForeground(Color.WHITE);
@@ -159,9 +163,12 @@ public class NewSignin extends JFrame{
 		lblNewLabel.setIcon(new ImageIcon("image\\Logo.jfif"));
 		lblNewLabel.setBounds(70, 146, 206, 113);
 		panel.add(lblNewLabel);
+		
+		txtTK.addKeyListener(this);
+		txtMK.addKeyListener(this);
 	}
-	public static void main(String args[]) {
-        
+
+	public static void main(String args[]) { 
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -187,4 +194,26 @@ public class NewSignin extends JFrame{
             }
         });
     }
+	public static String getTaiKhoan() {
+		return txtTK.getText();
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if(e.getKeyCode()==KeyEvent.VK_ENTER) {
+			btnLogIn.doClick();
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 }
