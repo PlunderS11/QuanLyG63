@@ -121,6 +121,7 @@ public class FrameThongKe extends JFrame{
 		
 		txtTuNgay = new JDateChooser();
 		txtTuNgay.setBounds(161, 219, 173, 32);
+		txtTuNgay.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		panel_1.add(txtTuNgay);
 		txtTuNgay.setDateFormatString("yyyy-MM-dd");
 		
@@ -131,6 +132,7 @@ public class FrameThongKe extends JFrame{
 		
 		txtDenNgay = new JDateChooser();
 		txtDenNgay.setBounds(161, 279, 173, 32);
+		txtDenNgay.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		panel_1.add(txtDenNgay);
 		txtDenNgay.setDateFormatString("yyyy-MM-dd");
 		

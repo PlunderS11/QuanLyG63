@@ -100,33 +100,35 @@ public class FrameNhanVien extends JFrame{
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1.setBounds(64, 60, 159, 20);
+		lblNewLabel_1.setBounds(64, 102, 159, 20);
 		panel.add(lblNewLabel_1);
 		
 		
 		txtMaNV = new JTextField();
+		txtMaNV.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtMaNV.setEditable(false);
 		txtMaNV.setColumns(10);
-		txtMaNV.setBounds(236, 57, 182, 32);
+		txtMaNV.setBounds(236, 99, 182, 32);
 		panel.add(txtMaNV);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Tên nhân viên:");
 		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_1.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1_1.setBounds(64, 102, 159, 20);
+		lblNewLabel_1_1.setBounds(64, 144, 159, 20);
 		panel.add(lblNewLabel_1_1);
 		
 		txtTenNV = new JTextField();
+		txtTenNV.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtTenNV.setColumns(10);
-		txtTenNV.setBounds(236, 99, 214, 32);
+		txtTenNV.setBounds(236, 141, 214, 32);
 		panel.add(txtTenNV);
 		
 		JLabel lblNewLabel_1_2 = new JLabel("Chức vụ:");
 		lblNewLabel_1_2.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_2.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1_2.setBounds(64, 147, 159, 20);
+		lblNewLabel_1_2.setBounds(64, 63, 159, 20);
 		panel.add(lblNewLabel_1_2);
 		
 		JLabel lblNewLabel_1_2_1 = new JLabel("Ngày sinh:");
@@ -137,6 +139,7 @@ public class FrameNhanVien extends JFrame{
 		panel.add(lblNewLabel_1_2_1);
 		
 		txtNgaySinh = new JDateChooser();
+		txtNgaySinh.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtNgaySinh.setDateFormatString("yyyy-MM-dd");
 		txtNgaySinh.setBounds(236, 183, 214, 32);
 		panel.add(txtNgaySinh);
@@ -149,6 +152,7 @@ public class FrameNhanVien extends JFrame{
 		panel.add(lblNewLabel_1_2_2);
 		
 		txtDiaChi = new JTextField();
+		txtDiaChi.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtDiaChi.setColumns(10);
 		txtDiaChi.setBounds(236, 225, 214, 32);
 		panel.add(txtDiaChi);
@@ -161,6 +165,7 @@ public class FrameNhanVien extends JFrame{
 		panel.add(lblNewLabel_1_2_3);
 		
 		txtSoDT = new JTextField();
+		txtSoDT.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtSoDT.setColumns(10);
 		txtSoDT.setBounds(236, 267, 214, 32);
 		panel.add(txtSoDT);
@@ -173,6 +178,7 @@ public class FrameNhanVien extends JFrame{
 		panel.add(lblNewLabel_1_2_4);
 		
 		txtCCCD = new JTextField();
+		txtCCCD.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtCCCD.setColumns(10);
 		txtCCCD.setBounds(236, 309, 214, 32);
 		panel.add(txtCCCD);
@@ -248,14 +254,14 @@ public class FrameNhanVien extends JFrame{
 						List<NhanVien> dsNV = new ArrayList<NhanVien>();
 						String maNV = table.getValueAt(r, 0).toString();
 						String tenTaiKhoan = "";
-						for(NhanVien nv : dsNV) {
-							if (nv.getMaNV().equalsIgnoreCase(maNV)) {
-								tenTaiKhoan = nv.getTaiKhoan().getTenTaiKhoan();
-								break;
-							}
-						}
+//						for(NhanVien nv : dsNV) {
+//							if (nv.getMaNV().equalsIgnoreCase(maNV)) {
+//								tenTaiKhoan = nv.getTaiKhoan().getTenTaiKhoan();
+//								break;
+//							}
+//						}
 						nhanvien_dao.delete(maNV);
-						taikhoan_dao.delete(tenTaiKhoan);
+						taikhoan_dao.delete(maNV);
 						xoaHetDL();
 						docDuLieuDatabaseVaoTable();
 					}
@@ -327,7 +333,7 @@ public class FrameNhanVien extends JFrame{
 		cbbChucVu.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		cbbChucVu.setModel(new DefaultComboBoxModel(new String[] {"Quản lí", "Nhân viên bán hàng"}));
 		cbbChucVu.setBackground(Color.WHITE);
-		cbbChucVu.setBounds(235, 141, 214, 32);
+		cbbChucVu.setBounds(235, 57, 214, 32);
 		panel.add(cbbChucVu);
 		
 		JLabel lblNewLabel_2 = new JLabel("");
@@ -342,7 +348,7 @@ public class FrameNhanVien extends JFrame{
 		});
 		btnPhatSinhMa.setIcon(new ImageIcon("image\\lammoi.png"));
 		btnPhatSinhMa.setBackground(new Color(107,96,236));
-		btnPhatSinhMa.setBounds(417, 58, 33, 31);
+		btnPhatSinhMa.setBounds(417, 100, 33, 31);
 		panel.add(btnPhatSinhMa);
 		
 		JLabel lblNewLabel_1_2_1_1 = new JLabel("Tìm kiếm:");

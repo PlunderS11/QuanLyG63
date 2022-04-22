@@ -58,7 +58,7 @@ public class TaiKhoan_DAO {
 		PreparedStatement stmt = null;
 		int n = 0;
 		try {
-			stmt = con.prepareStatement("delete TaiKhoan where taiKhoan = ?");
+			stmt = con.prepareStatement("delete TaiKhoan where tenTaiKhoan = ?");
 			stmt.setString(1, id);
 			n = stmt.executeUpdate();
 		}catch (Exception e) {

@@ -142,4 +142,30 @@ public class DAO_KhachHang {
 		}
 		return n > 0;
 	}
+	
+public  KhachHang getKHtheoCCCD(String cccd) {
+		
+		
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();			
+		try {
+			String sql = "Select * from KhachHang where cCCD = '"+cccd+"'";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				KhachHang kh = new KhachHang();
+				kh.setMaKH(rs.getString("maKH"));
+				kh.setTenKH(rs.getString("tenKH"));
+				kh.setNgaySinh(rs.getDate("ngaySinh"));
+				kh.setDiaChi(rs.getString("diaChi"));
+				kh.setsDT(rs.getString("sDT"));
+				kh.setcCCD(rs.getString("cCCD"));
+				kh.setGioiTinh(rs.getBoolean("gioiTinh"));
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return kh;
+	}
 }

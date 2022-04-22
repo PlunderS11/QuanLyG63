@@ -79,6 +79,7 @@ public class FrameKhachHang extends JFrame{
 		panel.add(lblNewLabel_1);
 		
 		txtTenKH = new JTextField();
+		txtTenKH.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtTenKH.setColumns(10);
 		txtTenKH.setBounds(231, 134, 214, 32);
 		panel.add(txtTenKH);
@@ -95,6 +96,7 @@ public class FrameKhachHang extends JFrame{
 		txtNgaySinhKH.setBounds(231, 134, 214, 32);
 		txtNgaySinhKH.setDateFormatString("yyyy-MM-dd");;
 		txtNgaySinhKH.setBounds(231, 192, 214, 32);
+		txtNgaySinhKH.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		panel.add(txtNgaySinhKH);
 		
 		JLabel lblNewLabel_1_2 = new JLabel("Địa chỉ:");
@@ -105,6 +107,7 @@ public class FrameKhachHang extends JFrame{
 		panel.add(lblNewLabel_1_2);
 		
 		txtDiaChiKH = new JTextField();
+		txtDiaChiKH.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtDiaChiKH.setColumns(10);
 		txtDiaChiKH.setBounds(231, 250, 214, 32);
 		panel.add(txtDiaChiKH);
@@ -117,6 +120,7 @@ public class FrameKhachHang extends JFrame{
 		panel.add(lblNewLabel_1_2_1);
 		
 		txtSDTKH = new JTextField();
+		txtSDTKH.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtSDTKH.setColumns(10);
 		txtSDTKH.setBounds(231, 308, 214, 32);
 		panel.add(txtSDTKH);
@@ -129,6 +133,7 @@ public class FrameKhachHang extends JFrame{
 		panel.add(lblNewLabel_1_2_2);
 		
 		txtCCCDKH = new JTextField();
+		txtCCCDKH.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtCCCDKH.setColumns(10);
 		txtCCCDKH.setBounds(231, 366, 214, 32);
 		panel.add(txtCCCDKH);
@@ -189,6 +194,7 @@ public class FrameKhachHang extends JFrame{
 		panel.add(btnLamMoiKH);
 		
 		txtMaKH = new JTextField();
+		txtMaKH.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtMaKH.setEditable(false);
 		txtMaKH.setColumns(10);
 		txtMaKH.setBounds(231, 76, 214, 32);
@@ -209,6 +215,7 @@ public class FrameKhachHang extends JFrame{
 		getContentPane().add(lblNewLabel_1_2_1_1);
 		
 		txtTimKH = new JTextField();
+		txtTimKH.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtTimKH.setColumns(10);
 		txtTimKH.setBounds(613, 10, 214, 32);
 		getContentPane().add(txtTimKH);
@@ -302,7 +309,7 @@ public class FrameKhachHang extends JFrame{
 							kh.getcCCD(),kh.isGioiTinh()==true?"Nam":"Nữ"
 					});
 					
-					JOptionPane.showMessageDialog(null, "Thêm thành công!");
+					JOptionPane.showMessageDialog(null, "Thêm thất bại!");
 				} catch (Exception e2) {
 					// TODO: handle exception
 					JOptionPane.showMessageDialog(null, "Thêm thất bại!");
