@@ -13,29 +13,48 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableModel;
 
 import connection.ConnectDB;
+import dao.HangSanXuat_DAO;
+import dao.LoaiXe_DAO;
+import dao.Xe_DAO;
+import entity.HangSanXuat;
+import entity.LoaiXe;
+import entity.Xe;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-public class FrameXe extends JFrame{
+public class FrameXe extends JFrame implements ActionListener{
+
+
+
+	private FixButton btnLamMoiXe;
 
 	public FrameXe() {
 		
+		//Connect database
 		try {
 			ConnectDB.getInstance().connect();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		//khai bao DAO
+		daoXe = new Xe_DAO();
+		daoLoaiXe = new LoaiXe_DAO();
+		daoHSX = new HangSanXuat_DAO();
 		
-		
+		//Giao dien
 		setSize(1345, 705);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
@@ -204,7 +223,7 @@ public class FrameXe extends JFrame{
 		btnSuaXe.setBounds(244, 336, 109, 49);
 		pChucNang.add(btnSuaXe);
 		
-		JButton btnLamMoiXe = new FixButton("Làm mới");
+		btnLamMoiXe = new FixButton("Làm mới");
 		btnLamMoiXe.setIcon(new ImageIcon("image\\lammoi.png"));
 		btnLamMoiXe.setForeground(Color.WHITE);
 		btnLamMoiXe.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -258,19 +277,12 @@ public class FrameXe extends JFrame{
 		tableHeader.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		tableXe.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		tableXe.setModel(new DefaultTableModel(
+		tableXe.setModel(modelXe = new DefaultTableModel(
 				new Object[][] {
-					{null, null, null, null, null, null, null, null, null, null},
-					{null, null, null, null, null, null, null, null, null, null},
-					{null, null, null, null, null, null, null, null, null, null},
-					{null, null, null, null, null, null, null, null, null, null},
-					{null, null, null, null, null, null, null, null, null, null},
-					{null, null, null, null, null, null, null, null, null, null},
-					{null, null, null, null, null, null, null, null, null, null},
-					{null, null, null, null, null, null, null, null, null, null},
+					
 				},
 				new String[] {
-					"Mã xe", "Tên xe", "Màu xe", "Số khung", "Số máy", "Nhà cung cấp", "Hãng sản xuất", "Loại xe", "Giá", "Trạng thái"
+						"Mã xe", "Tên xe", "Màu xe", "Số khung", "Số máy", "Nhà cung cấp", "Hãng sản xuất", "Loại xe", "Giá", "Trạng thái"
 				}
 			) {
 				boolean[] columnEditables = new boolean[] {
@@ -280,12 +292,13 @@ public class FrameXe extends JFrame{
 					return columnEditables[column];
 				}
 			});
-		
+		loadDanhSachXe();
 		scrollPane.setViewportView(tableXe);
 		
-	
 		
+		btnLamMoiXe.addActionListener(this);
 	}
+	private DefaultTableModel modelXe;
 	private JTextField txtMaXe;
 	private JTextField txtTenXe;
 	private JTextField txtSoKhung;
@@ -295,10 +308,45 @@ public class FrameXe extends JFrame{
 	private JTextField txtGiaNhap;	
 	private JTextField txtTimKiem;
 	private JTable tableXe;
+	private Xe_DAO daoXe;
+	private HangSanXuat_DAO daoHSX;
+	private LoaiXe_DAO daoLoaiXe;
+	
+	public void loadDanhSachXe() {
+		//clearTable();
+		ArrayList<Xe> lsXe =  daoXe.getDanhSachXe();
 
+			for (Xe xe : lsXe) {
+				HangSanXuat hsx = daoHSX.getHSXTheoMa(xe.getHangSanXuat().getMaHangSX());
+				LoaiXe lx = daoLoaiXe.getLoaiXeTheoMa(xe.getLoaiXe().getMaLoaiXe());
+				modelXe.addRow(new Object[] {
+						xe.getMaXe(), xe.getTenXe(), xe.getMauXe(), xe.getSoKhung(), xe.getSoMay(), xe.getNhaCungCap(), hsx.getTenHangSX(), lx.getTenLoaiXe(), xe.getGiaXe(), xe.getTrangThai()
+				});
+			
+		}
+	}
+	
+	public void clearAll() {
+		txtMaXe.setText("");
+		txtTenXe.setText("");
+		txtSoKhung.setText("");
+		txtSoMay.setText("");
+		txtNhaCungCap.setText("");
+		txtHangSanXuat.setText("");
+		txtGiaNhap.setText("");
+		txtTimKiem.setText("");
+	}
 	
 	public static void main(String[] args) {
 		new FrameXe().setVisible(true);
 
 }
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		Object o = e.getSource();
+		if(o.equals(btnLamMoiXe))
+			clearAll();
+	}
 	}
