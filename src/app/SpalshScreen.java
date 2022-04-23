@@ -19,7 +19,7 @@ public class SpalshScreen extends JFrame{
 		getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon("D:\\code\\QuanLyG63\\image\\Logo.jfif"));
+		lblNewLabel.setIcon(new ImageIcon("image\\Logo.jfif"));
 		lblNewLabel.setBounds(285, 177, 206, 113);
 		getContentPane().add(lblNewLabel);
 		

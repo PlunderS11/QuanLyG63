@@ -72,12 +72,14 @@ public class NewSignin extends JFrame implements KeyListener{
 		pnlDN.add(lblMK);
 		
 		txtTK = new JTextField();
+		txtTK.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtTK.setBounds(99, 218, 233, 35);
 		txtTK.setBorder(BorderFactory.createLineBorder(new Color(169, 224, 49)));
 		pnlDN.add(txtTK);
 		txtTK.setColumns(10);
 		
 		txtMK = new JPasswordField();
+		txtMK.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtMK.setColumns(10);
 		txtMK.setBounds(99, 309, 233, 35);
 		txtMK.setBorder(BorderFactory.createLineBorder(new Color(169, 224, 49)));
