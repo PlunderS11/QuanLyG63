@@ -30,13 +30,16 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 public class FrameXe extends JFrame implements ActionListener{
-
+	Locale localeVN = new Locale("vi", "VN");
+    NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
 
 
 	private FixButton btnLamMoiXe;
@@ -320,7 +323,7 @@ public class FrameXe extends JFrame implements ActionListener{
 				HangSanXuat hsx = daoHSX.getHSXTheoMa(xe.getHangSanXuat().getMaHangSX());
 				LoaiXe lx = daoLoaiXe.getLoaiXeTheoMa(xe.getLoaiXe().getMaLoaiXe());
 				modelXe.addRow(new Object[] {
-						xe.getMaXe(), xe.getTenXe(), xe.getMauXe(), xe.getSoKhung(), xe.getSoMay(), xe.getNhaCungCap(), hsx.getTenHangSX(), lx.getTenLoaiXe(), xe.getGiaXe(), xe.getTrangThai()
+						xe.getMaXe(), xe.getTenXe(), xe.getMauXe(), xe.getSoKhung(), xe.getSoMay(), xe.getNhaCungCap(), hsx.getTenHangSX(), lx.getTenLoaiXe(), currencyVN.format(xe.getGiaXe()), xe.getTrangThai()
 				});
 			
 		}

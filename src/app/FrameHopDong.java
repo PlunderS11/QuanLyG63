@@ -210,6 +210,7 @@ public class FrameHopDong extends JFrame{
 		cboTimKHCu.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		cboTimKHCu.setBounds(10, 51, 216, 32);
 		cboTimKHCu.addItem("");
+		cboTimKHCu.setEditable(true);
 		AutoCompleteDecorator.decorate(cboTimKHCu);
 		pnlTimKH.add(cboTimKHCu);
 		
@@ -345,6 +346,7 @@ public class FrameHopDong extends JFrame{
 		cboTimXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		cboTimXe.setBounds(177, 12, 395, 32);
 		cboTimXe.addItem("");
+		cboTimXe.setEditable(true);
 		AutoCompleteDecorator.decorate(cboTimXe);
 		panel_1.add(cboTimXe);
 		
@@ -369,7 +371,7 @@ public class FrameHopDong extends JFrame{
 			private LoaiXe_DAO daoLoaiXe;
 
 			public void actionPerformed(ActionEvent e) {
-				if (cboTimKHCu.getSelectedItem().toString().equalsIgnoreCase("")) {
+				if (cboTimXe.getSelectedItem().toString().equalsIgnoreCase("")) {
 					JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm!");
 				} else {
 					String ma = cboTimXe.getSelectedItem().toString().substring(0,5);
