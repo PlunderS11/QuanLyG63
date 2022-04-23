@@ -70,18 +70,18 @@ public class FrameHoaDon extends JFrame{
 		lblNewLabel_1_3_7.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_3_7.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_3_7.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1_3_7.setBounds(107, 597, 159, 30);
+		lblNewLabel_1_3_7.setBounds(107, 615, 159, 37);
 		getContentPane().add(lblNewLabel_1_3_7);
 		
 		txtNgayLap = new JDateChooser();
 		txtNgayLap.setDateFormatString("yyyy-MM-dd");
-		txtNgayLap.setBounds(276, 597, 195, 32);
+		txtNgayLap.setBounds(276, 615, 331, 37);
 		txtNgayLap.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		getContentPane().add(txtNgayLap);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(147, 112, 219));
-		panel.setBounds(97, 45, 1135, 53);
+		panel.setBounds(97, 45, 989, 53);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -94,7 +94,7 @@ public class FrameHoaDon extends JFrame{
 		
 		JComboBox cboTimHopDong = new JComboBox();
 		cboTimHopDong.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		cboTimHopDong.setBounds(177, 12, 839, 32);
+		cboTimHopDong.setBounds(177, 12, 693, 32);
 		cboTimHopDong.addItem("");
 		panel.add(cboTimHopDong);
 		
@@ -104,7 +104,7 @@ public class FrameHoaDon extends JFrame{
 		btnTimHopDong.setForeground(Color.WHITE);
 		btnTimHopDong.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnTimHopDong.setBackground(new Color(107, 96, 236));
-		btnTimHopDong.setBounds(1026, 10, 99, 32);
+		btnTimHopDong.setBounds(880, 10, 99, 32);
 		panel.add(btnTimHopDong);
 		
 		dao_hopDong = new DAO_HopDong();
@@ -349,6 +349,7 @@ public class FrameHoaDon extends JFrame{
 		
 		
 		txtMaNV = new JTextField();
+		txtMaNV.setToolTipText("");
 		txtMaNV.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtMaNV.setEditable(false);
 		txtMaNV.setColumns(10);
@@ -383,6 +384,7 @@ public class FrameHoaDon extends JFrame{
 		panel_1.add(lblThnhTin);
 		
 		JLabel lblThanhTien = new JLabel("...");
+		lblThanhTien.setToolTipText("Đã bao gồm 5% giá trị thuế VAT");
 		lblThanhTien.setForeground(new Color(247, 237, 0));
 		lblThanhTien.setFont(new Font("Tahoma", Font.BOLD, 30));
 		lblThanhTien.setBounds(140, 24, 237, 37);
@@ -426,8 +428,22 @@ public class FrameHoaDon extends JFrame{
 		btnLamMoiKH.setForeground(Color.WHITE);
 		btnLamMoiKH.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnLamMoiKH.setBackground(new Color(107, 96, 236));
-		btnLamMoiKH.setBounds(481, 590, 136, 49);
+		btnLamMoiKH.setBounds(1096, 49, 136, 49);
 		getContentPane().add(btnLamMoiKH);
+		
+		JLabel lblNewLabel_1_3_6_2 = new JLabel("Mã hóa đơn:");
+		lblNewLabel_1_3_6_2.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_1_3_6_2.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_1_3_6_2.setBackground(new Color(166, 169, 248));
+		lblNewLabel_1_3_6_2.setBounds(108, 572, 159, 35);
+		getContentPane().add(lblNewLabel_1_3_6_2);
+		
+		txtMaHoaDon = new JTextField();
+		txtMaHoaDon.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txtMaHoaDon.setEditable(false);
+		txtMaHoaDon.setColumns(10);
+		txtMaHoaDon.setBounds(277, 570, 331, 37);
+		getContentPane().add(txtMaHoaDon);
 		btnTimHopDong.addActionListener(new ActionListener() {
 			private LoaiXe_DAO daoloaixe;
 			private HangSanXuat_DAO daohsx;
@@ -527,6 +543,7 @@ public class FrameHoaDon extends JFrame{
 	private JTextField txtMaNV;
 	private JTextField txtTenNV;
 	private JTextField txtGiaXe;
+	private JTextField txtMaHoaDon;
 	public JPanel createPanelHoaDon() {
 		JPanel pnlContentPane = new JPanel();
 		pnlContentPane.setBackground(Color.WHITE);
@@ -534,6 +551,7 @@ public class FrameHoaDon extends JFrame{
 		
 		return pnlContentPane;
 	}
+	
 	public static void main(String[] args) {
 		new FrameHoaDon().setVisible(true);
 	}
