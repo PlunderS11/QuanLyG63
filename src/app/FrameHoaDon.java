@@ -100,12 +100,12 @@ public class FrameHoaDon extends JFrame{
 		
 		JComboBox cboTimHopDong = new JComboBox();
 		cboTimHopDong.setFont(new Font("Tahoma", Font.PLAIN, 16));
-<<<<<<< HEAD
+
 		cboTimHopDong.setBounds(177, 12, 839, 32);
 		cboTimHopDong.setEditable(true);
-=======
+
 		cboTimHopDong.setBounds(177, 12, 693, 32);
->>>>>>> da4773c66b6af87c474578db3b66e7214c102baf
+
 		cboTimHopDong.addItem("");
 		panel.add(cboTimHopDong);
 		

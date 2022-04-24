@@ -3,6 +3,7 @@ package app;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.HeadlessException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,16 +16,31 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
+ 
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfTable;
+import com.lowagie.text.pdf.PdfWriter;
+
 
 import com.toedter.calendar.JDateChooser;
 
 import dao.DAO_ThongKe;
 
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,9 +71,16 @@ public class FrameThongKe extends JFrame implements ActionListener{
 	private JLabel lblSoXeBan;
 	private JLabel lblNewLabel_4;
 	private JLabel lblTongDoanhThu;
+	private ArrayList<Object> dsTKTheoThang;
+	private ArrayList<Object> dsTKTheoNam;
+	private ArrayList<Object> dsTKTheoKhoang;
+	private DecimalFormat df;
+	private JButton btnXuat;
 	
 
 	public FrameThongKe() {
+		
+		df = new DecimalFormat("###");
 		getContentPane().setForeground(Color.WHITE);
 		setSize(1345, 705);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -88,7 +111,7 @@ public class FrameThongKe extends JFrame implements ActionListener{
 		btnLamMoi.setForeground(Color.WHITE);
 		btnLamMoi.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnLamMoi.setBackground(new Color(107,96,236));
-		btnLamMoi.setBounds(219, 585, 134, 49);
+		btnLamMoi.setBounds(154, 585, 134, 49);
 		panel.add(btnLamMoi);
 		
 		btnLoc = new FixButton("Lọc");
@@ -100,7 +123,7 @@ public class FrameThongKe extends JFrame implements ActionListener{
 		btnLoc.setForeground(Color.WHITE);
 		btnLoc.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnLoc.setBackground(new Color(107, 96, 236));
-		btnLoc.setBounds(29, 585, 134, 49);
+		btnLoc.setBounds(10, 585, 134, 49);
 		panel.add(btnLoc);
 		
 		JPanel panel_1 = new JPanel();
@@ -189,6 +212,11 @@ public class FrameThongKe extends JFrame implements ActionListener{
 		cbbLocTheoNam.setModel(new DefaultComboBoxModel(new String[] {"2022", "2021", "2020", "2019", "2018", "2017"}));
 		cbbLocTheoNam.setBounds(52, 268, 224, 32);
 		panel_1.add(cbbLocTheoNam);
+		
+		btnXuat = new JButton("in");
+		
+		btnXuat.setBounds(268, 637, 85, 21);
+		panel.add(btnXuat);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(65, 105, 225));
@@ -285,8 +313,11 @@ public class FrameThongKe extends JFrame implements ActionListener{
 		radNam.addActionListener(this);
 		radKhac.addActionListener(this);
 		btnLoc.addActionListener(this);
+		btnLamMoi.addActionListener(this);
 		moKhoaTextField(false);
+		xoaHetDLModel();
 	}
+	
 	
 	private void moKhoaTextField(Boolean b) {
 		txtLocTheoNgay.setEnabled(b);
@@ -295,6 +326,7 @@ public class FrameThongKe extends JFrame implements ActionListener{
 		cbbThang.setEnabled(b);
 		cbbNam.setEnabled(b);
 		cbbLocTheoNam.setEnabled(b);
+		
 	}
 	private void lamRongTextField() {
 		txtLocTheoNgay.setDate(null);
@@ -302,8 +334,7 @@ public class FrameThongKe extends JFrame implements ActionListener{
 		txtDenNgay.setDate(null);
 	}
 	private void xoaHetDLModel() {
-		DefaultTableModel dm = (DefaultTableModel) table.getModel();
-		dm.getDataVector().removeAllElements();
+		datamodel.getDataVector().removeAllElements();
 	}
 	private String chuyenTienVND(double tien) {
 		String tienVND;
@@ -318,22 +349,25 @@ public class FrameThongKe extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		if(o.equals(radNgay)) {
+			xoaHetDLModel();
 			moKhoaTextField(false);
 			txtLocTheoNgay.setEnabled(true);
 			lamRongTextField();
 		}
 		else if(o.equals(radThang)) {
+			xoaHetDLModel();
 			moKhoaTextField(false);
 			cbbThang.setEnabled(true);
 			cbbNam.setEnabled(true);
 			lamRongTextField();
 			
 		}else if(o.equals(radNam)) {
+			xoaHetDLModel();
 			moKhoaTextField(false);
 			cbbLocTheoNam.setEnabled(true);
-			
 			lamRongTextField();
 		}else if(o.equals(radKhac)) {
+			xoaHetDLModel();
 			moKhoaTextField(false);
 			txtTuNgay.setEnabled(true);
 			txtDenNgay.setEnabled(true);
@@ -345,11 +379,19 @@ public class FrameThongKe extends JFrame implements ActionListener{
 				xoaHetDLModel();
 				if(txtLocTheoNgay.getDate()==null){
 					JOptionPane.showMessageDialog(this, "Chọn ngày tháng năm!");
-				}else {
+					xoaHetDLModel();
+					return;
+				}
+				else {
 					Date ngay = txtLocTheoNgay.getDate();
 					DAO_ThongKe dao_ThongKe = new DAO_ThongKe();
 					java.sql.Date ngaySQL = new java.sql.Date(ngay.getYear(),ngay.getMonth(),ngay.getDate());
 					dsTKTheoNgay = dao_ThongKe.thongKeTheoNgay(ngaySQL);
+					if(dsTKTheoNgay.size() == 0) {
+						JOptionPane.showMessageDialog(this, "Không tìm thấy dữ liệu!");
+						xoaHetDLModel();
+						return;
+					}
 					double tongDoanhThu = 0;
 					for(int i = 0;i<dsTKTheoNgay.size();i++) {
 						String[] hopDong = (String[])dsTKTheoNgay.get(i);
@@ -359,14 +401,184 @@ public class FrameThongKe extends JFrame implements ActionListener{
 						String tenNV = hopDong[3];
 						String tenXe = hopDong[4];
 						String giaTien = hopDong[5];
-						datamodel.addRow(new Object[] {maHD,maSP,tenKH,tenNV,tenXe,giaTien});
+						datamodel.addRow(new Object[] {maHD,maSP,tenKH,tenNV,tenXe,df.format(Double.parseDouble(giaTien))});
 						tongDoanhThu += Double.parseDouble(giaTien);
 					}
 					lblSoXeBan.setText(String.valueOf(dsTKTheoNgay.size()));			
 					lblTongDoanhThu.setText(chuyenTienVND(tongDoanhThu));
+//					btnXuat.addActionListener(new ActionListener() {
+//						
+//						@Override
+//						public void actionPerformed(ActionEvent e) {
+//							JFileChooser fileDialog = new JFileChooser() {
+//								@Override
+//								protected JDialog createDialog(Component parent) throws HeadlessException {
+//									JDialog dialog = super.createDialog(parent);
+//									return dialog;
+//								}
+//							};
+//							
+//							
+//							fileDialog.setAcceptAllFileFilterUsed(false);
+//							int returnVal = fileDialog.showSaveDialog(null);
+//							java.io.File file = fileDialog.getSelectedFile();
+//							String filePath = file.getAbsolutePath();
+//							Document doc = new Document(PageSize.A4);
+//							
+//							try {
+//								PdfWriter.getInstance(doc, new FileOutputStream(filePath));
+//								doc.open();
+//								PdfPTable tbl = new PdfPTable(6);
+//								tbl.setWidthPercentage(113);
+//								
+//								
+//								
+//								float[] columnWidths = new float[]{10f,10f, 30f, 30f,30f,20f};
+//								tbl.setWidths(columnWidths);
+//								tbl.addCell("Mã HD");
+//								tbl.addCell("Mã SP");
+//								tbl.addCell("Tên khách hàng");
+//								tbl.addCell("Tên nhân viên");
+//								tbl.addCell("Tên xe");
+//								tbl.addCell("Giá");
+//								for(int i=0;i<datamodel.getRowCount();i++) {
+//									String maHD = datamodel.getValueAt(i, 0).toString();
+//									String maSP = datamodel.getValueAt(i, 1).toString();
+//									String tenKH = datamodel.getValueAt(i, 2).toString();
+//									String tenNV = datamodel.getValueAt(i, 3).toString();
+//									String tenXe = datamodel.getValueAt(i, 4).toString();
+//									String gia = datamodel.getValueAt(i, 5).toString();
+//									
+//									tbl.addCell(maHD);
+//									tbl.addCell(maSP);
+//									tbl.addCell(tenKH);
+//									tbl.addCell(tenNV);
+//									tbl.addCell(tenXe);
+//									tbl.addCell(gia);
+//									
+//									
+//								}
+//								doc.add(new Paragraph("\t \t \t \t \t \t \t \t \t \t \t \t \tCUA HANG XE MAY G63\n"
+//										+ "	D/c: 12 Nguyen Van Bao, Phuong 4, Go Vap, TP.Ho Chi Minh \n"
+//										+ "\t \t \t \t \t \t \t \t \t \t \t \t \t \t \t SDT: 0888244212\n"
+//										+ "		Ten nhan vien: \t \t \t \t \t \t "
+//										
+//										
+//										+ "\t \t \t \t \t \t \t XIN CAM ON VA HEN GAP LAI QUY KHACH !"));
+//								
+//								doc.add(tbl);
+//								doc.close();
+//							} catch (FileNotFoundException e1) {
+//								// TODO Auto-generated catch block
+//								e1.printStackTrace();
+//							} catch (DocumentException e1) {
+//								// TODO Auto-generated catch block
+//								e1.printStackTrace();
+//							}
+//							JOptionPane.showMessageDialog(null, "Ghi file thành công!!", "Thành công",
+//									JOptionPane.INFORMATION_MESSAGE);
+//							
+//							
+//						}
+//					});
+//					
 				}
 			}
 			
+			else if(radKhac.isSelected()) {
+				xoaHetDLModel();
+				if(txtTuNgay.getDate()==null || txtDenNgay.getDate() == null){
+					JOptionPane.showMessageDialog(this, "Chọn ngày tháng năm!");
+					xoaHetDLModel();
+					return;
+				}
+				else {
+					Date tuNgay = txtTuNgay.getDate();
+					Date denNgay = txtDenNgay.getDate();
+					DAO_ThongKe dao_ThongKe = new DAO_ThongKe();
+					java.sql.Date tuNgaySQL = new java.sql.Date(tuNgay.getYear(),tuNgay.getMonth(),tuNgay.getDate());
+					java.sql.Date denNgaySQL = new java.sql.Date(denNgay.getYear(),denNgay.getMonth(),denNgay.getDate());
+					dsTKTheoKhoang = dao_ThongKe.thongKeTheoKhoang(tuNgaySQL,denNgaySQL);
+					if(dsTKTheoKhoang.size() == 0) {
+						JOptionPane.showMessageDialog(this, "Không tìm thấy dữ liệu!");
+						xoaHetDLModel();
+						return;
+					}
+					double tongDoanhThu = 0;
+					for(int i = 0;i<dsTKTheoKhoang.size();i++) {
+						String[] hopDong = (String[])dsTKTheoKhoang.get(i);
+						String maHD = hopDong[0];
+						String maSP = hopDong[1];
+						String tenKH = hopDong[2];
+						String tenNV = hopDong[3];
+						String tenXe = hopDong[4];
+						String giaTien = hopDong[5];
+						datamodel.addRow(new Object[] {maHD,maSP,tenKH,tenNV,tenXe,df.format(Double.parseDouble(giaTien))});
+						tongDoanhThu += Double.parseDouble(giaTien);
+					}
+					lblSoXeBan.setText(String.valueOf(dsTKTheoKhoang.size()));			
+					lblTongDoanhThu.setText(chuyenTienVND(tongDoanhThu));
+				}
+			}
+			
+			
+			else if(radThang.isSelected()) {
+				xoaHetDLModel();
+				int thang = Integer.parseInt(cbbThang.getSelectedItem().toString());
+				int nam = Integer.parseInt(cbbNam.getSelectedItem().toString());
+				DAO_ThongKe dao_ThongKe = new DAO_ThongKe();
+				dsTKTheoThang = dao_ThongKe.thongKeTheoThang(thang,nam);
+				if(dsTKTheoThang.size()==0) {
+					JOptionPane.showMessageDialog(this, "Không tìm thấy dữ liệu");
+					xoaHetDLModel();
+					return;
+				}
+				double tongDoanhThu = 0;
+				for(int i = 0;i<dsTKTheoThang.size();i++) {
+					String[] hopDong = (String[])dsTKTheoThang.get(i);
+					String maHD = hopDong[0];
+					String maSP = hopDong[1];
+					String tenKH = hopDong[2];
+					String tenNV = hopDong[3];
+					String tenXe = hopDong[4];
+					String giaTien = hopDong[5];
+					datamodel.addRow(new Object[] {maHD,maSP,tenKH,tenNV,tenXe,df.format(Double.parseDouble(giaTien))});
+					tongDoanhThu += Double.parseDouble(giaTien);
+				}
+				lblSoXeBan.setText(String.valueOf(dsTKTheoThang.size()));			
+				lblTongDoanhThu.setText(chuyenTienVND(tongDoanhThu));
+			}
+			else if(radNam.isSelected()) {
+				xoaHetDLModel();
+				int nam = Integer.parseInt(cbbLocTheoNam.getSelectedItem().toString());
+				DAO_ThongKe dao_ThongKe = new DAO_ThongKe();
+				dsTKTheoNam = dao_ThongKe.thongKeTheoNam(nam);
+				
+				if(dsTKTheoNam.size()==0) {
+					JOptionPane.showMessageDialog(this, "Không tìm thấy dữ liệu");
+					xoaHetDLModel();
+					return;
+				}
+				
+				double tongDoanhThu = 0;
+				for(int i = 0;i<dsTKTheoNam.size();i++) {
+					String[] hopDong = (String[])dsTKTheoNam.get(i);
+					String maHD = hopDong[0];
+					String maSP = hopDong[1];
+					String tenKH = hopDong[2];
+					String tenNV = hopDong[3];
+					String tenXe = hopDong[4];
+					String giaTien = hopDong[5];
+					datamodel.addRow(new Object[] {maHD,maSP,tenKH,tenNV,tenXe,df.format(Double.parseDouble(giaTien))});
+					tongDoanhThu += Double.parseDouble(giaTien);
+				}
+				lblSoXeBan.setText(String.valueOf(dsTKTheoNam.size()));			
+				lblTongDoanhThu.setText(chuyenTienVND(tongDoanhThu));
+			}	
+		}
+		if(o.equals(btnLamMoi)) {
+			lamRongTextField();
+			xoaHetDLModel();
 		}
 	}
 }
