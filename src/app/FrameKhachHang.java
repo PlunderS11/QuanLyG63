@@ -290,29 +290,33 @@ public class FrameKhachHang extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				String ma = txtMaKH.getText();
-				String ten = txtTenKH.getText();
-				Date ngay = txtNgaySinhKH.getDate();
-				java.sql.Date ngaySinh = new java.sql.Date(ngay.getYear(),ngay.getMonth(),ngay.getDate());
-				
-				String diachi = txtDiaChiKH.getText();
-				String sdt = txtSDTKH.getText();
-				String cccd = txtCCCDKH.getText();
-				boolean phai = radMaleKH.isSelected();
-				KhachHang kh = new KhachHang(ma, ten, ngaySinh, diachi, sdt, cccd, phai);
-				
-				try {
-					khachHang.create(kh);
-					model.addRow(new Object[] {
-							kh.getMaKH(),kh.getTenKH(),kh.getNgaySinh(),
-							kh.getDiaChi(),kh.getsDT(),
-							kh.getcCCD(),kh.isGioiTinh()==true?"Nam":"Nữ"
-					});
+				if(!kiemTra())
+					return;
+				else {
+					String ma = txtMaKH.getText();
+					String ten = txtTenKH.getText();
+					Date ngay = txtNgaySinhKH.getDate();
+					java.sql.Date ngaySinh = new java.sql.Date(ngay.getYear(),ngay.getMonth(),ngay.getDate());
 					
-					JOptionPane.showMessageDialog(null, "Thêm thất bại!");
-				} catch (Exception e2) {
-					// TODO: handle exception
-					JOptionPane.showMessageDialog(null, "Thêm thất bại!");
+					String diachi = txtDiaChiKH.getText();
+					String sdt = txtSDTKH.getText();
+					String cccd = txtCCCDKH.getText();
+					boolean phai = radMaleKH.isSelected();
+					KhachHang kh = new KhachHang(ma, ten, ngaySinh, diachi, sdt, cccd, phai);
+					
+					try {
+						khachHang.create(kh);
+						model.addRow(new Object[] {
+								kh.getMaKH(),kh.getTenKH(),kh.getNgaySinh(),
+								kh.getDiaChi(),kh.getsDT(),
+								kh.getcCCD(),kh.isGioiTinh()==true?"Nam":"Nữ"
+						});
+						
+						JOptionPane.showMessageDialog(null, "Thêm thất bại!");
+					} catch (Exception e2) {
+						// TODO: handle exception
+						JOptionPane.showMessageDialog(null, "Thêm thất bại!");
+					}
 				}
 			}
 		});
@@ -484,7 +488,78 @@ public class FrameKhachHang extends JFrame{
 		dm.getDataVector().removeAllElements();
 	}
 	private boolean kiemTra() {
+		String tenKH = txtTenKH.getText();
+		Date ngaySinh = txtNgaySinhKH.getDate();
+		String cccd = txtCCCDKH.getText();
+		String sdt = txtSDTKH.getText();
+		String diaChi = txtDiaChiKH.getText();
 		
+		if (tenKH.trim().length() > 0) {
+			if (!(tenKH.matches("[^\\@\\!\\$\\^\\&\\*\\(\\)]+"))) {
+				JOptionPane.showMessageDialog(this, "Tên nhân viên không chứa ký tự đặc biệt", "Lỗi",
+						JOptionPane.ERROR_MESSAGE);
+				txtTenKH.requestFocus();
+				return false;				
+			}
+		} else {
+			JOptionPane.showMessageDialog(this, "Tên nhân viên không được để trống", "Lỗi",
+					JOptionPane.ERROR_MESSAGE);
+			txtTenKH.requestFocus();
+			return false;
+		}
+		if (ngaySinh == null) {
+			JOptionPane.showMessageDialog(this, "Ngày sinh không được để trống", "Lỗi",
+					JOptionPane.ERROR_MESSAGE);
+			txtNgaySinhKH.requestFocus();
+			return false;
+		} else {
+			Date ngayHienTai = new Date();
+			if (ngayHienTai.getYear() - ngaySinh.getYear() < 18) {
+				JOptionPane.showMessageDialog(this, "Nhân viên chưa đủ 18 tuổi", "Lỗi",
+						JOptionPane.ERROR_MESSAGE);
+				txtNgaySinhKH.requestFocus();
+				return false;
+			}
+		}
+		if (cccd.trim().length() > 0) {
+			if (!(cccd.matches("[0-9]{9}")) && !(cccd.matches("[0-9]{12}"))) {
+				JOptionPane.showMessageDialog(this, "CCCD phải gồm 9 hoặc 12 số", "Lỗi",
+						JOptionPane.ERROR_MESSAGE);
+				txtCCCDKH.requestFocus();
+				return false;
+			}
+		} else {
+			JOptionPane.showMessageDialog(this, "CCCD không được để trống", "Lỗi",
+					JOptionPane.ERROR_MESSAGE);
+			txtCCCDKH.requestFocus();
+			return false;
+		}
+		if (sdt.trim().length() > 0) {
+			if (!(sdt.matches("[0-9]{10,11}"))) {
+				JOptionPane.showMessageDialog(this, "Số điện thoại phải gồm 10 đến 11 số", "Lỗi",
+						JOptionPane.ERROR_MESSAGE);
+				txtSDTKH.requestFocus();
+				return false;
+			}
+		} else {
+			JOptionPane.showMessageDialog(this, "Số điện thoại không được để trống", "Lỗi",
+					JOptionPane.ERROR_MESSAGE);
+			txtSDTKH.requestFocus();
+			return false;
+		}
+		if(diaChi.trim().length() > 0) {
+			if (!(diaChi.matches("[^\\@\\!\\$\\^\\&\\*\\(\\)]+"))) {
+				JOptionPane.showMessageDialog(this, "Địa chỉ không chứa ký tự đặc biệt", "Lỗi",
+						JOptionPane.ERROR_MESSAGE);
+				txtDiaChiKH.requestFocus();
+				return false;				
+			}
+		} else {
+			JOptionPane.showMessageDialog(this, "Địa chỉ không được để trống", "Lỗi",
+					JOptionPane.ERROR_MESSAGE);
+			txtDiaChiKH.requestFocus();
+			return false;
+		}
 		return true;
 	}
 }

@@ -33,6 +33,9 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
@@ -43,6 +46,8 @@ public class FrameHoaDon extends JFrame{
 	private DAO_KhachHang dao_khachHang;
 	private NhanVien_DAO dao_nhanvien;
 	private Xe_DAO dao_xe;
+	Locale localeVN = new Locale("vi", "VN");
+    NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
 
 	public FrameHoaDon() {
 		try {
@@ -77,6 +82,7 @@ public class FrameHoaDon extends JFrame{
 		txtNgayLap.setDateFormatString("yyyy-MM-dd");
 		txtNgayLap.setBounds(276, 615, 331, 37);
 		txtNgayLap.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txtNgayLap.setDate(new Date());
 		getContentPane().add(txtNgayLap);
 		
 		JPanel panel = new JPanel();
@@ -94,7 +100,12 @@ public class FrameHoaDon extends JFrame{
 		
 		JComboBox cboTimHopDong = new JComboBox();
 		cboTimHopDong.setFont(new Font("Tahoma", Font.PLAIN, 16));
+<<<<<<< HEAD
+		cboTimHopDong.setBounds(177, 12, 839, 32);
+		cboTimHopDong.setEditable(true);
+=======
 		cboTimHopDong.setBounds(177, 12, 693, 32);
+>>>>>>> da4773c66b6af87c474578db3b66e7214c102baf
 		cboTimHopDong.addItem("");
 		panel.add(cboTimHopDong);
 		
@@ -391,17 +402,15 @@ public class FrameHoaDon extends JFrame{
 		
 		panel_1.add(lblThanhTien);
 		
-		FixButton btnThanhTien = new FixButton("Làm mới");
+		FixButton btnThanhTien = new FixButton();
 		btnThanhTien.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (txtGiaXe.getText().equalsIgnoreCase("")) {
 					JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin trước khi tính thành tiền!");
 				} else {
-					String tien = txtGiaXe.getText();
-					double giaXe = Double.parseDouble(tien);
+					double giaXe = Double.parseDouble(txtGiaXe.getText());
 					double thanhTien = giaXe + giaXe*5/100;
-					DecimalFormat cf = new DecimalFormat("###.0");
-					lblThanhTien.setText(cf.format(thanhTien));
+					lblThanhTien.setText(currencyVN.format(thanhTien));
 				}
 			}
 		});
@@ -413,7 +422,35 @@ public class FrameHoaDon extends JFrame{
 		btnThanhTien.setBounds(383, 10, 60, 60);
 		panel_1.add(btnThanhTien);
 		
-		FixButton btnXuat = new FixButton("Làm mới");
+		FixButton btnXuat = new FixButton();
+		btnXuat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String ma = cboTimHopDong.getSelectedItem().toString().substring(0,11);
+//				String tenKH = (dao_khachHang.getKHtheoMaHopDong(ma)).getTenKH();
+//				String tenNV = (dao_nhanvien.getNVtheoMaHopDong(ma)).getTenNV();
+//				String tenXe = (dao_xe.getXeTheoMaHopDong(ma)).getTenXe();
+//				String mauXe = (dao_xe.getXeTheoMaHopDong(ma)).getMauXe();
+//				String soKhung = (dao_xe.getXeTheoMaHopDong(ma)).getSoKhung();
+//				String soMay = (dao_xe.getXeTheoMaHopDong(ma)).getSoMay();
+//				String loaiXe = (dao_xe.getXeTheoMaHopDong(ma)).getLoaiXe().getTenLoaiXe();
+//				String hang = (dao_xe.getXeTheoMaHopDong(ma)).getHangSanXuat().getTenHangSX();
+//				double tien = (dao_xe.getXeTheoMaHopDong(ma)).getGiaXe();
+				String tenKH = txtTenKH.getText();
+				String tenNV = txtTenNV.getText();
+				Date ngay = txtNgayLap.getDate();
+				java.sql.Date ngayLap = new java.sql.Date(ngay.getYear(), ngay.getMonth(), ngay.getDate());
+				String tenXe = txtTenXe.getText();
+				String mauXe = txtMauXe.getText();
+				String soKhung = txtSoKhung.getText();
+				String soMay = txtSoMay.getText();
+				String loaiXe = txtLoaiXe.getText();
+				String hang = txtHangSX.getText();
+				double tien = Double.parseDouble(txtGiaXe.getText());
+				double tong = tien + tien*5/100;
+				new FrameHoaDonTinhTien(tenKH, tenNV, ngayLap, 
+						tenXe, mauXe, soKhung, soMay, loaiXe, hang, tien, tong).setVisible(true);
+			}
+		});
 		btnXuat.setIcon(new ImageIcon("image\\xuatexcel.png"));
 		btnXuat.setText("");
 		btnXuat.setForeground(Color.WHITE);
@@ -423,7 +460,6 @@ public class FrameHoaDon extends JFrame{
 		panel_1.add(btnXuat);
 		
 		FixButton btnLamMoiKH = new FixButton("Làm mới");
-		
 		btnLamMoiKH.setIcon(new ImageIcon("image\\lammoi.png"));
 		btnLamMoiKH.setForeground(Color.WHITE);
 		btnLamMoiKH.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -489,7 +525,6 @@ public class FrameHoaDon extends JFrame{
 									
 									HangSanXuat hsx = daohsx.getHSXTheoMa(xe.getHangSanXuat().getMaHangSX());
 									txtHangSX.setText(hsx.getTenHangSX());
-
 									DecimalFormat cd = new DecimalFormat("###.0");
 									txtGiaXe.setText(cd.format(xe.getGiaXe()));
 								}

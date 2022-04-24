@@ -168,4 +168,27 @@ public  KhachHang getKHtheoCCCD(String cccd) {
 		}
 		return kh;
 	}
+public  KhachHang getKHtheoMaHopDong(String maHopDong) {
+	ConnectDB.getInstance();
+	Connection con = ConnectDB.getConnection();	
+	PreparedStatement stmt = null;
+	try {
+		String sql = "select kh.maKH,tenKH,ngaySinh,diaChi,sDT,cCCD from KhachHang kh join HopDong hd on kh.maKH=hd.maKH where hd.maHopDong = ?";
+		stmt = con.prepareStatement(sql);
+		stmt.setString(1, maHopDong);
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()){
+			KhachHang kh = new KhachHang();
+			kh.setMaKH(rs.getString("maKH"));
+			kh.setTenKH(rs.getString("tenKH"));
+			kh.setNgaySinh(rs.getDate("ngaySinh"));
+			kh.setDiaChi(rs.getString("diaChi"));
+			kh.setsDT(rs.getString("sDT"));
+			kh.setcCCD(rs.getString("cCCD"));			
+		}
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	return kh;
+}
 }

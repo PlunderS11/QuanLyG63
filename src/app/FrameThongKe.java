@@ -234,7 +234,6 @@ public class FrameThongKe extends JFrame implements ActionListener{
 		panel_2_2.setBackground(new Color(50, 205, 50));
 		panel_2_2.setBounds(1041, 36, 244, 122);
 		getContentPane().add(panel_2_2);
-		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(373, 168, 948, 500);
 		getContentPane().add(scrollPane);
@@ -369,8 +368,5 @@ public class FrameThongKe extends JFrame implements ActionListener{
 			}
 			
 		}
-		
-		
-		
 	}
 }

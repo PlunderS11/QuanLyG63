@@ -15,6 +15,7 @@ import entity.NhanVien;
 import entity.Xe;
 
 public class DAO_HopDong {
+private HopDong hd;
 public  ArrayList<HopDong> getAllHopDong() {
 		
 		ArrayList<HopDong> dsHopDong = new ArrayList<HopDong>();		
@@ -83,5 +84,26 @@ public  ArrayList<HopDong> getAllHopDong() {
 			}
 		}
 		return n > 0;
+	}
+	public HopDong getHopDongTheoMaHopDong(String maHD) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stmt = null;
+		try {
+			stmt = con.prepareStatement("Select * from HopDong where maHopDong = ?");
+			stmt.setString(1, maHD);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()){
+				HopDong hd = new HopDong();
+				hd.setMaHopDong(rs.getString(1));
+				hd.setKhachHang(new KhachHang(rs.getString(2)));
+				hd.setNhanVien(new NhanVien(rs.getString(3)));
+				hd.setXe(new Xe(rs.getString(4)));
+				hd.setNgayLapHopDong(rs.getDate(5));
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return hd;
 	}
 }
