@@ -14,6 +14,7 @@ import javax.swing.SwingConstants;
 import com.toedter.calendar.JDateChooser;
 
 import connection.ConnectDB;
+import dao.DAO_HoaDon;
 import dao.DAO_HopDong;
 import dao.DAO_KhachHang;
 import dao.HangSanXuat_DAO;
@@ -21,6 +22,7 @@ import dao.LoaiXe_DAO;
 import dao.NhanVien_DAO;
 import dao.Xe_DAO;
 import entity.HangSanXuat;
+import entity.HoaDon;
 import entity.HopDong;
 import entity.KhachHang;
 import entity.LoaiXe;
@@ -38,6 +40,9 @@ import java.util.Date;
 import java.util.Locale;
 import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
+
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 
@@ -99,13 +104,14 @@ public class FrameHoaDon extends JFrame{
 		panel.add(lblNewLabel_1_2_1_1);
 		
 		JComboBox cboTimHopDong = new JComboBox();
+		AutoCompleteDecorator.decorate(cboTimHopDong);
 		cboTimHopDong.setFont(new Font("Tahoma", Font.PLAIN, 16));
-<<<<<<< HEAD
+
 		cboTimHopDong.setBounds(177, 12, 839, 32);
 		cboTimHopDong.setEditable(true);
-=======
+
 		cboTimHopDong.setBounds(177, 12, 693, 32);
->>>>>>> da4773c66b6af87c474578db3b66e7214c102baf
+
 		cboTimHopDong.addItem("");
 		panel.add(cboTimHopDong);
 		
@@ -126,6 +132,7 @@ public class FrameHoaDon extends JFrame{
 			String tenKH = "";
 			String tenNV = "";
 			String tenXe = "";
+			String trangThai = "";
 			for (KhachHang kh : dao_khachHang.getAllKH()) {
 				if (kh.getMaKH().equalsIgnoreCase(hopdong.getKhachHang().getMaKH())) {
 					tenKH = kh.getTenKH();
@@ -139,9 +146,12 @@ public class FrameHoaDon extends JFrame{
 			for (Xe xe : dao_xe.getDanhSachXe()) {
 				if (xe.getMaXe().equalsIgnoreCase(hopdong.getXe().getMaXe())) {
 					tenXe = xe.getTenXe();
+					trangThai = xe.getTrangThai();
 				}
 			}
-			cboTimHopDong.addItem(hopdong.getMaHopDong()+" - "+hopdong.getKhachHang().getMaKH()+" - "+tenKH+" - "+hopdong.getNhanVien().getMaNV()+" - "+tenNV+" - "+hopdong.getXe().getMaXe()+" - "+tenXe+" ("+hopdong.getNgayLapHopDong()+")");
+			if (trangThai.equalsIgnoreCase("Chưa bán")) {
+				cboTimHopDong.addItem(hopdong.getMaHopDong()+" - "+hopdong.getKhachHang().getMaKH()+" - "+tenKH+" - "+hopdong.getNhanVien().getMaNV()+" - "+tenNV+" - "+hopdong.getXe().getMaXe()+" - "+tenXe+" ("+hopdong.getNgayLapHopDong()+")");
+			}
 		}
 		
 		JPanel panel_2 = new JPanel();
@@ -425,30 +435,53 @@ public class FrameHoaDon extends JFrame{
 		FixButton btnXuat = new FixButton();
 		btnXuat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String ma = cboTimHopDong.getSelectedItem().toString().substring(0,11);
-//				String tenKH = (dao_khachHang.getKHtheoMaHopDong(ma)).getTenKH();
-//				String tenNV = (dao_nhanvien.getNVtheoMaHopDong(ma)).getTenNV();
-//				String tenXe = (dao_xe.getXeTheoMaHopDong(ma)).getTenXe();
-//				String mauXe = (dao_xe.getXeTheoMaHopDong(ma)).getMauXe();
-//				String soKhung = (dao_xe.getXeTheoMaHopDong(ma)).getSoKhung();
-//				String soMay = (dao_xe.getXeTheoMaHopDong(ma)).getSoMay();
-//				String loaiXe = (dao_xe.getXeTheoMaHopDong(ma)).getLoaiXe().getTenLoaiXe();
-//				String hang = (dao_xe.getXeTheoMaHopDong(ma)).getHangSanXuat().getTenHangSX();
-//				double tien = (dao_xe.getXeTheoMaHopDong(ma)).getGiaXe();
-				String tenKH = txtTenKH.getText();
-				String tenNV = txtTenNV.getText();
-				Date ngay = txtNgayLap.getDate();
-				java.sql.Date ngayLap = new java.sql.Date(ngay.getYear(), ngay.getMonth(), ngay.getDate());
-				String tenXe = txtTenXe.getText();
-				String mauXe = txtMauXe.getText();
-				String soKhung = txtSoKhung.getText();
-				String soMay = txtSoMay.getText();
-				String loaiXe = txtLoaiXe.getText();
-				String hang = txtHangSX.getText();
-				double tien = Double.parseDouble(txtGiaXe.getText());
-				double tong = tien + tien*5/100;
-				new FrameHoaDonTinhTien(tenKH, tenNV, ngayLap, 
-						tenXe, mauXe, soKhung, soMay, loaiXe, hang, tien, tong).setVisible(true);
+				if (txtGiaXe.getText().equalsIgnoreCase("")||lblThanhTien.getText().equalsIgnoreCase("...")) {
+					JOptionPane.showMessageDialog(null, "Vui lòng điền đủ thông tin và tính thành tiền trước khi xuất hóa đơn!");
+				} else {
+					String ma = cboTimHopDong.getSelectedItem().toString().substring(0,11);
+//					String tenKH = (dao_khachHang.getKHtheoMaHopDong(ma)).getTenKH();
+//					String tenNV = (dao_nhanvien.getNVtheoMaHopDong(ma)).getTenNV();
+//					String tenXe = (dao_xe.getXeTheoMaHopDong(ma)).getTenXe();
+//					String mauXe = (dao_xe.getXeTheoMaHopDong(ma)).getMauXe();
+//					String soKhung = (dao_xe.getXeTheoMaHopDong(ma)).getSoKhung();
+//					String soMay = (dao_xe.getXeTheoMaHopDong(ma)).getSoMay();
+//					String loaiXe = (dao_xe.getXeTheoMaHopDong(ma)).getLoaiXe().getTenLoaiXe();
+//					String hang = (dao_xe.getXeTheoMaHopDong(ma)).getHangSanXuat().getTenHangSX();
+//					double tien = (dao_xe.getXeTheoMaHopDong(ma)).getGiaXe();
+					String tenKH = txtTenKH.getText();
+					String tenNV = txtTenNV.getText();
+					Date ngay = txtNgayLap.getDate();
+					java.sql.Date ngayLap = new java.sql.Date(ngay.getYear(), ngay.getMonth(), ngay.getDate());
+					String tenXe = txtTenXe.getText();
+					String mauXe = txtMauXe.getText();
+					String soKhung = txtSoKhung.getText();
+					String soMay = txtSoMay.getText();
+					String loaiXe = txtLoaiXe.getText();
+					String hang = txtHangSX.getText();
+					double tien = Double.parseDouble(txtGiaXe.getText());
+					double tong = tien + tien*5/100;
+					
+					String maHD = txtMaHoaDon.getText();
+					String maXe = txtMaXe.getText();
+					HoaDon hd = new HoaDon(maHD, new HopDong(ma), ngayLap, tong);
+					if (dao_hoadon.getAllHoaDon().contains(hd)) {
+						JOptionPane.showMessageDialog(null, "Mã hóa đơn đã tồn tại!");
+					} else {
+						try {
+							dao_hoadon.create(hd);
+							dao_xe.update(maXe, "Đã bán");
+							
+							JOptionPane.showMessageDialog(null, "Lưu hóa đơn thành công!");
+							new FrameHoaDonTinhTien(tenKH, tenNV, ngayLap, 
+									tenXe, mauXe, soKhung, soMay, loaiXe, hang, tien, tong).setVisible(true);
+						} catch (Exception e) {
+							// TODO: handle exception
+							JOptionPane.showMessageDialog(null, "Lưu hóa đơn thất bại!");
+						}
+					}
+					
+				}
+
 			}
 		});
 		btnXuat.setIcon(new ImageIcon("image\\xuatexcel.png"));
@@ -538,7 +571,7 @@ public class FrameHoaDon extends JFrame{
 		btnLamMoiKH.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cboTimHopDong.setSelectedIndex(0);
-				txtNgayLap.setDate(null);
+				
 				txtMaKH.setText("");
 				txtTenKH.setText("");
 				txtCCCD.setText("");
@@ -558,8 +591,41 @@ public class FrameHoaDon extends JFrame{
 				txtGiaXe.setText("");
 				
 				lblThanhTien.setText("...");
+				phatSinhMaHopDong();
+				
+				Date d = new Date();
+				
+				txtNgayLap.setDate(d);
+				
+				cboTimHopDong.removeAllItems();
+				for (HopDong hopdong : dao_hopDong.getAllHopDong()) {
+					String tenKH = "";
+					String tenNV = "";
+					String tenXe = "";
+					String trangThai = "";
+					for (KhachHang kh : dao_khachHang.getAllKH()) {
+						if (kh.getMaKH().equalsIgnoreCase(hopdong.getKhachHang().getMaKH())) {
+							tenKH = kh.getTenKH();
+						}
+					}
+					for (NhanVien nhanvien : dao_nhanvien.getAllNhanVien()) {
+						if (nhanvien.getMaNV().equalsIgnoreCase(hopdong.getNhanVien().getMaNV())) {
+							tenNV = nhanvien.getTenNV();
+						}
+					}
+					for (Xe xe : dao_xe.getDanhSachXe()) {
+						if (xe.getMaXe().equalsIgnoreCase(hopdong.getXe().getMaXe())) {
+							tenXe = xe.getTenXe();
+							trangThai = xe.getTrangThai();
+						}
+					}
+					if (trangThai.equalsIgnoreCase("Chưa bán")) {
+						cboTimHopDong.addItem(hopdong.getMaHopDong()+" - "+hopdong.getKhachHang().getMaKH()+" - "+tenKH+" - "+hopdong.getNhanVien().getMaNV()+" - "+tenNV+" - "+hopdong.getXe().getMaXe()+" - "+tenXe+" ("+hopdong.getNgayLapHopDong()+")");
+					}
+				}
 			}
 		});
+		phatSinhMaHopDong();
 	}
 	private JButton lbl;
 	private JDateChooser txtNgayLap;
@@ -579,12 +645,28 @@ public class FrameHoaDon extends JFrame{
 	private JTextField txtTenNV;
 	private JTextField txtGiaXe;
 	private JTextField txtMaHoaDon;
+	private DAO_HoaDon dao_hoadon;
 	public JPanel createPanelHoaDon() {
 		JPanel pnlContentPane = new JPanel();
 		pnlContentPane.setBackground(Color.WHITE);
 		setContentPane(pnlContentPane);
 		
 		return pnlContentPane;
+	}
+	private void phatSinhMaHopDong() {
+		dao_hoadon = new DAO_HoaDon();
+		if (dao_hoadon.getAllHoaDon().isEmpty()) {
+			txtMaHoaDon.setText("HOADON0001");
+		} else {
+			
+			String ma = dao_hoadon.getMaHDCuoi();
+			String ma1 = ma.substring(0, 6);
+			String ma2 = ma.substring(6);
+			int ma3 = Integer.parseInt(ma2)+1;
+			DecimalFormat df = new DecimalFormat("0000");
+			txtMaHoaDon.setText(ma1+df.format(ma3));
+		}
+		
 	}
 	
 	public static void main(String[] args) {

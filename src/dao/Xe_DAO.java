@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 
 import connection.ConnectDB;
 import entity.HangSanXuat;
+import entity.KhachHang;
 import entity.LoaiXe;
 import entity.Xe;
 
@@ -68,5 +70,28 @@ public class Xe_DAO {
 			e.printStackTrace();
 		}
 		return xe;
+	}
+	
+	public boolean update(String ma, String trangthai){
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stmt = null;
+		int n = 0;
+		try {
+			stmt = con.prepareStatement("update Xe set trangThai = '"+trangthai+"' where maXe = '"+ma+"'");
+
+			n = stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally{
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+		return n > 0;
 	}
 }
