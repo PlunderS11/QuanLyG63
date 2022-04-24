@@ -32,6 +32,7 @@ public  ArrayList<HopDong> getAllHopDong() {
 			hd.setNhanVien(new NhanVien(rs.getString(3)));
 			hd.setXe(new Xe(rs.getString(4)));
 			hd.setNgayLapHopDong(rs.getDate(5));
+			hd.setTrangThai(rs.getString(6));
 			dsHopDong.add(hd);
 			}
 		} catch (SQLException e) {
@@ -65,12 +66,13 @@ public  ArrayList<HopDong> getAllHopDong() {
 		PreparedStatement stmt = null;
 		int n = 0;
 		try {
-			stmt = con.prepareStatement("insert into HopDong values(?,?,?,?,?)");
+			stmt = con.prepareStatement("insert into HopDong values(?,?,?,?,?,?)");
 			stmt.setString(1, hd.getMaHopDong());
 			stmt.setString(2, hd.getKhachHang().getMaKH());
 			stmt.setString(3, hd.getNhanVien().getMaNV()); 
 			stmt.setString(4, hd.getXe().getMaXe()); 
 			stmt.setDate(5, (Date) hd.getNgayLapHopDong()); 
+			stmt.setString(6, hd.getTrangThai());
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO: handle exception
@@ -100,10 +102,34 @@ public  ArrayList<HopDong> getAllHopDong() {
 				hd.setNhanVien(new NhanVien(rs.getString(3)));
 				hd.setXe(new Xe(rs.getString(4)));
 				hd.setNgayLapHopDong(rs.getDate(5));
+				hd.setTrangThai(rs.getString(6));
 			}
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return hd;
+	}
+	
+	public boolean update(String ma, String trangthai){
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stmt = null;
+		int n = 0;
+		try {
+			stmt = con.prepareStatement("update HopDong set trangThai = '"+trangthai+"' where maHopDong = '"+ma+"'");
+
+			n = stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally{
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+		return n > 0;
 	}
 }

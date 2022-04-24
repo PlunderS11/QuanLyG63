@@ -17,6 +17,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
 import com.toedter.calendar.JDateChooser;
 
 import connection.ConnectDB;
@@ -39,6 +41,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 
 public class FrameKhachHang extends JFrame{
 	private DefaultTableModel model;
@@ -54,6 +57,7 @@ public class FrameKhachHang extends JFrame{
 		setSize(1345, 705);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
+		setResizable(false);
 		getContentPane().setBackground(new Color(166, 169, 248));
 		getContentPane().setLayout(null);
 		
@@ -214,13 +218,8 @@ public class FrameKhachHang extends JFrame{
 		lblNewLabel_1_2_1_1.setBounds(525, 10, 88, 32);
 		getContentPane().add(lblNewLabel_1_2_1_1);
 		
-		txtTimKH = new JTextField();
-		txtTimKH.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		txtTimKH.setColumns(10);
-		txtTimKH.setBounds(613, 10, 214, 32);
-		getContentPane().add(txtTimKH);
-		
 		JButton btnTimKH = new FixButton("Tìm");
+		
 		btnTimKH.setIcon(new ImageIcon("image\\timkiem.png"));	
 		btnTimKH.setForeground(Color.WHITE);
 		btnTimKH.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -285,6 +284,16 @@ public class FrameKhachHang extends JFrame{
 		
 		scrollPane.setViewportView(table);	
 		
+		JComboBox cboTimKH = new JComboBox();
+		cboTimKH.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		cboTimKH.setEditable(true);
+		cboTimKH.setBounds(613, 9, 214, 32);
+		cboTimKH.addItem("");
+		AutoCompleteDecorator.decorate(cboTimKH);
+		getContentPane().add(cboTimKH);
+		for (KhachHang kh : khachHang.getAllKH()) {
+			cboTimKH.addItem(kh.getcCCD());
+		}
 		btnThemKH.addActionListener(new ActionListener() {
 			
 			@Override
@@ -334,6 +343,11 @@ public class FrameKhachHang extends JFrame{
 				txtDiaChiKH.setText("");
 				txtSDTKH.setText("");
 				txtCCCDKH.setText("");
+				cboTimKH.removeAllItems();
+				cboTimKH.addItem("");
+				for (KhachHang kh : khachHang.getAllKH()) {
+					cboTimKH.addItem(kh.getcCCD());
+				}
 				grKH.clearSelection();
 				phatSinhMaKH();
 				XoaDL();
@@ -462,13 +476,27 @@ public class FrameKhachHang extends JFrame{
 		        }
 			}
 		});
+		btnTimKH.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String cccd = cboTimKH.getSelectedItem().toString();
+				for (KhachHang kh : khachHang.getAllKH()) {
+					if (kh.getcCCD().equalsIgnoreCase(cccd)) {
+						XoaDL();
+						model.addRow(new Object[] {
+								kh.getMaKH(),kh.getTenKH(),kh.getNgaySinh(),
+								kh.getDiaChi(),kh.getsDT(),
+								kh.getcCCD(),kh.isGioiTinh()==true?"Nam":"Nữ"
+						});
+					}
+				}
+			}
+		});
 	}
 	private JTextField txtTenKH;
 	private JDateChooser txtNgaySinhKH;
 	private JTextField txtDiaChiKH;
 	private JTextField txtSDTKH;
 	private JTextField txtCCCDKH;
-	private JTextField txtTimKH;
 	private JTextField txtMaKH;
 	private JTable table;
 	public JPanel createPanelKhachHang() {
@@ -527,6 +555,14 @@ public class FrameKhachHang extends JFrame{
 				JOptionPane.showMessageDialog(this, "Nhân viên chưa đủ 18 tuổi", "Lỗi",
 						JOptionPane.ERROR_MESSAGE);
 				txtNgaySinhKH.requestFocus();
+				return false;
+			}
+		}
+		for (KhachHang kh : khachHang.getAllKH()) {
+			if (kh.getcCCD().equalsIgnoreCase(cccd)) {
+				JOptionPane.showMessageDialog(this, "CCCD khách hàng đã tồn tại", "Lỗi",
+						JOptionPane.ERROR_MESSAGE);
+				txtCCCDKH.requestFocus();
 				return false;
 			}
 		}

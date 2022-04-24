@@ -9,6 +9,7 @@ public class HopDong {
 	private NhanVien nhanVien;
 	private Xe xe;
 	private Date ngayLapHopDong;
+	private String trangThai;
 	public String getMaHopDong() {
 		return maHopDong;
 	}
@@ -39,13 +40,21 @@ public class HopDong {
 	public void setNgayLapHopDong(Date ngayLapHopDong) {
 		this.ngayLapHopDong = ngayLapHopDong;
 	}
-	public HopDong(String maHopDong, KhachHang khachHang, NhanVien nhanVien, Xe xe, Date ngayLapHopDong) {
+	public String getTrangThai() {
+		return trangThai;
+	}
+	public void setTrangThai(String trangThai) {
+		this.trangThai = trangThai;
+	}
+	public HopDong(String maHopDong, KhachHang khachHang, NhanVien nhanVien, Xe xe, Date ngayLapHopDong,
+			String trangThai) {
 		super();
 		this.maHopDong = maHopDong;
 		this.khachHang = khachHang;
 		this.nhanVien = nhanVien;
 		this.xe = xe;
 		this.ngayLapHopDong = ngayLapHopDong;
+		this.trangThai = trangThai;
 	}
 	public HopDong(String maHopDong) {
 		super();
@@ -73,9 +82,7 @@ public class HopDong {
 	@Override
 	public String toString() {
 		return "HopDong [maHopDong=" + maHopDong + ", khachHang=" + khachHang + ", nhanVien=" + nhanVien + ", xe=" + xe
-				+ ", ngayLapHopDong=" + ngayLapHopDong + "]";
+				+ ", ngayLapHopDong=" + ngayLapHopDong + ", trangThai=" + trangThai + "]";
 	}
 	
-	
-
 }

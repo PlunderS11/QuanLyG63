@@ -269,10 +269,10 @@ public class FrameHopDong extends JFrame{
 				
 			},
 			new String[] {
-				"Mã hợp đồng","Mã khách hàng", "Tên khách hàng", "CCCD", "Mã nhân viên", "Tên nhân viên", "Mã xe", "Tên xe", "Ngày lập"
+				"Mã hợp đồng","Mã khách hàng", "Tên khách hàng", "CCCD", "Mã nhân viên", "Tên nhân viên", "Mã xe", "Tên xe", "Ngày lập","Trạng thái"
 			}){
 			boolean[] columnEditables = new boolean[] {
-					false, false, false, false, false, false, false
+					false, false, false, false, false, false, false, false,false,false
 				};
 				public boolean isCellEditable(int row, int column) {
 					return columnEditables[column];
@@ -459,7 +459,9 @@ public class FrameHopDong extends JFrame{
 					hd.getKhachHang().getMaKH(),tenKH,cccd,
 					hd.getNhanVien().getMaNV(),tenNV,
 					hd.getXe().getMaXe(),tenXe,
-					hd.getNgayLapHopDong()
+					hd.getNgayLapHopDong(),
+					hd.getTrangThai()
+					
 			});
 		}
 		
@@ -493,13 +495,14 @@ public class FrameHopDong extends JFrame{
 					Date ngay = txtNgayLap.getDate();
 					java.sql.Date ngayLapHD = new java.sql.Date(ngay.getYear(),ngay.getMonth(),ngay.getDate());
 					
-					HopDong hd = new HopDong(maHD, new KhachHang(maKH), new NhanVien(maNV), new Xe(maXe), ngayLapHD);
+					HopDong hd = new HopDong(maHD, new KhachHang(maKH), new NhanVien(maNV), new Xe(maXe), ngayLapHD,"Chưa thanh toán");
 					if (hopdong_dao.getAllHopDong().contains(hd)) {
 						JOptionPane.showMessageDialog(null, "Mã hợp đồng đã tồn tại!");
 					} else {
 						try {
 							
 							hopdong_dao.create(hd);
+							dao_xe.update(maXe, "Đang bán");
 							String tenKH = "";
 							String cccd = "";
 							String tenNV = "";
@@ -525,7 +528,8 @@ public class FrameHopDong extends JFrame{
 									hd.getKhachHang().getMaKH(),tenKH,cccd,
 									hd.getNhanVien().getMaNV(),tenNV,
 									hd.getXe().getMaXe(),tenXe,
-									hd.getNgayLapHopDong()
+									hd.getNgayLapHopDong(),
+									hd.getTrangThai()
 							});
 							JOptionPane.showMessageDialog(null, "Thêm thành công!");
 						} catch (Exception e2) {
@@ -545,7 +549,14 @@ public class FrameHopDong extends JFrame{
 				txtTenKH.setText("");
 				txtCCCD.setText("");
 				
-				cboTimXe.setSelectedIndex(0);
+				cboTimXe.removeAllItems();
+				cboTimXe.addItem("");
+				for (Xe x : dao_xe.getDanhSachXe()) {
+					if (x.getTrangThai().equalsIgnoreCase("Chưa bán")) {
+						cboTimXe.addItem(x.getMaXe()+" - "+x.getTenXe());
+					}
+				}
+				
 				txtMauXe.setText("");
 				txtSoKhung.setText("");
 				txtSoMay.setText("");
@@ -583,7 +594,8 @@ public class FrameHopDong extends JFrame{
 							hd.getKhachHang().getMaKH(),tenKH,cccd,
 							hd.getNhanVien().getMaNV(),tenNV,
 							hd.getXe().getMaXe(),tenXe,
-							hd.getNgayLapHopDong()
+							hd.getNgayLapHopDong(),
+							hd.getTrangThai()
 					});
 				}
 			}
@@ -665,7 +677,7 @@ public class FrameHopDong extends JFrame{
 	private void phatSinhMaHopDong() {
 			
 			if (hopdong_dao.getAllHopDong().isEmpty()) {
-				txtMaKH.setText("HOPDONG0001");
+				txtMaHopDong.setText("HOPDONG0001");
 			} else {
 				
 				String ma = hopdong_dao.getMaHDCuoi();

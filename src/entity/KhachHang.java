@@ -73,6 +73,7 @@ public class KhachHang implements Serializable{
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(maKH);
