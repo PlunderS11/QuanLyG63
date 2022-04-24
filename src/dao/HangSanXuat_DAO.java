@@ -16,7 +16,6 @@ public class HangSanXuat_DAO {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();
 		String sql = "select * from HangSanXuat where maHangSX = '"+ma+"'";
-		
 		try {
 			Statement stm = con.createStatement();
 			ResultSet rs = stm.executeQuery(sql);
@@ -28,8 +27,7 @@ public class HangSanXuat_DAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
+			
 		return hsx;
 	}
 }
