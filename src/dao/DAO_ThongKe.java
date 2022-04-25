@@ -18,23 +18,25 @@ public class DAO_ThongKe {
 		Connection con = ConnectDB.getConnection();
 		
 		try {
-			String sql = "SELECT HopDong.maHopDong, HopDong.maXe, KhachHang.tenKH, NhanVien.tenNV, Xe.tenXe, Xe.giaXe\r\n"
-					+ "FROM     HopDong INNER JOIN\r\n"
+			String sql = "SELECT HoaDon.maHopDong, HoaDon.maHoaDon, Xe.maXe, KhachHang.tenKH, NhanVien.tenNV, Xe.tenXe, HoaDon.donGia\r\n"
+					+ "FROM     HoaDon INNER JOIN\r\n"
+					+ "                  HopDong ON HoaDon.maHopDong = HopDong.maHopDong INNER JOIN\r\n"
 					+ "                  NhanVien ON HopDong.maNV = NhanVien.maNV INNER JOIN\r\n"
-					+ "                  KhachHang ON HopDong.maKH = KhachHang.maKH INNER JOIN\r\n"
-					+ "                  Xe ON HopDong.maXe = Xe.maXe\r\n"
-					+ "where ngayLapHD = "+"'"+ngay+"'";
+					+ "                  Xe ON HopDong.maXe = Xe.maXe INNER JOIN\r\n"
+					+ "                  KhachHang ON HopDong.maKH = KhachHang.maKH\r\n"
+					+ "where ngayLapHoaDon = "+"'"+ngay+"'";
 			
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()) {
 				String maHD = rs.getString("maHopDong");
+				String maHoaDon = rs.getString("maHoaDon");
 				String maXe = rs.getString("maXe");
 				String tenKhachHang = rs.getString("tenKH");
 				String tenNhanVien = rs.getString("tenNV");
 				String tenXe = rs.getString("tenXe");
-				Double giaXe = rs.getDouble("giaXe");
-				String[] temp = {maHD,maXe,tenKhachHang,tenNhanVien,tenXe,String.valueOf(giaXe)};
+				Double giaXe = rs.getDouble("donGia");
+				String[] temp = {maHD,maHoaDon,maXe,tenKhachHang,tenNhanVien,tenXe,String.valueOf(giaXe)};
 				dsThongKe.add(temp);
 			}
 		} catch (SQLException e) {
@@ -52,22 +54,24 @@ public class DAO_ThongKe {
 		Connection con = ConnectDB.getConnection();
 		
 		try {
-			String sql = "SELECT HopDong.maHopDong, HopDong.maXe, KhachHang.tenKH, NhanVien.tenNV, Xe.tenXe, Xe.giaXe\r\n"
-					+ "FROM     HopDong INNER JOIN\r\n"
+			String sql = "SELECT HoaDon.maHopDong, HoaDon.maHoaDon, Xe.maXe, KhachHang.tenKH, NhanVien.tenNV, Xe.tenXe, HoaDon.donGia\r\n"
+					+ "FROM     HoaDon INNER JOIN\r\n"
+					+ "                  HopDong ON HoaDon.maHopDong = HopDong.maHopDong INNER JOIN\r\n"
 					+ "                  NhanVien ON HopDong.maNV = NhanVien.maNV INNER JOIN\r\n"
-					+ "                  KhachHang ON HopDong.maKH = KhachHang.maKH INNER JOIN\r\n"
-					+ "                  Xe ON HopDong.maXe = Xe.maXe\r\n"
-					+ "where  ngayLapHD between "+"'"+tuNgay+"' and "+"'"+denNgay+"'";
+					+ "                  Xe ON HopDong.maXe = Xe.maXe INNER JOIN\r\n"
+					+ "                  KhachHang ON HopDong.maKH = KhachHang.maKH\r\n"
+					+ "where  ngayLapHoaDon between "+"'"+tuNgay+"' and "+"'"+denNgay+"'";
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()) {
 				String maHD = rs.getString("maHopDong");
+				String maHoaDon = rs.getString("maHoaDon");
 				String maXe = rs.getString("maXe");
 				String tenKhachHang = rs.getString("tenKH");
 				String tenNhanVien = rs.getString("tenNV");
 				String tenXe = rs.getString("tenXe");
-				Double giaXe = rs.getDouble("giaXe");
-				String[] temp = {maHD,maXe,tenKhachHang,tenNhanVien,tenXe,String.valueOf(giaXe)};
+				Double giaXe = rs.getDouble("donGia");
+				String[] temp = {maHD,maHoaDon,maXe,tenKhachHang,tenNhanVien,tenXe,String.valueOf(giaXe)};
 				dsThongKe.add(temp);
 			}
 		} catch (SQLException e) {
@@ -85,23 +89,25 @@ public class DAO_ThongKe {
 		Connection con = ConnectDB.getConnection();
 		
 		try {
-			String sql = "SELECT HopDong.maHopDong, Xe.maXe, KhachHang.tenKH, NhanVien.tenNV, Xe.tenXe, Xe.giaXe\r\n"
-					+ "FROM     HopDong INNER JOIN\r\n"
-					+ "                  KhachHang ON HopDong.maKH = KhachHang.maKH INNER JOIN\r\n"
+			String sql = "SELECT HoaDon.maHopDong, HoaDon.maHoaDon, Xe.maXe, KhachHang.tenKH, NhanVien.tenNV, Xe.tenXe, HoaDon.donGia\r\n"
+					+ "FROM     HoaDon INNER JOIN\r\n"
+					+ "                  HopDong ON HoaDon.maHopDong = HopDong.maHopDong INNER JOIN\r\n"
 					+ "                  NhanVien ON HopDong.maNV = NhanVien.maNV INNER JOIN\r\n"
-					+ "                  Xe ON HopDong.maXe = Xe.maXe\r\n"
-					+ "where MONTH(ngayLapHD) ="+thang+ "and YEAR(ngayLapHD) ="+nam;
+					+ "                  Xe ON HopDong.maXe = Xe.maXe INNER JOIN\r\n"
+					+ "                  KhachHang ON HopDong.maKH = KhachHang.maKH\r\n"
+					+ "where MONTH(ngayLapHoaDon) ="+thang+ "and YEAR(ngayLapHoaDon) ="+nam;
 			
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()) {
 				String maHD = rs.getString("maHopDong");
+				String maHoaDon = rs.getString("maHoaDon");
 				String maXe = rs.getString("maXe");
 				String tenKhachHang = rs.getString("tenKH");
 				String tenNhanVien = rs.getString("tenNV");
 				String tenXe = rs.getString("tenXe");
-				Double giaXe = rs.getDouble("giaXe");
-				String[] temp = {maHD,maXe,tenKhachHang,tenNhanVien,tenXe,String.valueOf(giaXe)};
+				Double giaXe = rs.getDouble("donGia");
+				String[] temp = {maHD,maHoaDon,maXe,tenKhachHang,tenNhanVien,tenXe,String.valueOf(giaXe)};
 				dsThongKe.add(temp);
 			}
 		} catch (SQLException e) {
@@ -119,23 +125,25 @@ public class DAO_ThongKe {
 		Connection con = ConnectDB.getConnection();
 		
 		try {
-			String sql = "SELECT HopDong.maHopDong, Xe.maXe, KhachHang.tenKH, NhanVien.tenNV, Xe.tenXe, Xe.giaXe\r\n"
-					+ "FROM     HopDong INNER JOIN\r\n"
-					+ "                  KhachHang ON HopDong.maKH = KhachHang.maKH INNER JOIN\r\n"
+			String sql = "SELECT HoaDon.maHopDong, HoaDon.maHoaDon, Xe.maXe, KhachHang.tenKH, NhanVien.tenNV, Xe.tenXe, HoaDon.donGia\r\n"
+					+ "FROM     HoaDon INNER JOIN\r\n"
+					+ "                  HopDong ON HoaDon.maHopDong = HopDong.maHopDong INNER JOIN\r\n"
 					+ "                  NhanVien ON HopDong.maNV = NhanVien.maNV INNER JOIN\r\n"
-					+ "                  Xe ON HopDong.maXe = Xe.maXe\r\n"
-					+ "where YEAR(ngayLapHD) ="+nam;
+					+ "                  Xe ON HopDong.maXe = Xe.maXe INNER JOIN\r\n"
+					+ "                  KhachHang ON HopDong.maKH = KhachHang.maKH\r\n"
+					+ "where YEAR(ngayLapHoaDon) ="+nam;
 			
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next()) {
 				String maHD = rs.getString("maHopDong");
+				String maHoaDon = rs.getString("maHoaDon");
 				String maXe = rs.getString("maXe");
 				String tenKhachHang = rs.getString("tenKH");
 				String tenNhanVien = rs.getString("tenNV");
 				String tenXe = rs.getString("tenXe");
-				Double giaXe = rs.getDouble("giaXe");
-				String[] temp = {maHD,maXe,tenKhachHang,tenNhanVien,tenXe,String.valueOf(giaXe)};
+				Double giaXe = rs.getDouble("donGia");
+				String[] temp = {maHD,maHoaDon,maXe,tenKhachHang,tenNhanVien,tenXe,String.valueOf(giaXe)};
 				dsThongKe.add(temp);
 			}
 		} catch (SQLException e) {

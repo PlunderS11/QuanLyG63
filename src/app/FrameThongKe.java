@@ -231,11 +231,6 @@ public class FrameThongKe extends JFrame implements ActionListener{
 		cbbLocTheoNam.setBounds(52, 268, 224, 32);
 		panel_1.add(cbbLocTheoNam);
 		
-		btnXuat = new JButton("in");
-		
-		btnXuat.setBounds(268, 637, 85, 21);
-		panel.add(btnXuat);
-		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(65, 105, 225));
 		panel_2.setBounds(436, 36, 244, 122);
@@ -281,7 +276,7 @@ public class FrameThongKe extends JFrame implements ActionListener{
 		panel_2_2.setBounds(1041, 36, 244, 122);
 		getContentPane().add(panel_2_2);
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(373, 168, 948, 500);
+		scrollPane.setBounds(373, 168, 948, 442);
 		getContentPane().add(scrollPane);
 		
 		table = new JTable(){
@@ -314,7 +309,7 @@ public class FrameThongKe extends JFrame implements ActionListener{
 				
 			},
 			new String[] {
-				"Mã hợp đồng", "Mã sản phẩm", "Tên khách hàng", "Tên nhân viên", "Tên xe", "Giá tiền"
+				"Mã hợp đồng","Mã hóa đơn", "Mã sản phẩm", "Tên khách hàng", "Tên nhân viên", "Tên xe", "Giá tiền"
 			}){
 			boolean[] columnEditables = new boolean[] {
 					false, false, false, false, false, false, false
@@ -325,6 +320,18 @@ public class FrameThongKe extends JFrame implements ActionListener{
 			});
 		scrollPane.setViewportView(table);
 		
+		btnXuat = new JButton("Xuất Excel");
+		btnXuat.setIcon(new ImageIcon("image\\xuatexcel.png"));
+		btnXuat.setForeground(Color.WHITE);
+		btnXuat.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnXuat.setBackground(new Color(107,96,236));
+		btnXuat.setBounds(1171, 615, 150, 49);
+		getContentPane().add(btnXuat);
+		btnXuat.addActionListener(this);
+		
+		
+		
+		
 		
 		radNgay.addActionListener(this);
 		radThang.addActionListener(this);
@@ -332,7 +339,6 @@ public class FrameThongKe extends JFrame implements ActionListener{
 		radKhac.addActionListener(this);
 		btnLoc.addActionListener(this);
 		btnLamMoi.addActionListener(this);
-		btnXuat.addActionListener(this);
 		moKhoaTextField(false);
 		xoaHetDLModel();
 	}
@@ -394,6 +400,10 @@ public class FrameThongKe extends JFrame implements ActionListener{
 		}
 		
 		if(o.equals(btnLoc)) {
+			if(radNgay.isSelected()==false && radThang.isSelected()==false && radNam.isSelected()==false && radKhac.isSelected() ==false) {
+				JOptionPane.showMessageDialog(this,"Chọn điều kiện để lọc!");
+				return;
+			}
 			if(radNgay.isSelected()) {
 				xoaHetDLModel();
 				if(txtLocTheoNgay.getDate()==null){
@@ -415,22 +425,17 @@ public class FrameThongKe extends JFrame implements ActionListener{
 					for(int i = 0;i<dsTKTheoNgay.size();i++) {
 						String[] hopDong = (String[])dsTKTheoNgay.get(i);
 						String maHD = hopDong[0];
-						String maSP = hopDong[1];
-						String tenKH = hopDong[2];
-						String tenNV = hopDong[3];
-						String tenXe = hopDong[4];
-						String giaTien = hopDong[5];
-						datamodel.addRow(new Object[] {maHD,maSP,tenKH,tenNV,tenXe,df.format(Double.parseDouble(giaTien))});
+						String maHoaDon = hopDong[1];
+						String maSP = hopDong[2];
+						String tenKH = hopDong[3];
+						String tenNV = hopDong[4];
+						String tenXe = hopDong[5];
+						String giaTien = hopDong[6];
+						datamodel.addRow(new Object[] {maHD,maHoaDon,maSP,tenKH,tenNV,tenXe,df.format(Double.parseDouble(giaTien))});
 						tongDoanhThu += Double.parseDouble(giaTien);
 					}
 					lblSoXeBan.setText(String.valueOf(dsTKTheoNgay.size()));			
 					lblTongDoanhThu.setText(chuyenTienVND(tongDoanhThu));
-					
-					
-					
-					
-					
-					
 					
 				}
 			}
@@ -458,12 +463,13 @@ public class FrameThongKe extends JFrame implements ActionListener{
 					for(int i = 0;i<dsTKTheoKhoang.size();i++) {
 						String[] hopDong = (String[])dsTKTheoKhoang.get(i);
 						String maHD = hopDong[0];
-						String maSP = hopDong[1];
-						String tenKH = hopDong[2];
-						String tenNV = hopDong[3];
-						String tenXe = hopDong[4];
-						String giaTien = hopDong[5];
-						datamodel.addRow(new Object[] {maHD,maSP,tenKH,tenNV,tenXe,df.format(Double.parseDouble(giaTien))});
+						String maHoaDon = hopDong[1];
+						String maSP = hopDong[2];
+						String tenKH = hopDong[3];
+						String tenNV = hopDong[4];
+						String tenXe = hopDong[5];
+						String giaTien = hopDong[6];
+						datamodel.addRow(new Object[] {maHD,maHoaDon,maSP,tenKH,tenNV,tenXe,df.format(Double.parseDouble(giaTien))});
 						tongDoanhThu += Double.parseDouble(giaTien);
 					}
 					lblSoXeBan.setText(String.valueOf(dsTKTheoKhoang.size()));			
@@ -487,12 +493,13 @@ public class FrameThongKe extends JFrame implements ActionListener{
 				for(int i = 0;i<dsTKTheoThang.size();i++) {
 					String[] hopDong = (String[])dsTKTheoThang.get(i);
 					String maHD = hopDong[0];
-					String maSP = hopDong[1];
-					String tenKH = hopDong[2];
-					String tenNV = hopDong[3];
-					String tenXe = hopDong[4];
-					String giaTien = hopDong[5];
-					datamodel.addRow(new Object[] {maHD,maSP,tenKH,tenNV,tenXe,df.format(Double.parseDouble(giaTien))});
+					String maHoaDon = hopDong[1];
+					String maSP = hopDong[2];
+					String tenKH = hopDong[3];
+					String tenNV = hopDong[4];
+					String tenXe = hopDong[5];
+					String giaTien = hopDong[6];
+					datamodel.addRow(new Object[] {maHD,maHoaDon,maSP,tenKH,tenNV,tenXe,df.format(Double.parseDouble(giaTien))});
 					tongDoanhThu += Double.parseDouble(giaTien);
 				}
 				lblSoXeBan.setText(String.valueOf(dsTKTheoThang.size()));			
@@ -514,12 +521,13 @@ public class FrameThongKe extends JFrame implements ActionListener{
 				for(int i = 0;i<dsTKTheoNam.size();i++) {
 					String[] hopDong = (String[])dsTKTheoNam.get(i);
 					String maHD = hopDong[0];
-					String maSP = hopDong[1];
-					String tenKH = hopDong[2];
-					String tenNV = hopDong[3];
-					String tenXe = hopDong[4];
-					String giaTien = hopDong[5];
-					datamodel.addRow(new Object[] {maHD,maSP,tenKH,tenNV,tenXe,df.format(Double.parseDouble(giaTien))});
+					String maHoaDon = hopDong[1];
+					String maSP = hopDong[2];
+					String tenKH = hopDong[3];
+					String tenNV = hopDong[4];
+					String tenXe = hopDong[5];
+					String giaTien = hopDong[6];
+					datamodel.addRow(new Object[] {maHD,maHoaDon,maSP,tenKH,tenNV,tenXe,df.format(Double.parseDouble(giaTien))});
 					tongDoanhThu += Double.parseDouble(giaTien);
 				}
 				lblSoXeBan.setText(String.valueOf(dsTKTheoNam.size()));			
@@ -584,7 +592,7 @@ public class FrameThongKe extends JFrame implements ActionListener{
 			cell.setCellValue("THỐNG KÊ DOANH THU");
 			cell.setCellStyle(styleTenDanhSach);
 
-			String[] header = { "STT","Mã hợp đồng", "Mã sản phẩm", "Tên khách hàng", "Tên nhân viên", "Tên sản phẩm" , "Giá tiền" };
+			String[] header = { "STT","Mã hợp đồng","Mã hóa đơn", "Mã sản phẩm", "Tên khách hàng", "Tên nhân viên", "Tên sản phẩm" , "Giá tiền" };
 			worksheet.addMergedRegion(new CellRangeAddress(1, 1, 1, header.length));
 
 			// Dòng 2 người lập
@@ -630,9 +638,9 @@ public class FrameThongKe extends JFrame implements ActionListener{
 				cell.setCellStyle(styleHeader);
 			}
 
-			if (table.getRowCount() == 0) {
-				return false;
-			}
+//			if (table.getRowCount() == 0) {
+//				return false;
+//			}
 
 			HSSFFont fontRow = cell.getSheet().getWorkbook().createFont();
 			fontRow.setBold(false);
@@ -646,6 +654,13 @@ public class FrameThongKe extends JFrame implements ActionListener{
 
 			// Ghi dữ liệu vào bảng
 			int STT = 0;
+			if(table.getRowCount()==0) {
+				workbook.write(fileOut);
+				workbook.close();
+				fileOut.flush();
+				fileOut.close();
+				return true;
+			}
 			for (int i = 0; i < table.getRowCount(); i++) {
 				row = worksheet.createRow(5 + i);
 				for (int j = 0; j < header.length; j++) {
