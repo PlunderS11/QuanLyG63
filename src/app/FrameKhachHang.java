@@ -370,7 +370,7 @@ public class FrameKhachHang extends JFrame{
 				if (r==-1) {
 					JOptionPane.showMessageDialog(null, "Vui lòng chọn dòng cần xóa!");
 				} else {
-					if (JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa khách hàng này khong?", "Cảnh báo", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
+					if (JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa khách hàng này không?", "Cảnh báo", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
 						khachHang.delete(model.getValueAt(r, 0).toString());
 						model.removeRow(r);
 						JOptionPane.showMessageDialog(null, "Xóa thành công!");

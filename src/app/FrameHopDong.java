@@ -174,7 +174,7 @@ public class FrameHopDong extends JFrame{
 		btnThemKH.setForeground(Color.WHITE);
 		btnThemKH.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnThemKH.setBackground(new Color(107,96,236));
-		btnThemKH.setBounds(54, 528, 115, 49);
+		btnThemKH.setBounds(9, 528, 115, 49);
 		panel.add(btnThemKH);
 		
 		JButton btnLamMoi = new FixButton("Làm mới");
@@ -183,7 +183,7 @@ public class FrameHopDong extends JFrame{
 		btnLamMoi.setForeground(Color.WHITE);
 		btnLamMoi.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnLamMoi.setBackground(new Color(107,96,236));
-		btnLamMoi.setBounds(213, 528, 134, 49);
+		btnLamMoi.setBounds(249, 528, 134, 49);
 		panel.add(btnLamMoi);
 		
 		JPanel pnlTimKH = new JPanel();
@@ -227,6 +227,17 @@ public class FrameHopDong extends JFrame{
 		txtMaHopDong.setColumns(10);
 		txtMaHopDong.setBounds(173, 166, 210, 32);
 		panel.add(txtMaHopDong);
+		
+		FixButton btnXoaHopDong = new FixButton("Thêm");
+		
+		btnXoaHopDong.setIcon(new ImageIcon("image\\xoa.png"));
+		
+		btnXoaHopDong.setText("Xóa");
+		btnXoaHopDong.setForeground(Color.WHITE);
+		btnXoaHopDong.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnXoaHopDong.setBackground(new Color(107, 96, 236));
+		btnXoaHopDong.setBounds(129, 528, 115, 49);
+		panel.add(btnXoaHopDong);
 		
 		dao_khachHang = new DAO_KhachHang();
 		for (KhachHang kh : dao_khachHang.getAllKH()) {
@@ -354,7 +365,7 @@ public class FrameHopDong extends JFrame{
 		
 		dao_xe = new Xe_DAO();
 		for (Xe x : dao_xe.getDanhSachXe()) {
-			if (x.getTrangThai().equalsIgnoreCase("Chưa bán")) {
+			if (x.getTrangThai().equalsIgnoreCase("Còn hàng")) {
 				cboTimXe.addItem(x.getMaXe()+" - "+x.getTenXe());
 			}
 		}
@@ -671,6 +682,27 @@ public class FrameHopDong extends JFrame{
 						
 					}
 				}
+			}
+		});
+		btnXoaHopDong.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int r = table.getSelectedRow();
+				if (r == -1) {
+					JOptionPane.showMessageDialog(null, "Vui lòng chọn dòng cần xóa!");
+				} else {
+					if (model.getValueAt(r, 9).toString().equalsIgnoreCase("Chưa thanh toán")) {
+						if (JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa hợp đồng này không?", "Cảnh báo", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
+							hopdong_dao.delete(model.getValueAt(r, 0).toString());
+							String trangthai = "Còn hàng";
+							dao_xe.update(model.getValueAt(r, 6).toString(), trangthai);
+							model.removeRow(r);
+							JOptionPane.showMessageDialog(null, "Xóa thành công!");
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Chỉ xóa được những hợp đồng chưa thanh toán!");
+					}
+				}
+				
 			}
 		});
 	}

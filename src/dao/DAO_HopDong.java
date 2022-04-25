@@ -132,4 +132,27 @@ public  ArrayList<HopDong> getAllHopDong() {
 		}
 		return n > 0;
 	}
+	
+	public boolean delete(String ma){
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stmt = null;
+		int n = 0;
+		try {
+			stmt = con.prepareStatement("delete HopDong where maHopDong = ?");
+			stmt.setString(1, ma);
+			n = stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally{
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+		return n > 0;
+	}
 }
