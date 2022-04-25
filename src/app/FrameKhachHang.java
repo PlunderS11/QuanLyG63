@@ -303,20 +303,24 @@ public class FrameKhachHang extends JFrame{
 					String cccd = txtCCCDKH.getText();
 					boolean phai = radMaleKH.isSelected();
 					KhachHang kh = new KhachHang(ma, ten, ngaySinh, diachi, sdt, cccd, phai);
-					
-					try {
-						khachHang.create(kh);
-						model.addRow(new Object[] {
-								kh.getMaKH(),kh.getTenKH(),kh.getNgaySinh(),
-								kh.getDiaChi(),kh.getsDT(),
-								kh.getcCCD(),kh.isGioiTinh()==true?"Nam":"Nữ"
-						});
-						
-						JOptionPane.showMessageDialog(null, "Thêm thất bại!");
-					} catch (Exception e2) {
-						// TODO: handle exception
-						JOptionPane.showMessageDialog(null, "Thêm thất bại!");
+					if (khachHang.getAllKH().contains(kh)) {
+						JOptionPane.showMessageDialog(null, "Mã khách hàng đã tồn tại!");
+					} else {
+						try {
+							khachHang.create(kh);
+							model.addRow(new Object[] {
+									kh.getMaKH(),kh.getTenKH(),kh.getNgaySinh(),
+									kh.getDiaChi(),kh.getsDT(),
+									kh.getcCCD(),kh.isGioiTinh()==true?"Nam":"Nữ"
+							});
+							
+							JOptionPane.showMessageDialog(null, "Thêm Thành công");
+						} catch (Exception e2) {
+							// TODO: handle exception
+							JOptionPane.showMessageDialog(null, "Thêm thất bại!");
+						}
 					}
+					
 				}
 			}
 		});
@@ -370,32 +374,37 @@ public class FrameKhachHang extends JFrame{
 				if (r==-1) {
 					JOptionPane.showMessageDialog(null, "Vui lòng chọn dòng chứa khách hàng cần sửa!");
 				} else {
-					String ma = txtMaKH.getText();
-					String ten = txtTenKH.getText();
-					Date ngay = txtNgaySinhKH.getDate();
-					java.sql.Date ngaySinh = new java.sql.Date(ngay.getYear(),ngay.getMonth(),ngay.getDate());
-					
-					String diachi = txtDiaChiKH.getText();
-					String sdt = txtSDTKH.getText();
-					String cccd = txtCCCDKH.getText();
-					boolean phai = radMaleKH.isSelected();
-					KhachHang kh = new KhachHang(ma, ten, ngaySinh, diachi, sdt, cccd, phai);
-					
-					try {
-						khachHang.update(kh);
-						model.setValueAt(kh.getTenKH(), r, 1);
-						model.setValueAt(kh.getNgaySinh(), r, 2);
-						model.setValueAt(kh.getDiaChi(), r, 3);
-						model.setValueAt(kh.getsDT(), r, 4);
-						model.setValueAt(kh.getcCCD(), r, 5);
-						model.setValueAt(kh.isGioiTinh()==true?"Nam":"Nữ", r, 6);
+					if (!kiemTra()) {
+						return;
+					} else {
+						String ma = txtMaKH.getText();
+						String ten = txtTenKH.getText();
+						Date ngay = txtNgaySinhKH.getDate();
+						java.sql.Date ngaySinh = new java.sql.Date(ngay.getYear(),ngay.getMonth(),ngay.getDate());
 						
+						String diachi = txtDiaChiKH.getText();
+						String sdt = txtSDTKH.getText();
+						String cccd = txtCCCDKH.getText();
+						boolean phai = radMaleKH.isSelected();
+						KhachHang kh = new KhachHang(ma, ten, ngaySinh, diachi, sdt, cccd, phai);
 						
-						JOptionPane.showMessageDialog(null, "Sửa thành công!");
-					} catch (Exception e2) {
-						// TODO: handle exception
-						JOptionPane.showMessageDialog(null, "Sửa thất bại!");
+						try {
+							khachHang.update(kh);
+							model.setValueAt(kh.getTenKH(), r, 1);
+							model.setValueAt(kh.getNgaySinh(), r, 2);
+							model.setValueAt(kh.getDiaChi(), r, 3);
+							model.setValueAt(kh.getsDT(), r, 4);
+							model.setValueAt(kh.getcCCD(), r, 5);
+							model.setValueAt(kh.isGioiTinh()==true?"Nam":"Nữ", r, 6);
+							
+							
+							JOptionPane.showMessageDialog(null, "Sửa thành công!");
+						} catch (Exception e2) {
+							// TODO: handle exception
+							JOptionPane.showMessageDialog(null, "Sửa thất bại!");
+						}
 					}
+					
 				}
 			}
 		});

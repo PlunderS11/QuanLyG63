@@ -10,5 +10,12 @@
 	<classpathentry exported="true" kind="lib" path="lib/sqljdbc4.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/swingx-all-1.6.4.jar"/>
 	<classpathentry kind="lib" path="lib/itext-1.4.8.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.11.jar"/>
+	<classpathentry kind="lib" path="lib/commons-collections4-4.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-compress-1.18.jar"/>
+	<classpathentry kind="lib" path="lib/poi-4.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/poi-ooxml-4.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/poi-ooxml-schemas-4.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/xmlbeans-3.0.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -164,6 +164,8 @@ public class FrameHopDong extends JFrame{
 		txtNgayLap.setDateFormatString("yyyy-MM-dd");
 		txtNgayLap.setBounds(173, 466, 210, 32);
 		txtNgayLap.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		Date d = new Date();
+		txtNgayLap.setDate(d);
 		panel.add(txtNgayLap);
 		
 		JButton btnThemKH = new FixButton("Thêm");
@@ -481,49 +483,58 @@ public class FrameHopDong extends JFrame{
 		});
 		btnThemKH.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String maHD = txtMaHopDong.getText();
-				String maKH = txtMaKH.getText();
-				String maNV = txtMaNV.getText();
-				String maXe = cboTimXe.getSelectedItem().toString().substring(0,5);
-				Date ngay = txtNgayLap.getDate();
-				java.sql.Date ngayLapHD = new java.sql.Date(ngay.getYear(),ngay.getMonth(),ngay.getDate());
-				
-				HopDong hd = new HopDong(maHD, new KhachHang(maKH), new NhanVien(maNV), new Xe(maXe), ngayLapHD);
-				try {
+				if (txtMaKH.getText().equalsIgnoreCase("")||txtMauXe.getText().equalsIgnoreCase("")) {
+					JOptionPane.showMessageDialog(null, "Vui lòng điền đầy đủ thông tin!");
+				} else {
+					String maHD = txtMaHopDong.getText();
+					String maKH = txtMaKH.getText();
+					String maNV = txtMaNV.getText();
+					String maXe = cboTimXe.getSelectedItem().toString().substring(0,5);
+					Date ngay = txtNgayLap.getDate();
+					java.sql.Date ngayLapHD = new java.sql.Date(ngay.getYear(),ngay.getMonth(),ngay.getDate());
 					
-					hopdong_dao.create(hd);
-					String tenKH = "";
-					String cccd = "";
-					String tenNV = "";
-					String tenXe = "";
-					for (KhachHang kh : dao_khachHang.getAllKH()) {
-						if (kh.getMaKH().equalsIgnoreCase(hd.getKhachHang().getMaKH())) {
-							tenKH = kh.getTenKH();
-							cccd = kh.getcCCD();
+					HopDong hd = new HopDong(maHD, new KhachHang(maKH), new NhanVien(maNV), new Xe(maXe), ngayLapHD);
+					if (hopdong_dao.getAllHopDong().contains(hd)) {
+						JOptionPane.showMessageDialog(null, "Mã hợp đồng đã tồn tại!");
+					} else {
+						try {
+							
+							hopdong_dao.create(hd);
+							String tenKH = "";
+							String cccd = "";
+							String tenNV = "";
+							String tenXe = "";
+							for (KhachHang kh : dao_khachHang.getAllKH()) {
+								if (kh.getMaKH().equalsIgnoreCase(hd.getKhachHang().getMaKH())) {
+									tenKH = kh.getTenKH();
+									cccd = kh.getcCCD();
+								}
+							}
+							for (NhanVien nhanvien : daonhanvien.getAllNhanVien()) {
+								if (nhanvien.getMaNV().equalsIgnoreCase(hd.getNhanVien().getMaNV())) {
+									tenNV = nhanvien.getTenNV();
+								}
+							}
+							for (Xe xe : dao_xe.getDanhSachXe()) {
+								if (xe.getMaXe().equalsIgnoreCase(hd.getXe().getMaXe())) {
+									tenXe = xe.getTenXe();
+								}
+							}
+							model.addRow(new Object[] {
+									hd.getMaHopDong(),
+									hd.getKhachHang().getMaKH(),tenKH,cccd,
+									hd.getNhanVien().getMaNV(),tenNV,
+									hd.getXe().getMaXe(),tenXe,
+									hd.getNgayLapHopDong()
+							});
+							JOptionPane.showMessageDialog(null, "Thêm thành công!");
+						} catch (Exception e2) {
+							// TODO: handle exception
+							JOptionPane.showMessageDialog(null, "Thêm thất bại!");
 						}
 					}
-					for (NhanVien nhanvien : daonhanvien.getAllNhanVien()) {
-						if (nhanvien.getMaNV().equalsIgnoreCase(hd.getNhanVien().getMaNV())) {
-							tenNV = nhanvien.getTenNV();
-						}
-					}
-					for (Xe xe : dao_xe.getDanhSachXe()) {
-						if (xe.getMaXe().equalsIgnoreCase(hd.getXe().getMaXe())) {
-							tenXe = xe.getTenXe();
-						}
-					}
-					model.addRow(new Object[] {
-							hd.getMaHopDong(),
-							hd.getKhachHang().getMaKH(),tenKH,cccd,
-							hd.getNhanVien().getMaNV(),tenNV,
-							hd.getXe().getMaXe(),tenXe,
-							hd.getNgayLapHopDong()
-					});
-					JOptionPane.showMessageDialog(null, "Thêm thành công!");
-				} catch (Exception e2) {
-					// TODO: handle exception
-					JOptionPane.showMessageDialog(null, "Thêm thất bại!");
 				}
+
 			}
 		});
 		btnLamMoi.addActionListener(new ActionListener() {
@@ -533,13 +544,15 @@ public class FrameHopDong extends JFrame{
 				txtMaKH.setText("");
 				txtTenKH.setText("");
 				txtCCCD.setText("");
-				txtNgayLap.setDate(null);
+				
 				cboTimXe.setSelectedIndex(0);
 				txtMauXe.setText("");
 				txtSoKhung.setText("");
 				txtSoMay.setText("");
 				txtHSX.setText("");
 				txtLoaiXe.setText("");
+				Date d = new Date();
+				txtNgayLap.setDate(d);
 				txtGiaNhap.setText("");
 				XoaDL();
 				for (HopDong hd : hopdong_dao.getAllHopDong()) {
