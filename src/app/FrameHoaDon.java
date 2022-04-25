@@ -104,11 +104,11 @@ public class FrameHoaDon extends JFrame{
 		panel.add(lblNewLabel_1_2_1_1);
 		
 		JComboBox cboTimHopDong = new JComboBox();
+		cboTimHopDong.setEditable(true);
 		AutoCompleteDecorator.decorate(cboTimHopDong);
 		cboTimHopDong.setFont(new Font("Tahoma", Font.PLAIN, 16));
 
 		cboTimHopDong.setBounds(177, 12, 839, 32);
-		cboTimHopDong.setEditable(true);
 
 		cboTimHopDong.setBounds(177, 12, 693, 32);
 
@@ -146,10 +146,10 @@ public class FrameHoaDon extends JFrame{
 			for (Xe xe : dao_xe.getDanhSachXe()) {
 				if (xe.getMaXe().equalsIgnoreCase(hopdong.getXe().getMaXe())) {
 					tenXe = xe.getTenXe();
-					trangThai = xe.getTrangThai();
+					
 				}
 			}
-			if (trangThai.equalsIgnoreCase("Chưa bán")) {
+			if (hopdong.getTrangThai().equalsIgnoreCase("Chưa thanh toán")) {
 				cboTimHopDong.addItem(hopdong.getMaHopDong()+" - "+hopdong.getKhachHang().getMaKH()+" - "+tenKH+" - "+hopdong.getNhanVien().getMaNV()+" - "+tenNV+" - "+hopdong.getXe().getMaXe()+" - "+tenXe+" ("+hopdong.getNgayLapHopDong()+")");
 			}
 		}
@@ -470,7 +470,7 @@ public class FrameHoaDon extends JFrame{
 						try {
 							dao_hoadon.create(hd);
 							dao_xe.update(maXe, "Đã bán");
-							
+							dao_hopDong.update(ma, "Đã thanh toán");
 							JOptionPane.showMessageDialog(null, "Lưu hóa đơn thành công!");
 							new FrameHoaDonTinhTien(tenKH, tenNV, ngayLap, 
 									tenXe, mauXe, soKhung, soMay, loaiXe, hang, tien, tong).setVisible(true);
@@ -598,6 +598,7 @@ public class FrameHoaDon extends JFrame{
 				txtNgayLap.setDate(d);
 				
 				cboTimHopDong.removeAllItems();
+				cboTimHopDong.addItem("");
 				for (HopDong hopdong : dao_hopDong.getAllHopDong()) {
 					String tenKH = "";
 					String tenNV = "";
@@ -616,10 +617,10 @@ public class FrameHoaDon extends JFrame{
 					for (Xe xe : dao_xe.getDanhSachXe()) {
 						if (xe.getMaXe().equalsIgnoreCase(hopdong.getXe().getMaXe())) {
 							tenXe = xe.getTenXe();
-							trangThai = xe.getTrangThai();
+							
 						}
 					}
-					if (trangThai.equalsIgnoreCase("Chưa bán")) {
+					if (hopdong.getTrangThai().equalsIgnoreCase("Chưa thanh toán")) {
 						cboTimHopDong.addItem(hopdong.getMaHopDong()+" - "+hopdong.getKhachHang().getMaKH()+" - "+tenKH+" - "+hopdong.getNhanVien().getMaNV()+" - "+tenNV+" - "+hopdong.getXe().getMaXe()+" - "+tenXe+" ("+hopdong.getNgayLapHopDong()+")");
 					}
 				}

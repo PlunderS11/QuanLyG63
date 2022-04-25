@@ -2,6 +2,7 @@ package entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 public class NhanVien implements Serializable{
 	private String maNV;
@@ -92,12 +93,11 @@ public class NhanVien implements Serializable{
 		this.maNV = maNV;
 		this.tenNV = tenNV;
 	}
+	
+	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((maNV == null) ? 0 : maNV.hashCode());
-		return result;
+		return Objects.hash(maNV);
 	}
 	@Override
 	public boolean equals(Object obj) {
@@ -108,12 +108,7 @@ public class NhanVien implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		NhanVien other = (NhanVien) obj;
-		if (maNV == null) {
-			if (other.maNV != null)
-				return false;
-		} else if (!maNV.equals(other.maNV))
-			return false;
-		return true;
+		return Objects.equals(maNV, other.maNV);
 	}
 	@Override
 	public String toString() {

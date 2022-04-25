@@ -78,7 +78,7 @@ public class Xe_DAO {
 		PreparedStatement stmt = null;
 		int n = 0;
 		try {
-			stmt = con.prepareStatement("update Xe set trangThai = '"+trangthai+"' where maXe = '"+ma+"'");
+			stmt = con.prepareStatement("update Xe set trangThai = '"+trangthai+"' where maXe = N'"+ma+"'");
 
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
