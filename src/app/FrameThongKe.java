@@ -58,9 +58,12 @@ import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.Date;
+import java.util.Locale;
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollBar;
@@ -94,11 +97,13 @@ public class FrameThongKe extends JFrame implements ActionListener{
 	private DecimalFormat df;
 	private JButton btnXuat;
 	private TrangChu_DAO trangChu_dao;
-	
+	Locale localeVN = new Locale("vi", "VN");
+    NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
 
 	public FrameThongKe() {
 		
-		df = new DecimalFormat("###");
+		
+		
 		getContentPane().setForeground(Color.WHITE);
 		setSize(1345, 705);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -431,7 +436,7 @@ public class FrameThongKe extends JFrame implements ActionListener{
 						String tenNV = hopDong[4];
 						String tenXe = hopDong[5];
 						String giaTien = hopDong[6];
-						datamodel.addRow(new Object[] {maHD,maHoaDon,maSP,tenKH,tenNV,tenXe,df.format(Double.parseDouble(giaTien))});
+						datamodel.addRow(new Object[] {maHD,maHoaDon,maSP,tenKH,tenNV,tenXe,currencyVN.format(Double.parseDouble(giaTien))});
 						tongDoanhThu += Double.parseDouble(giaTien);
 					}
 					lblSoXeBan.setText(String.valueOf(dsTKTheoNgay.size()));			
@@ -469,7 +474,7 @@ public class FrameThongKe extends JFrame implements ActionListener{
 						String tenNV = hopDong[4];
 						String tenXe = hopDong[5];
 						String giaTien = hopDong[6];
-						datamodel.addRow(new Object[] {maHD,maHoaDon,maSP,tenKH,tenNV,tenXe,df.format(Double.parseDouble(giaTien))});
+						datamodel.addRow(new Object[] {maHD,maHoaDon,maSP,tenKH,tenNV,tenXe,currencyVN.format(Double.parseDouble(giaTien))});
 						tongDoanhThu += Double.parseDouble(giaTien);
 					}
 					lblSoXeBan.setText(String.valueOf(dsTKTheoKhoang.size()));			
@@ -499,7 +504,7 @@ public class FrameThongKe extends JFrame implements ActionListener{
 					String tenNV = hopDong[4];
 					String tenXe = hopDong[5];
 					String giaTien = hopDong[6];
-					datamodel.addRow(new Object[] {maHD,maHoaDon,maSP,tenKH,tenNV,tenXe,df.format(Double.parseDouble(giaTien))});
+					datamodel.addRow(new Object[] {maHD,maHoaDon,maSP,tenKH,tenNV,tenXe,currencyVN.format(Double.parseDouble(giaTien))});
 					tongDoanhThu += Double.parseDouble(giaTien);
 				}
 				lblSoXeBan.setText(String.valueOf(dsTKTheoThang.size()));			
@@ -527,7 +532,7 @@ public class FrameThongKe extends JFrame implements ActionListener{
 					String tenNV = hopDong[4];
 					String tenXe = hopDong[5];
 					String giaTien = hopDong[6];
-					datamodel.addRow(new Object[] {maHD,maHoaDon,maSP,tenKH,tenNV,tenXe,df.format(Double.parseDouble(giaTien))});
+					datamodel.addRow(new Object[] {maHD,maHoaDon,maSP,tenKH,tenNV,tenXe,currencyVN.format(Double.parseDouble(giaTien))});
 					tongDoanhThu += Double.parseDouble(giaTien);
 				}
 				lblSoXeBan.setText(String.valueOf(dsTKTheoNam.size()));			
