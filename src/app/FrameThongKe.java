@@ -214,24 +214,25 @@ public class FrameThongKe extends JFrame implements ActionListener{
 		
 		txtLocTheoNgay = new JDateChooser();
 		txtLocTheoNgay.setBounds(52, 80, 219, 32);
+		txtLocTheoNgay.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		panel_1.add(txtLocTheoNgay);
 		txtLocTheoNgay.setDateFormatString("yyyy-MM-dd");
 		
 		cbbThang = new JComboBox();
 		
-		cbbThang.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		cbbThang.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		cbbThang.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}));
 		cbbThang.setBounds(52, 175, 85, 32);
 		panel_1.add(cbbThang);
 		
 		cbbNam = new JComboBox();
-		cbbNam.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		cbbNam.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		cbbNam.setModel(new DefaultComboBoxModel(new String[] {"2022", "2021", "2020", "2019", "2018", "2017"}));
 		cbbNam.setBounds(144, 175, 127, 32);
 		panel_1.add(cbbNam);
 		
 		cbbLocTheoNam = new JComboBox();
-		cbbLocTheoNam.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		cbbLocTheoNam.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		cbbLocTheoNam.setModel(new DefaultComboBoxModel(new String[] {"2022", "2021", "2020", "2019", "2018", "2017"}));
 		cbbLocTheoNam.setBounds(52, 268, 224, 32);
 		panel_1.add(cbbLocTheoNam);
