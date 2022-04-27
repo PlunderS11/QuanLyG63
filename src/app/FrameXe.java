@@ -65,6 +65,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 	private FixButton btnXoaXe;
 	private FixButton btnTimXe;
 	private JComboBox<String> cboSapXep;
+	private JTextField txtMauXe;
 
 	public FrameXe() {
 		
@@ -109,6 +110,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		panel.add(lblMaXe);
 		
 		txtMaXe = new JTextField();
+		txtMaXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtMaXe.setEditable(false);
 		txtMaXe.setBounds(103, 58, 214, 28);
 		panel.add(txtMaXe);
@@ -120,6 +122,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		panel.add(lblTenXe);
 		
 		txtTenXe = new JTextField();
+		txtTenXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtTenXe.setBounds(103, 96, 214, 28);
 		panel.add(txtTenXe);
 		txtTenXe.setColumns(10);
@@ -129,10 +132,12 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		lblMauXe.setBounds(10, 135, 102, 14);
 		panel.add(lblMauXe);
 		
-		String mauXe[] = {"Xanh", "Đỏ", "Trắng", "Đen"};
-		 cboMauXe = new JComboBox<String>(mauXe);
-		cboMauXe.setBounds(103, 130, 214, 28);
-		panel.add(cboMauXe);
+//		String mauXe[] = {"Xanh", "Đỏ", "Trắng", "Đen"};
+//		cboMauXe = new JComboBox<String>(mauXe);
+		txtMauXe = new JTextField();
+		txtMauXe.setBounds(103, 130, 214, 28);
+		txtMauXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		panel.add(txtMauXe);
 		
 		JLabel lblSoXeung = new JLabel("Số Khung:");
 		lblSoXeung.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -140,6 +145,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		panel.add(lblSoXeung);
 		
 		txtSoKhung = new JTextField();
+		txtSoKhung.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtSoKhung.setBounds(103, 165, 214, 28);
 		panel.add(txtSoKhung);
 		txtSoKhung.setColumns(10);
@@ -150,6 +156,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		panel.add(lblSoMay);
 		
 		txtSoMay = new JTextField();
+		txtSoMay.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtSoMay.setBounds(103, 202, 214, 28);
 		panel.add(txtSoMay);
 		txtSoMay.setColumns(10);
@@ -160,6 +167,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		panel.add(lblNhaCungCap);
 		
 		txtNhaCungCap = new JTextField();
+		txtNhaCungCap.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtNhaCungCap.setBounds(507, 58, 214, 28);
 		panel.add(txtNhaCungCap);
 		txtNhaCungCap.setColumns(10);
@@ -170,6 +178,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		panel.add(lblHangSanXuat);
 		
 		txtHangSanXuat = new JTextField();
+		txtHangSanXuat.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtHangSanXuat.setBounds(507, 96, 214, 28);
 		panel.add(txtHangSanXuat);
 		txtHangSanXuat.setColumns(10);
@@ -181,6 +190,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		
 		String loaiXe[] = {"Xe tay ga", "Xe số"};
 		 cboLoaiXe = new JComboBox<String>(loaiXe);
+		 cboLoaiXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		cboLoaiXe.setBounds(507, 130, 214, 28);
 		panel.add(cboLoaiXe);
 		
@@ -190,6 +200,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		panel.add(lblGiaNhap);
 		
 		txtGiaNhap = new JTextField();
+		txtGiaNhap.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtGiaNhap.setBounds(507, 165, 214, 28);
 		panel.add(txtGiaNhap);
 		txtGiaNhap.setColumns(10);
@@ -201,17 +212,19 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		
 		String trangThai[] = {"Còn hàng", "Đang bán", "Đã bán"};
 		cboTrangThai = new JComboBox<String>(trangThai);
+		cboTrangThai.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		cboTrangThai.setEnabled(false);
 		cboTrangThai.setBounds(507, 202, 214, 28);
 		panel.add(cboTrangThai);
 		
 		JLabel lblTimKiem = new JLabel("Tìm kiếm:");
 		lblTimKiem.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblTimKiem.setBounds(213, 22, 91, 14);
+		lblTimKiem.setBounds(9, 22, 91, 14);
 		panel.add(lblTimKiem);
 		
 		txtTimKiem = new JTextField();
-		txtTimKiem.setBounds(314, 17, 270, 28);
+		txtTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txtTimKiem.setBounds(102, 17, 215, 28);
 		panel.add(txtTimKiem);
 		txtTimKiem.setColumns(10);
 		
@@ -222,12 +235,12 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		btnTimXe.setForeground(Color.WHITE);
 		btnTimXe.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnTimXe.setBackground(new Color(107,96,236));
-		btnTimXe.setBounds(605, 15, 99, 32);
+		btnTimXe.setBounds(325, 15, 99, 32);
 		panel.add(btnTimXe);
 		
 		
 		JPanel pChucNang = new JPanel();
-		pChucNang.setBounds(839, 11, 480, 86);
+		pChucNang.setBounds(800, 11, 482, 86);
 		pChucNang.setBackground(new Color(166, 169, 248));
 		pChucNang.setBorder(new LineBorder(Color.BLACK));
 		pChucNang.setBorder(new TitledBorder(new LineBorder(Color.BLACK, 1, true), "Chức năng",
@@ -271,7 +284,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		
 		JPanel pSapXep = new JPanel();
 		pSapXep.setLayout(null);
-		pSapXep.setBounds(839, 124, 466, 112);
+		pSapXep.setBounds(800, 116, 482, 86);
 		pSapXep.setBackground(new Color(166, 169, 248));
 		pSapXep.setBorder(new LineBorder(Color.BLACK));
 		pSapXep.setBorder(new TitledBorder(new LineBorder(Color.BLACK, 1, true), "Sắp xếp",
@@ -285,7 +298,8 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		
 		String sapXep[] = {"Chọn phương thức sắp xếp","Giá tiền từ thấp đến cao", "Giá tiền từ cao đến thấp"};
 		cboSapXep = new JComboBox<String>(sapXep);
-		cboSapXep.setBounds(192, 25, 214, 28);
+		cboSapXep.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		cboSapXep.setBounds(192, 25, 230, 28);
 		//loadDanhSachXe();
 		cboSapXep.addItemListener(new ItemListener() {
 			
@@ -312,7 +326,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 274, 1295, 325);
+		scrollPane.setBounds(10, 274, 1311, 335);
 		getContentPane().add(scrollPane);
 		
 		tableXe = new JTable(){
@@ -611,7 +625,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 			int row = tableXe.getSelectedRow();
 			txtMaXe.setText(tableXe.getValueAt(row, 0).toString());
 			txtTenXe.setText(tableXe.getValueAt(row, 1).toString());
-			cboMauXe.setSelectedItem(tableXe.getValueAt(row, 2).toString());
+			txtMauXe.setText(tableXe.getValueAt(row, 2).toString());
 			txtSoKhung.setText(tableXe.getValueAt(row, 3).toString());
 			txtSoMay.setText(tableXe.getValueAt(row, 4).toString());
 			txtNhaCungCap.setText(tableXe.getValueAt(row, 5).toString());

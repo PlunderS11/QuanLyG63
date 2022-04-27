@@ -66,7 +66,7 @@ public class FrameLoaiXe extends JFrame implements MouseListener, ActionListener
 		JPanel panel = new JPanel();
 		//panel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		panel.setBackground(new Color(166, 169, 248));
-		panel.setBounds(0, 0, 897, 115);
+		panel.setBounds(10, 0, 1311, 115);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -74,11 +74,12 @@ public class FrameLoaiXe extends JFrame implements MouseListener, ActionListener
 		
 		JLabel lblTimKiem = new JLabel("Tìm kiếm:");
 		lblTimKiem.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblTimKiem.setBounds(213, 22, 91, 14);
+		lblTimKiem.setBounds(10, 33, 91, 14);
 		panel.add(lblTimKiem);
 		
 		txtTimKiem = new JTextField();
-		txtTimKiem.setBounds(314, 17, 270, 28);
+		txtTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txtTimKiem.setBounds(111, 28, 214, 28);
 		panel.add(txtTimKiem);
 		txtTimKiem.setColumns(10);
 		
@@ -89,39 +90,42 @@ public class FrameLoaiXe extends JFrame implements MouseListener, ActionListener
 		btnTimLX.setForeground(Color.WHITE);
 		btnTimLX.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnTimLX.setBackground(new Color(107,96,236));
-		btnTimLX.setBounds(605, 15, 99, 32);
+		btnTimLX.setBounds(337, 26, 99, 32);
 		panel.add(btnTimLX);
 		
 		JLabel lblMaLoaiXe = new JLabel("Mã loại xe:");
 		lblMaLoaiXe.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblMaLoaiXe.setBounds(53, 72, 104, 20);
+		lblMaLoaiXe.setBounds(10, 76, 104, 20);
 		panel.add(lblMaLoaiXe);
 		
 		txtMaLoaiXe = new JTextField();
+		txtMaLoaiXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtMaLoaiXe.setEditable(false);
-		txtMaLoaiXe.setBounds(154, 70, 214, 28);
+		txtMaLoaiXe.setBounds(111, 74, 214, 28);
 		panel.add(txtMaLoaiXe);
 		txtMaLoaiXe.setColumns(10);
 		
 		JLabel lblTenLoaiXe = new JLabel("Tên loại xe:");
 		lblTenLoaiXe.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblTenLoaiXe.setBounds(414, 77, 104, 15);
+		lblTenLoaiXe.setBounds(373, 82, 104, 15);
 		panel.add(lblTenLoaiXe);
 		
 		txtTenLoaiXe = new JTextField();
-		txtTenLoaiXe.setBounds(528, 70, 214, 28);
+		txtTenLoaiXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txtTenLoaiXe.setBounds(487, 76, 214, 28);
 		panel.add(txtTenLoaiXe);
 		txtTenLoaiXe.setColumns(10);
 		
 		btnLamMoi = new FixButton("Làm mới");
+		btnLamMoi.setIcon(new ImageIcon("image\\lammoi.png"));
 		btnLamMoi.setForeground(Color.WHITE);
 		btnLamMoi.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnLamMoi.setBackground(new Color(107, 96, 236));
-		btnLamMoi.setBounds(781, 70, 101, 25);
+		btnLamMoi.setBounds(733, 73, 145, 32);
 		panel.add(btnLamMoi);
 		
 		JScrollPane scrlLoaiXe = new JScrollPane();
-		scrlLoaiXe.setBounds(52, 140, 1267, 204);
+		scrlLoaiXe.setBounds(10, 140, 1309, 215);
 		getContentPane().add(scrlLoaiXe);
 		
 		//tableLoaiXe = new JTable();
@@ -168,7 +172,7 @@ public class FrameLoaiXe extends JFrame implements MouseListener, ActionListener
 		scrlLoaiXe.setViewportView(tableLoaiXe);
 		
 		JScrollPane scrlTenXe = new JScrollPane();
-		scrlTenXe.setBounds(52, 371, 1267, 259);
+		scrlTenXe.setBounds(10, 365, 1309, 240);
 		
 		
 		getContentPane().add(scrlTenXe);

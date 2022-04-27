@@ -43,7 +43,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
 
@@ -377,6 +379,8 @@ public class FrameHopDong extends JFrame{
 		btnTimKH_1.setBounds(1026, 10, 99, 32);
 		panel_1.add(btnTimKH_1);
 		
+		Locale localeVN = new Locale("vi", "VN");
+	    NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
 		FixButton btnTimXe = new FixButton("Tìm");
 		btnTimXe.setIcon(new ImageIcon("image\\timkiem.png"));
 		btnTimXe.addActionListener(new ActionListener() {
@@ -400,8 +404,8 @@ public class FrameHopDong extends JFrame{
 							txtSoMay.setText(xe.getSoMay());
 							txtHSX.setText(hsx.getTenHangSX());
 							txtLoaiXe.setText(lx.getTenLoaiXe());
-							DecimalFormat cf = new DecimalFormat("###.0");
-							txtGiaNhap.setText(cf.format(xe.getGiaXe()));
+							
+							txtGiaNhap.setText(currencyVN.format(xe.getGiaXe()));
 							
 						}
 					}

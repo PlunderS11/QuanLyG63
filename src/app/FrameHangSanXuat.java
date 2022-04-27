@@ -75,11 +75,12 @@ public class FrameHangSanXuat extends JFrame implements ActionListener, MouseLis
 		
 		JLabel lblTimKiem = new JLabel("Tìm kiếm:");
 		lblTimKiem.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblTimKiem.setBounds(213, 22, 91, 14);
+		lblTimKiem.setBounds(20, 22, 91, 14);
 		panel.add(lblTimKiem);
 		
 		txtTimKiem = new JTextField();
-		txtTimKiem.setBounds(314, 17, 270, 28);
+		txtTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txtTimKiem.setBounds(108, 18, 214, 28);
 		panel.add(txtTimKiem);
 		txtTimKiem.setColumns(10);
 		
@@ -90,39 +91,42 @@ public class FrameHangSanXuat extends JFrame implements ActionListener, MouseLis
 		btnTimHX.setForeground(Color.WHITE);
 		btnTimHX.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnTimHX.setBackground(new Color(107,96,236));
-		btnTimHX.setBounds(605, 15, 99, 32);
+		btnTimHX.setBounds(332, 15, 99, 32);
 		panel.add(btnTimHX);
 		
 		JLabel lblMaHangXe = new JLabel("Mã hãng xe:");
 		lblMaHangXe.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblMaHangXe.setBounds(53, 72, 104, 20);
+		lblMaHangXe.setBounds(458, 14, 116, 20);
 		panel.add(lblMaHangXe);
 		
 		txtMaHangXe = new JTextField();
+		txtMaHangXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtMaHangXe.setEditable(false);
-		txtMaHangXe.setBounds(154, 70, 214, 28);
+		txtMaHangXe.setBounds(572, 12, 214, 28);
 		panel.add(txtMaHangXe);
 		txtMaHangXe.setColumns(10);
 		
 		JLabel lblTenHangXe = new JLabel("Tên hãng xe:");
 		lblTenHangXe.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblTenHangXe.setBounds(414, 77, 116, 15);
+		lblTenHangXe.setBounds(458, 52, 116, 20);
 		panel.add(lblTenHangXe);
 		
 		txtTenHangXe = new JTextField();
-		txtTenHangXe.setBounds(528, 70, 214, 28);
+		txtTenHangXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txtTenHangXe.setBounds(572, 49, 214, 28);
 		panel.add(txtTenHangXe);
 		txtTenHangXe.setColumns(10);
 		
-		JLabel lblNguonGoc = new JLabel("Nguồn gốc:");
-		lblNguonGoc.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNguonGoc.setBounds(261, 109, 99, 25);
-		panel.add(lblNguonGoc);
-		
 		txtNguonGoc = new JTextField();
-		txtNguonGoc.setBounds(370, 109, 214, 28);
+		txtNguonGoc.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txtNguonGoc.setBounds(572, 87, 214, 28);
 		panel.add(txtNguonGoc);
 		txtNguonGoc.setColumns(10);
+		
+		JLabel lblNgunGc = new JLabel("Nguồn gốc:");
+		lblNgunGc.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNgunGc.setBounds(459, 90, 99, 20);
+		panel.add(lblNgunGc);
 		
 		JPanel pChucNang = new JPanel();
 		pChucNang.setBounds(839, 11, 480, 86);
@@ -162,7 +166,7 @@ public class FrameHangSanXuat extends JFrame implements ActionListener, MouseLis
 		pChucNang.add(btnLamMoiHX);
 		
 		JScrollPane scrlHangXe = new JScrollPane();
-		scrlHangXe.setBounds(52, 140, 1267, 204);
+		scrlHangXe.setBounds(10, 140, 1309, 199);
 		getContentPane().add(scrlHangXe);
 		
 		//tableLoaiXe = new JTable();
@@ -208,7 +212,7 @@ public class FrameHangSanXuat extends JFrame implements ActionListener, MouseLis
 		scrlHangXe.setViewportView(tableHangXe);
 		
 		JScrollPane scrlTenXe = new JScrollPane();
-		scrlTenXe.setBounds(52, 371, 1267, 259);
+		scrlTenXe.setBounds(10, 349, 1309, 255);
 		loadDanhSachHangXe();
 		
 		getContentPane().add(scrlTenXe);
@@ -420,7 +424,4 @@ public class FrameHangSanXuat extends JFrame implements ActionListener, MouseLis
 		if(o.equals(btnTimHX))
 			timXe();
 	}
-	
-	
-	
 }
