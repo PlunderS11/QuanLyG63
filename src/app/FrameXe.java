@@ -18,28 +18,45 @@ import javax.swing.table.TableModel;
 import connection.ConnectDB;
 import dao.HangSanXuat_DAO;
 import dao.LoaiXe_DAO;
+import dao.Regex;
 import dao.Xe_DAO;
 import entity.HangSanXuat;
 import entity.LoaiXe;
 import entity.Xe;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-public class FrameXe extends JFrame implements ActionListener{
+public class FrameXe extends JFrame implements ActionListener, MouseListener, ItemListener{
 
 
 
 	private FixButton btnLamMoiXe;
+	private JComboBox<String> cboMauXe;
+	private JComboBox<String> cboLoaiXe;
+	private JComboBox<String> cboTrangThai;
+	private Regex regex;
+	private FixButton btnThemXe;
+	private FixButton btnSuaXe;
+	private DecimalFormat dfGiaXe;
+	private FixButton btnXoaXe;
+	private FixButton btnTimXe;
+	private JComboBox<String> cboSapXep;
 
 	public FrameXe() {
 		
@@ -49,10 +66,18 @@ public class FrameXe extends JFrame implements ActionListener{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		
 		//khai bao DAO
 		daoXe = new Xe_DAO();
 		daoLoaiXe = new LoaiXe_DAO();
 		daoHSX = new HangSanXuat_DAO();
+		
+		//khai bao regex
+		regex = new Regex();
+		
+		//dinh dang
+		dfGiaXe=new DecimalFormat("###,###");
 		
 		//Giao dien
 		setSize(1345, 705);
@@ -76,6 +101,7 @@ public class FrameXe extends JFrame implements ActionListener{
 		panel.add(lblMaXe);
 		
 		txtMaXe = new JTextField();
+		txtMaXe.setEditable(false);
 		txtMaXe.setBounds(103, 58, 214, 28);
 		panel.add(txtMaXe);
 		txtMaXe.setColumns(10);
@@ -95,7 +121,8 @@ public class FrameXe extends JFrame implements ActionListener{
 		lblMauXe.setBounds(10, 135, 102, 14);
 		panel.add(lblMauXe);
 		
-		JComboBox cboMauXe = new JComboBox();
+		String mauXe[] = {"Xanh", "Đỏ", "Trắng", "Đen"};
+		 cboMauXe = new JComboBox<String>(mauXe);
 		cboMauXe.setBounds(103, 130, 214, 28);
 		panel.add(cboMauXe);
 		
@@ -144,7 +171,8 @@ public class FrameXe extends JFrame implements ActionListener{
 		lblLoaiXe.setBounds(369, 135, 128, 23);
 		panel.add(lblLoaiXe);
 		
-		JComboBox cboLoaiXe = new JComboBox();
+		String loaiXe[] = {"Xe tay ga", "Xe số"};
+		 cboLoaiXe = new JComboBox<String>(loaiXe);
 		cboLoaiXe.setBounds(507, 130, 214, 28);
 		panel.add(cboLoaiXe);
 		
@@ -163,7 +191,9 @@ public class FrameXe extends JFrame implements ActionListener{
 		lblTrangThai.setBounds(369, 207, 128, 23);
 		panel.add(lblTrangThai);
 		
-		JComboBox cboTrangThai = new JComboBox();
+		String trangThai[] = {"Còn hàng", "Đang bán", "Đã bán"};
+		cboTrangThai = new JComboBox<String>(trangThai);
+		cboTrangThai.setEnabled(false);
 		cboTrangThai.setBounds(507, 202, 214, 28);
 		panel.add(cboTrangThai);
 		
@@ -177,7 +207,7 @@ public class FrameXe extends JFrame implements ActionListener{
 		panel.add(txtTimKiem);
 		txtTimKiem.setColumns(10);
 		
-		JButton btnTimXe = new FixButton("Tìm");
+		btnTimXe = new FixButton("Tìm");
 		btnTimXe.setIcon(new ImageIcon("image\\timkiem.png"));
 	
 		
@@ -196,7 +226,7 @@ public class FrameXe extends JFrame implements ActionListener{
 				TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		getContentPane().add(pChucNang);
 		
-		JButton btnThemXe = new FixButton("Thêm");
+		btnThemXe = new FixButton("Thêm");
 		
 		btnThemXe.setIcon(new ImageIcon("image\\them.png"));
 		
@@ -206,7 +236,7 @@ public class FrameXe extends JFrame implements ActionListener{
 		btnThemXe.setBounds(0, 336, 115, 49);
 		pChucNang.add(btnThemXe);
 		
-		JButton btnXoaXe = new FixButton("Xóa");
+		btnXoaXe = new FixButton("Xóa");
 		btnXoaXe.setIcon(new ImageIcon("image\\xoa.png"));
 		btnXoaXe.setForeground(Color.WHITE);
 		btnXoaXe.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -214,7 +244,7 @@ public class FrameXe extends JFrame implements ActionListener{
 		btnXoaXe.setBounds(125, 336, 109, 49);
 		pChucNang.add(btnXoaXe);
 		
-		JButton btnSuaXe = new FixButton("Sửa");
+		btnSuaXe = new FixButton("Sửa");
 	
 		btnSuaXe.setIcon(new ImageIcon("image\\capnhat.png"));
 		btnSuaXe.setForeground(Color.WHITE);
@@ -245,9 +275,33 @@ public class FrameXe extends JFrame implements ActionListener{
 		lblSapXep.setBounds(74, 30, 108, 23);
 		pSapXep.add(lblSapXep);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(192, 25, 214, 28);
-		pSapXep.add(comboBox);
+		String sapXep[] = {"Chọn phương thức sắp xếp","Giá tiền từ thấp đến cao", "Giá tiền từ cao đến thấp"};
+		cboSapXep = new JComboBox<String>(sapXep);
+		cboSapXep.setBounds(192, 25, 214, 28);
+		//loadDanhSachXe();
+		cboSapXep.addItemListener(new ItemListener() {
+			
+				
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					if(cboSapXep.getSelectedItem().toString().equals("Giá tiền từ cao đến thấp")) {
+						clearTable();
+						sapXepGiaGiamDan();
+					}
+					if(cboSapXep.getSelectedItem().toString().equals("Giá tiền từ thấp đến cao")) {
+						clearTable();
+						sapXepGiaTangDan();
+					}
+				
+
+					
+				}
+			}
+		});
+		pSapXep.add(cboSapXep);
+
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 274, 1295, 325);
@@ -295,8 +349,13 @@ public class FrameXe extends JFrame implements ActionListener{
 		loadDanhSachXe();
 		scrollPane.setViewportView(tableXe);
 		
-		
 		btnLamMoiXe.addActionListener(this);
+		tableXe.addMouseListener(this);
+		btnThemXe.addActionListener(this);
+		btnSuaXe.addActionListener(this);
+		btnXoaXe.addActionListener(this);
+		btnTimXe.addActionListener(this);
+
 	}
 	private DefaultTableModel modelXe;
 	private JTextField txtMaXe;
@@ -313,17 +372,52 @@ public class FrameXe extends JFrame implements ActionListener{
 	private LoaiXe_DAO daoLoaiXe;
 	
 	public void loadDanhSachXe() {
-		//clearTable();
+		clearTable();
 		ArrayList<Xe> lsXe =  daoXe.getDanhSachXe();
 
 			for (Xe xe : lsXe) {
 				HangSanXuat hsx = daoHSX.getHSXTheoMa(xe.getHangSanXuat().getMaHangSX());
 				LoaiXe lx = daoLoaiXe.getLoaiXeTheoMa(xe.getLoaiXe().getMaLoaiXe());
 				modelXe.addRow(new Object[] {
-						xe.getMaXe(), xe.getTenXe(), xe.getMauXe(), xe.getSoKhung(), xe.getSoMay(), xe.getNhaCungCap(), hsx.getTenHangSX(), lx.getTenLoaiXe(), xe.getGiaXe(), xe.getTrangThai()
+						xe.getMaXe(), xe.getTenXe(), xe.getMauXe(), xe.getSoKhung(), xe.getSoMay(), xe.getNhaCungCap(), hsx.getTenHangSX(), lx.getTenLoaiXe(), dfGiaXe.format(xe.getGiaXe()), xe.getTrangThai()
 				});
 			
 		}
+	}
+	
+	public void clearTable() {
+		while (tableXe.getRowCount() > 0) {
+			modelXe.removeRow(0);
+		}
+	}
+	
+	public void loadThongTinXe(Xe xe) {
+		HangSanXuat hsx = daoHSX.getHSXTheoMa(xe.getHangSanXuat().getMaHangSX());
+		LoaiXe lx = daoLoaiXe.getLoaiXeTheoMa(xe.getLoaiXe().getMaLoaiXe());
+		modelXe.addRow(new Object[] {
+				xe.getMaXe(), xe.getTenXe(), xe.getMauXe(), xe.getSoKhung(), xe.getSoMay(), xe.getNhaCungCap(), hsx.getTenHangSX(), lx.getTenLoaiXe(), dfGiaXe.format(xe.getGiaXe()), xe.getTrangThai()
+		});
+	}
+	public void sapXepGiaGiamDan() {
+		ArrayList<Xe> lsXe = daoXe.sortByGia();
+		for (Xe xe : lsXe) {
+			HangSanXuat hsx = daoHSX.getHSXTheoMa(xe.getHangSanXuat().getMaHangSX());
+			LoaiXe lx = daoLoaiXe.getLoaiXeTheoMa(xe.getLoaiXe().getMaLoaiXe());
+			modelXe.addRow(new Object[] {
+					xe.getMaXe(), xe.getTenXe(), xe.getMauXe(), xe.getSoKhung(), xe.getSoMay(), xe.getNhaCungCap(), hsx.getTenHangSX(), lx.getTenLoaiXe(), dfGiaXe.format(xe.getGiaXe()), xe.getTrangThai()
+			});	
+	}
+	}
+	
+	public void sapXepGiaTangDan() {
+		ArrayList<Xe> lsXe = daoXe.sortByGiaTangDan();
+		for (Xe xe : lsXe) {
+			HangSanXuat hsx = daoHSX.getHSXTheoMa(xe.getHangSanXuat().getMaHangSX());
+			LoaiXe lx = daoLoaiXe.getLoaiXeTheoMa(xe.getLoaiXe().getMaLoaiXe());
+			modelXe.addRow(new Object[] {
+					xe.getMaXe(), xe.getTenXe(), xe.getMauXe(), xe.getSoKhung(), xe.getSoMay(), xe.getNhaCungCap(), hsx.getTenHangSX(), lx.getTenLoaiXe(), dfGiaXe.format(xe.getGiaXe()), xe.getTrangThai()
+			});	
+	}
 	}
 	
 	public void clearAll() {
@@ -337,6 +431,123 @@ public class FrameXe extends JFrame implements ActionListener{
 		txtTimKiem.setText("");
 	}
 	
+	public void themXe() {
+		try {
+			if(regex.regexTen(txtTenXe) && regex.regexSoKhung(txtSoKhung) && regex.regexSoMay(txtSoMay) && regex.regexNhaCungCap(txtNhaCungCap) && regex.regexHangSanXuat(txtHangSanXuat) && regex.regexGiaXe(txtGiaNhap)) {
+				String maXe = daoXe.getMaXe();
+				String tenXe = txtTenXe.getText();
+				String mauXe = cboMauXe.getSelectedItem().toString();
+				String soKhung = txtSoKhung.getText();
+				String soMay = txtSoMay.getText();
+				String nhaCungCap = txtNhaCungCap.getText();
+				HangSanXuat hangSanXuat = new HangSanXuat(daoHSX.getMaTheoHangSanXuat(txtHangSanXuat.getText())); 
+				String trangThai = cboTrangThai.getSelectedItem().toString();
+				
+				LoaiXe loaiXe = new LoaiXe( daoLoaiXe.getMaTheoLoaiXe(cboLoaiXe.getSelectedItem().toString()));
+				double giaXe = Double.parseDouble(txtGiaNhap.getText());
+				
+				Xe xe = new Xe(maXe, tenXe, mauXe, soKhung, soMay, nhaCungCap, giaXe, hangSanXuat, loaiXe, trangThai);
+				
+				daoXe.themDanhSachXe(xe);
+				loadThongTinXe(xe);
+				JOptionPane.showMessageDialog(this, "Thêm thông tin xe thành công");	
+			}
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin", "Thông báo", JOptionPane.WARNING_MESSAGE);
+		}
+	}
+	
+	public void suaThongTinXe() {
+		int row = tableXe.getSelectedRow();
+		if(row >= 0 ) {
+			int update = JOptionPane.showConfirmDialog(this, "Bạn muốn sửa thông tin xe này không?", "Thông báo",
+					JOptionPane.YES_NO_OPTION);
+			if(update == JOptionPane.YES_OPTION) {
+				JTextField txtTam = new JTextField();
+				String maXe = modelXe.getValueAt(row, 0).toString();
+				double gia = Math.round(daoXe.getGiaXeTheoMa(maXe).getGiaXe());
+				txtTam.setText(String.valueOf(Math.round(gia)));
+				if(regex.regexTen(txtTenXe) && regex.regexSoKhung(txtSoKhung) && regex.regexSoMay(txtSoMay) && regex.regexNhaCungCap(txtNhaCungCap) && regex.regexHangSanXuat(txtHangSanXuat) && regex.regexGiaXe(txtTam)) {
+					try {	
+						String tenXe = txtTenXe.getText();
+						String mauXe = cboMauXe.getSelectedItem().toString();
+						String soKhung = txtSoKhung.getText();
+						String soMay = txtSoMay.getText();
+						String nhaCungCap = txtNhaCungCap.getText();
+						HangSanXuat hangSanXuat = new HangSanXuat(daoHSX.getMaTheoHangSanXuat(txtHangSanXuat.getText())); 
+						String trangThai = cboTrangThai.getSelectedItem().toString();
+						LoaiXe loaiXe = new LoaiXe( daoLoaiXe.getMaTheoLoaiXe(cboLoaiXe.getSelectedItem().toString()));
+						Xe xe = new Xe(maXe, tenXe, mauXe, soKhung, soMay, nhaCungCap, gia, hangSanXuat, loaiXe, trangThai);
+						
+						clearTable();
+						daoXe.suaThongTinXe(xe);
+						loadThongTinXe(xe);
+						JOptionPane.showMessageDialog(this, "Thông tin xe đã được sửa!", "Thông báo",
+								JOptionPane.OK_OPTION);
+					} catch (Exception e) {
+						// TODO: handle exception
+						JOptionPane.showMessageDialog(null, "Vui lòng kiểm tra lại thông tin xe!!", "Thông báo",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Vui lòng chọn thông tin xe cần sửa!", "Thông báo",
+						JOptionPane.WARNING_MESSAGE);
+			}
+		}
+	}
+	
+	private boolean xoaThongTinXe() {
+		int row = tableXe.getSelectedRow();
+		if (row >= 0) {
+			int cancel = JOptionPane.showConfirmDialog(null, "Bạn muốn xóa thông tin xe này?", "Thông báo",
+					JOptionPane.YES_NO_OPTION);
+			if (cancel == JOptionPane.YES_OPTION) {
+				String maXe = tableXe.getValueAt(row, 0).toString();
+				try {
+					modelXe.removeRow(row);
+					clearTable();
+					daoXe.xoaXe(maXe);
+					loadDanhSachXe();
+					JOptionPane.showMessageDialog(null, "Đã xóa Xe!", "Thông báo", JOptionPane.OK_OPTION);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "xóa thông tin xe thất bại!", "Thông báo",
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}else {
+				JOptionPane.showMessageDialog(null, "Vui lòng chọn lại");
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Bạn chưa chọn thông tin xe cần hủy!", "Thông báo",
+					JOptionPane.WARNING_MESSAGE);
+		}
+		return false;
+	}
+	
+	public void timXe() {
+		
+		String regexMaXe = "((X|x)[0-9]{4})";
+			if(!txtTimKiem.getText().equals("")) {
+				if(regex.timMaXe(txtTimKiem)) {
+					if(txtTimKiem.getText().trim().matches(regexMaXe)) {
+						Xe xe = daoXe.getGiaXeTheoMa(txtTimKiem.getText());
+						loadThongTinXe(xe);
+					}
+				}
+			}
+			else {
+				clearTable();
+				JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin tìm kiếm!", "Thông báo",
+						JOptionPane.WARNING_MESSAGE);
+			}
+	}
+	
+	
 	public static void main(String[] args) {
 		new FrameXe().setVisible(true);
 
@@ -347,6 +558,69 @@ public class FrameXe extends JFrame implements ActionListener{
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
 		if(o.equals(btnLamMoiXe))
+		{
 			clearAll();
+			loadDanhSachXe();
+		}
+		if(o.equals(btnThemXe))
+			themXe();
+		if(o.equals(btnSuaXe))
+			suaThongTinXe();
+		if(o.equals(btnXoaXe))
+			xoaThongTinXe();
+		if(o.equals(btnTimXe))
+			timXe();
+
+		//if()
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		Object o = e.getSource();
+		if(o.equals(tableXe)) {
+			int row = tableXe.getSelectedRow();
+			txtMaXe.setText(tableXe.getValueAt(row, 0).toString());
+			txtTenXe.setText(tableXe.getValueAt(row, 1).toString());
+			cboMauXe.setSelectedItem(tableXe.getValueAt(row, 2).toString());
+			txtSoKhung.setText(tableXe.getValueAt(row, 3).toString());
+			txtSoMay.setText(tableXe.getValueAt(row, 4).toString());
+			txtNhaCungCap.setText(tableXe.getValueAt(row, 5).toString());
+			txtHangSanXuat.setText(tableXe.getValueAt(row, 6).toString());
+			cboLoaiXe.setSelectedItem(tableXe.getValueAt(row, 7).toString());
+			txtGiaNhap.setText(tableXe.getValueAt(row, 8).toString());
+			cboTrangThai.setSelectedItem(tableXe.getValueAt(row, 9).toString());
+		}
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	}

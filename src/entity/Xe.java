@@ -17,7 +17,7 @@ public class Xe {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Xe(String maXe, String tenXe, String mauXe, String soKhung, String soMay, String nhaCungCap, float giaXe,
+	public Xe(String maXe, String tenXe, String mauXe, String soKhung, String soMay, String nhaCungCap, double giaXe2,
 			HangSanXuat hangSanXuat, LoaiXe loaiXe, String trangThai) {
 		super();
 		this.maXe = maXe;
@@ -26,7 +26,7 @@ public class Xe {
 		this.soKhung = soKhung;
 		this.soMay = soMay;
 		this.nhaCungCap = nhaCungCap;
-		this.giaXe = giaXe;
+		this.giaXe = giaXe2;
 		this.hangSanXuat = hangSanXuat;
 		this.loaiXe = loaiXe;
 		this.trangThai = trangThai;
@@ -34,6 +34,10 @@ public class Xe {
 	public Xe(String maXe) {
 		super();
 		this.maXe = maXe;
+	}
+	public Xe(String maXe2, String tenXe2, String mauXe2, String soKhung2, String soMay2, String nhaCungCap2,
+			float giaXe2, String hangSanXuat2, LoaiXe loaiXe2, String trangThai2) {
+		// TODO Auto-generated constructor stub
 	}
 	public String getMaXe() {
 		return maXe;

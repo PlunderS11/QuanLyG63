@@ -3,11 +3,17 @@ package app;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -18,15 +24,39 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
-public class FrameHangSanXuat extends JFrame{
+import dao.HangSanXuat_DAO;
+import dao.Regex;
+import dao.Xe_DAO;
+import entity.HangSanXuat;
+import entity.LoaiXe;
+import entity.Xe;
+
+public class FrameHangSanXuat extends JFrame implements ActionListener, MouseListener{
 	private JTextField txtTimKiem;
 	private JTextField txtMaHangXe;
 	private JTextField txtTenHangXe;
-	private JTextField textField;
+	private JTextField txtNguonGoc;
 	private JTable tableHangXe;
 	private JTable tableTenXe;
-
+	private DefaultTableModel modelHangXe;
+	private DefaultTableModel modelTenXe;
+	private HangSanXuat_DAO daoHSX;
+	private Xe_DAO daoXe;
+	private FixButton btnThemHX;
+	private FixButton btnSuaHX;
+	private FixButton btnLamMoiHX;
+	private Regex regex;
+	private FixButton btnTimHX;
+	
 	public FrameHangSanXuat() {
+		
+		//khai bao regex
+		regex = new Regex();
+		
+		//Khai bao DAO
+		daoHSX = new HangSanXuat_DAO();
+		daoXe = new Xe_DAO();
+		
 		// TODO Auto-generated constructor stub
 		setSize(1345, 705);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,7 +83,7 @@ public class FrameHangSanXuat extends JFrame{
 		panel.add(txtTimKiem);
 		txtTimKiem.setColumns(10);
 		
-		JButton btnTimHX = new FixButton("Tìm");
+		btnTimHX = new FixButton("Tìm");
 		btnTimHX.setIcon(new ImageIcon("image\\timkiem.png"));
 	
 		
@@ -69,6 +99,7 @@ public class FrameHangSanXuat extends JFrame{
 		panel.add(lblMaHangXe);
 		
 		txtMaHangXe = new JTextField();
+		txtMaHangXe.setEditable(false);
 		txtMaHangXe.setBounds(154, 70, 214, 28);
 		panel.add(txtMaHangXe);
 		txtMaHangXe.setColumns(10);
@@ -88,10 +119,10 @@ public class FrameHangSanXuat extends JFrame{
 		lblNguonGoc.setBounds(261, 109, 99, 25);
 		panel.add(lblNguonGoc);
 		
-		textField = new JTextField();
-		textField.setBounds(370, 109, 214, 28);
-		panel.add(textField);
-		textField.setColumns(10);
+		txtNguonGoc = new JTextField();
+		txtNguonGoc.setBounds(370, 109, 214, 28);
+		panel.add(txtNguonGoc);
+		txtNguonGoc.setColumns(10);
 		
 		JPanel pChucNang = new JPanel();
 		pChucNang.setBounds(839, 11, 480, 86);
@@ -101,7 +132,7 @@ public class FrameHangSanXuat extends JFrame{
 				TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		getContentPane().add(pChucNang);
 		
-		JButton btnThemHX = new FixButton("Thêm");
+		btnThemHX = new FixButton("Thêm");
 		
 		btnThemHX.setIcon(new ImageIcon("image\\them.png"));
 		
@@ -111,15 +142,9 @@ public class FrameHangSanXuat extends JFrame{
 		btnThemHX.setBounds(0, 336, 115, 49);
 		pChucNang.add(btnThemHX);
 		
-		JButton btnXoaHX = new FixButton("Xóa");
-		btnXoaHX.setIcon(new ImageIcon("image\\xoa.png"));
-		btnXoaHX.setForeground(Color.WHITE);
-		btnXoaHX.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnXoaHX.setBackground(new Color(107,96,236));
-		btnXoaHX.setBounds(125, 336, 109, 49);
-		pChucNang.add(btnXoaHX);
+
 		
-		JButton btnSuaHX = new FixButton("Sửa");
+		 btnSuaHX = new FixButton("Sửa");
 	
 		btnSuaHX.setIcon(new ImageIcon("image\\capnhat.png"));
 		btnSuaHX.setForeground(Color.WHITE);
@@ -128,7 +153,7 @@ public class FrameHangSanXuat extends JFrame{
 		btnSuaHX.setBounds(244, 336, 109, 49);
 		pChucNang.add(btnSuaHX);
 		
-		JButton btnLamMoiHX = new FixButton("Làm mới");
+		 btnLamMoiHX = new FixButton("Làm mới");
 		btnLamMoiHX.setIcon(new ImageIcon("image\\lammoi.png"));
 		btnLamMoiHX.setForeground(Color.WHITE);
 		btnLamMoiHX.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -165,19 +190,12 @@ public class FrameHangSanXuat extends JFrame{
 		tableHeaderHangXe.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		tableHangXe.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		tableHangXe	.setModel(new DefaultTableModel(
+		tableHangXe.setModel(modelHangXe = new DefaultTableModel(
 				new Object[][] {
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
+					
 				},
 				new String[] {
-					"Mã hãng xe", "Tên Hãng xe", "Nguồn gốc"
+						"Mã hãng xe", "Tên hãng xe", "Nguồn gốc"
 				}
 			) {
 				boolean[] columnEditables = new boolean[] {
@@ -191,7 +209,7 @@ public class FrameHangSanXuat extends JFrame{
 		
 		JScrollPane scrlTenXe = new JScrollPane();
 		scrlTenXe.setBounds(52, 371, 1267, 259);
-		
+		loadDanhSachHangXe();
 		
 		getContentPane().add(scrlTenXe);
 		
@@ -219,29 +237,190 @@ public class FrameHangSanXuat extends JFrame{
 		tableHeaderTenXe.setFont(new Font("Tahoma", Font.BOLD, 13));
 		
 		tableTenXe.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		tableTenXe.setModel(new DefaultTableModel(
+		tableTenXe.setModel(modelTenXe = new DefaultTableModel(
 				new Object[][] {
-					{null, null, null, null},
-					{null, null, null, null},
-					{null, null, null, null},
-					{null, null, null, null},
-					{null, null, null, null},
-					{null, null, null, null},
-					{null, null, null, null},
-					{null, null, null, null},
+					
 				},
 				new String[] {
-					"Mã xe", "Mã hãng xe", "Tên xe", "Tên hãng xe"
+						"Mã xe", "Tên xe"
 				}
 			) {
 				boolean[] columnEditables = new boolean[] {
-					false, false, false, false
+					false, false
 				};
 				public boolean isCellEditable(int row, int column) {
 					return columnEditables[column];
 				}
 			});
 		scrlTenXe.setViewportView(tableTenXe);
+		tableHangXe.addMouseListener(this);
+		btnThemHX.addActionListener(this);
+		btnSuaHX.addActionListener(this);
+		btnLamMoiHX.addActionListener(this);
+		btnTimHX.addActionListener(this);
+	}
+	public void themHangSanXuat() {
+		try {
+			if(regex.regexHangSanXuat(txtTenHangXe) &&regex.regexTen(txtNguonGoc)) {
+				String maHSX = daoHSX.getMaHSX();
+				String tenHSX = txtTenHangXe.getText();
+				String nguonGoc = txtNguonGoc.getText();
+				
+				HangSanXuat hsx = new HangSanXuat(maHSX, tenHSX, nguonGoc);
+				daoHSX.themHangSanXuat(hsx);
+				clearTableHangXe();
+				loadDanhSachHangXe();
+				JOptionPane.showMessageDialog(this, "Thêm hãng xe thành công");	
+				
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin", "Thông báo", JOptionPane.WARNING_MESSAGE);
+		}
+		
 		
 	}
+	
+	public void suaThongTinHangSanXuat() {
+		int row = tableHangXe.getSelectedRow();
+		if(row >= 0 ) {
+			int update = JOptionPane.showConfirmDialog(this, "Bạn muốn sửa thông tin hãng này không?", "Thông báo",
+					JOptionPane.YES_NO_OPTION);
+			if(update == JOptionPane.YES_OPTION) {
+				if(regex.regexHangSanXuat(txtTenHangXe) &&regex.regexTen(txtNguonGoc)) {
+					try {	
+						String maHSX = daoHSX.getMaHSX();
+						String tenHSX = txtTenHangXe.getText();
+						String nguonGoc = txtNguonGoc.getText();
+						HangSanXuat hsx = new HangSanXuat(maHSX, tenHSX, nguonGoc);
+						clearTableHangXe();
+						daoHSX.suaThongTinHangSanXuat(hsx);
+						loadDanhSachHangXe();
+						JOptionPane.showMessageDialog(this, "Thông tin hãng đã được sửa!", "Thông báo",
+								JOptionPane.OK_OPTION);
+					} catch (Exception e) {
+						// TODO: handle exception
+						JOptionPane.showMessageDialog(null, "Vui lòng kiểm tra lại thông tin hãng!!", "Thông báo",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Vui lòng chọn thông tin hãng cần sửa!", "Thông báo",
+						JOptionPane.WARNING_MESSAGE);
+			}
+		}
+	}
+	public void timXe() {
+		String regexMaXe = "((X|x)[0-9]{4})";
+			if(!txtTimKiem.getText().equals("")) {
+				if(regex.timMaXe(txtTimKiem)) {
+					if(txtTimKiem.getText().trim().matches(regexMaXe)) {
+						Xe xe = daoXe.getGiaXeTheoMa(txtTimKiem.getText());
+						HangSanXuat hsx = daoHSX.getHSXTheoMa(xe.getLoaiXe().getMaLoaiXe());
+						JOptionPane.showMessageDialog(this, "Xe "+xe.getMaXe()+" có hãng sản xuất là "+hsx.getTenHangSX()+"", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+			}
+			else {
+				JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin tìm kiếm!", "Thông báo",
+						JOptionPane.WARNING_MESSAGE);
+			}
+	}
+	
+	
+	public void clearAll() {
+		txtMaHangXe.setText("");
+		txtTenHangXe.setText("");
+		txtNguonGoc.setText("");
+	}
+	
+	public void loadDanhSachHangXe() {
+		ArrayList<HangSanXuat> lsHSX = daoHSX.getDanhSachHangSanXat();
+		for(HangSanXuat hsx : lsHSX) {
+			modelHangXe.addRow(new Object [] {
+				hsx.getMaHangSX(), hsx.getTenHangSX(), hsx.getNguonGoc()
+			});
+		}
+	}
+	
+	public void loadDanhSachTenXe(String maHangSanXuat) {
+		clearTableXe();
+		
+		ArrayList<Xe> lsXe = daoHSX.getDanhSachXe(maHangSanXuat);
+				for(Xe xe : lsXe) {
+					modelTenXe.addRow(new Object [] {
+						xe.getMaXe(), xe.getTenXe()
+					});
+				}
+		
+	}
+	public void clearTableHangXe() {
+		while (tableHangXe.getRowCount() > 0) {
+			modelHangXe.removeRow(0);
+		}
+		
+	}
+	
+	public void clearTableXe() {
+		while (tableTenXe.getRowCount() > 0) {
+			modelTenXe.removeRow(0);
+		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		Object o = e.getSource();
+		if(o.equals(tableHangXe)) {
+			int row = tableHangXe.getSelectedRow();
+			txtMaHangXe.setText(modelHangXe.getValueAt(row, 0).toString());
+			txtTenHangXe.setText(modelHangXe.getValueAt(row, 1).toString());
+			txtNguonGoc.setText(modelHangXe.getValueAt(row, 2).toString());
+			
+			loadDanhSachTenXe(modelHangXe.getValueAt(row, 0).toString());
+			
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		Object o = e.getSource();
+		if(o.equals(btnThemHX))
+			themHangSanXuat();
+		if(o.equals(btnSuaHX))
+			suaThongTinHangSanXuat();
+		if(o.equals(btnLamMoiHX))
+			clearAll();
+		if(o.equals(btnTimHX))
+			timXe();
+	}
+	
+	
+	
 }
