@@ -36,13 +36,21 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.SQLException;
+
 import java.text.DecimalFormat;
+
+import java.text.NumberFormat;
+
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-public class FrameXe extends JFrame implements ActionListener, MouseListener, ItemListener{
+
+public class FrameXe extends JFrame implements ActionListener,MouseListener{
+	Locale localeVN = new Locale("vi", "VN");
+    NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
 
 
 
@@ -346,7 +354,7 @@ public class FrameXe extends JFrame implements ActionListener, MouseListener, It
 					return columnEditables[column];
 				}
 			});
-		loadDanhSachXe();
+		hienThiDanhSachXe();
 		scrollPane.setViewportView(tableXe);
 		
 		btnLamMoiXe.addActionListener(this);
@@ -371,6 +379,22 @@ public class FrameXe extends JFrame implements ActionListener, MouseListener, It
 	private HangSanXuat_DAO daoHSX;
 	private LoaiXe_DAO daoLoaiXe;
 	
+	public void hienThiDanhSachXe() {
+		clearTable();
+		ArrayList<Xe> lsXe = daoXe.getDanhSachXe();
+		for(Xe xe : lsXe) {
+			HangSanXuat hsx = daoHSX.getHSXTheoMa(xe.getHangSanXuat().getMaHangSX());
+			LoaiXe lx = daoLoaiXe.getLoaiXeTheoMa(xe.getLoaiXe().getMaLoaiXe());
+			modelXe.addRow(new Object[] {
+					xe.getMaXe(), xe.getTenXe(), xe.getMauXe(), xe.getSoKhung(), xe.getSoMay(), xe.getNhaCungCap(), hsx.getTenHangSX(), lx.getTenLoaiXe(), dfGiaXe.format(xe.getGiaXe()), xe.getTrangThai()
+
+			});
+			
+			
+			
+		}
+	}
+	
 	public void loadDanhSachXe() {
 		clearTable();
 		ArrayList<Xe> lsXe =  daoXe.getDanhSachXe();
@@ -379,7 +403,8 @@ public class FrameXe extends JFrame implements ActionListener, MouseListener, It
 				HangSanXuat hsx = daoHSX.getHSXTheoMa(xe.getHangSanXuat().getMaHangSX());
 				LoaiXe lx = daoLoaiXe.getLoaiXeTheoMa(xe.getLoaiXe().getMaLoaiXe());
 				modelXe.addRow(new Object[] {
-						xe.getMaXe(), xe.getTenXe(), xe.getMauXe(), xe.getSoKhung(), xe.getSoMay(), xe.getNhaCungCap(), hsx.getTenHangSX(), lx.getTenLoaiXe(), dfGiaXe.format(xe.getGiaXe()), xe.getTrangThai()
+						xe.getMaXe(), xe.getTenXe(), xe.getMauXe(), xe.getSoKhung(), xe.getSoMay(), xe.getNhaCungCap(), hsx.getTenHangSX(), lx.getTenLoaiXe(), currencyVN.format(xe.getGiaXe()), xe.getTrangThai()
+
 				});
 			
 		}
@@ -469,7 +494,11 @@ public class FrameXe extends JFrame implements ActionListener, MouseListener, It
 				JTextField txtTam = new JTextField();
 				String maXe = modelXe.getValueAt(row, 0).toString();
 				double gia = Math.round(daoXe.getGiaXeTheoMa(maXe).getGiaXe());
-				txtTam.setText(String.valueOf(Math.round(gia)));
+				//System.out.println(gia);
+				double giaXe = Double.parseDouble(txtGiaNhap.getText().toString());
+				
+				txtTam.setText(String.valueOf(Math.round(giaXe)));
+				//System.out.println(regex.regexGiaXe(txtTam));
 				if(regex.regexTen(txtTenXe) && regex.regexSoKhung(txtSoKhung) && regex.regexSoMay(txtSoMay) && regex.regexNhaCungCap(txtNhaCungCap) && regex.regexHangSanXuat(txtHangSanXuat) && regex.regexGiaXe(txtTam)) {
 					try {	
 						String tenXe = txtTenXe.getText();
@@ -480,8 +509,8 @@ public class FrameXe extends JFrame implements ActionListener, MouseListener, It
 						HangSanXuat hangSanXuat = new HangSanXuat(daoHSX.getMaTheoHangSanXuat(txtHangSanXuat.getText())); 
 						String trangThai = cboTrangThai.getSelectedItem().toString();
 						LoaiXe loaiXe = new LoaiXe( daoLoaiXe.getMaTheoLoaiXe(cboLoaiXe.getSelectedItem().toString()));
-						Xe xe = new Xe(maXe, tenXe, mauXe, soKhung, soMay, nhaCungCap, gia, hangSanXuat, loaiXe, trangThai);
-						
+						Xe xe = new Xe(maXe, tenXe, mauXe, soKhung, soMay, nhaCungCap, giaXe, hangSanXuat, loaiXe, trangThai);
+						System.out.println(xe);
 						clearTable();
 						daoXe.suaThongTinXe(xe);
 						loadThongTinXe(xe);
@@ -512,7 +541,7 @@ public class FrameXe extends JFrame implements ActionListener, MouseListener, It
 					modelXe.removeRow(row);
 					clearTable();
 					daoXe.xoaXe(maXe);
-					loadDanhSachXe();
+					hienThiDanhSachXe();
 					JOptionPane.showMessageDialog(null, "Đã xóa Xe!", "Thông báo", JOptionPane.OK_OPTION);
 				} catch (Exception e1) {
 					e1.printStackTrace();
@@ -560,7 +589,7 @@ public class FrameXe extends JFrame implements ActionListener, MouseListener, It
 		if(o.equals(btnLamMoiXe))
 		{
 			clearAll();
-			loadDanhSachXe();
+			hienThiDanhSachXe();
 		}
 		if(o.equals(btnThemXe))
 			themXe();
@@ -618,9 +647,4 @@ public class FrameXe extends JFrame implements ActionListener, MouseListener, It
 		
 	}
 
-	@Override
-	public void itemStateChanged(ItemEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 	}

@@ -84,7 +84,7 @@ public class FrameTrangChu extends JFrame implements ActionListener, MouseListen
 		JPanel pnlThoiGian = new JPanel();
 		pnlThoiGian.setPreferredSize(new Dimension(100, 120));
 		pnlThoiGian.setLayout(null);
-		pnlThoiGian.setBackground(Color.BLACK);
+		pnlThoiGian.setBackground(new Color(79, 12, 132));
 		pnlThoiGian.setBounds(430, 10, 380, 110);
 		pnlHeader.add(pnlThoiGian);
 		
@@ -138,8 +138,9 @@ public class FrameTrangChu extends JFrame implements ActionListener, MouseListen
 			public void actionPerformed(ActionEvent e) {
 				FrameDoiMatKhau doimk = new FrameDoiMatKhau();
 				doimk.setVisible(true);
-				doimk.setDefaultCloseOperation(EXIT_ON_CLOSE);
+				
 				doimk.setLocationRelativeTo(null);
+				
 			}
 		});
 		lblDoiMK.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -154,6 +155,7 @@ public class FrameTrangChu extends JFrame implements ActionListener, MouseListen
 			public void actionPerformed(ActionEvent e) {
 				if(JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn đăng xuất?", "?!", 
 						JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
+					
 					NewSignin ns = new NewSignin();
 					ns.setVisible(true);
 					ns.setLocationRelativeTo(null);

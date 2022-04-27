@@ -10,10 +10,12 @@ import java.util.Date;
 import java.util.List;
 
 import connection.ConnectDB;
+import entity.KhachHang;
 import entity.NhanVien;
 import entity.TaiKhoan;
 
 public class NhanVien_DAO {
+	private NhanVien nv;
 	public List<NhanVien> getAllNhanVien(){
 		List<NhanVien> dsnv = new ArrayList<NhanVien>();
 		ConnectDB.getInstance();
@@ -118,5 +120,29 @@ public class NhanVien_DAO {
 			}
 		}
 		return n > 0;
+	}
+public  NhanVien getNVtheoMaHopDong(String maHopDong) {
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stmt = null;
+		try {
+			String sql = "select nv.maNV,tenNV,ngaySinh,diaChi,sDT,cCCD from NhanVien nv join HopDong hd on nv.maNV=hd.maNV where hd.maHopDong = ?";
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1, maHopDong);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()){
+				NhanVien nv = new NhanVien();
+				nv.setMaNV(rs.getString("maNV"));
+				nv.setTenNV(rs.getString("tenNV"));
+				nv.setDiaChi(rs.getString("diaChi"));
+				nv.setSoDT(rs.getString("sDT"));
+				nv.setcCCD(rs.getString("cCCD"));
+				nv.setGioiTinh(rs.getBoolean("gioiTinh"));
+				nv.setChucVu(rs.getString("chucVu"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return nv;
 	}
 }

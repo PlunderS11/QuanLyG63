@@ -1,10 +1,15 @@
 package app;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -43,9 +48,10 @@ public class FrameDoiMatKhau extends JFrame{
 		taiKhoan_dao = new TaiKhoan_DAO();
 		// ------------------------------
 		setTitle("Đổi mật khẩu");
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(767, 569);
+		
 		setLocationRelativeTo(null);
+		setResizable(false);
 		getContentPane().setLayout(null);
 		
 		JPanel pnlDN = new JPanel();
@@ -61,12 +67,14 @@ public class FrameDoiMatKhau extends JFrame{
 		pnlDN.add(lblDN);
 		
 		txtMatkhauCu = new JPasswordField();
+		txtMatkhauCu.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtMatkhauCu.setBounds(99, 200, 233, 35);
 		txtMatkhauCu.setBorder(BorderFactory.createLineBorder(new Color(169, 224, 49)));
 		pnlDN.add(txtMatkhauCu);
 		txtMatkhauCu.setColumns(10);
 		
 		txtMatkhauMoi = new JPasswordField();
+		txtMatkhauMoi.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtMatkhauMoi.setColumns(10);
 		txtMatkhauMoi.setBounds(99, 285, 233, 35);
 		txtMatkhauMoi.setBorder(BorderFactory.createLineBorder(new Color(169, 224, 49)));
@@ -84,8 +92,10 @@ public class FrameDoiMatKhau extends JFrame{
 					return;
 				else {
 					if (taiKhoan_dao.updateDoiMatKhau(tk, matKhauMoi) == true) {
-						JOptionPane.showMessageDialog(null, "Đổi mật khẩu thành công");
+						JOptionPane.showMessageDialog(null, "Đổi mật khẩu thành công!");
+
 						dispose();
+						
 					} else {
 						JOptionPane.showMessageDialog(null, "Đổi mật khẩu thất bại");
 					}
@@ -103,9 +113,11 @@ public class FrameDoiMatKhau extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource()==chkHienMK) {
 					if(chkHienMK.isSelected()) {
+						txtMatkhauCu.setEchoChar((char) 0);
 						txtMatkhauMoi.setEchoChar((char) 0);
 						txtXacNhan.setEchoChar((char) 0);
 					}else {
+						txtMatkhauCu.setEchoChar('*');
 						txtMatkhauMoi.setEchoChar('*');
 						txtXacNhan.setEchoChar('*');
 					}
@@ -131,6 +143,7 @@ public class FrameDoiMatKhau extends JFrame{
 		pnlDN.add(lblMKMoi);
 		
 		txtXacNhan = new JPasswordField();
+		txtXacNhan.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtXacNhan.setColumns(10);
 		txtXacNhan.setBorder(BorderFactory.createLineBorder(new Color(169, 224, 49)));
 		txtXacNhan.setBounds(99, 370, 233, 35);
@@ -152,6 +165,7 @@ public class FrameDoiMatKhau extends JFrame{
 		lblNewLabel.setIcon(new ImageIcon("image\\Logo.jfif"));
 		lblNewLabel.setBounds(70, 146, 206, 113);
 		panel.add(lblNewLabel);
+		
 	}
 	public boolean ktraMatKhau() {
 		String matKhauCu = txtMatkhauCu.getText().trim();

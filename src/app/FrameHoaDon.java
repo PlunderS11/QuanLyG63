@@ -6,26 +6,66 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
 import com.toedter.calendar.JDateChooser;
 
+import connection.ConnectDB;
+import dao.DAO_HoaDon;
+import dao.DAO_HopDong;
+import dao.DAO_KhachHang;
+import dao.HangSanXuat_DAO;
+import dao.LoaiXe_DAO;
+import dao.NhanVien_DAO;
+import dao.Xe_DAO;
+import entity.HangSanXuat;
+import entity.HoaDon;
+import entity.HopDong;
+import entity.KhachHang;
+import entity.LoaiXe;
+import entity.NhanVien;
+import entity.Xe;
+
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
+
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.LineBorder;
 
 public class FrameHoaDon extends JFrame{
+	private DAO_HopDong dao_hopDong;
+	private DAO_KhachHang dao_khachHang;
+	private NhanVien_DAO dao_nhanvien;
+	private Xe_DAO dao_xe;
+	Locale localeVN = new Locale("vi", "VN");
+    NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
+
 	public FrameHoaDon() {
+		try {
+			ConnectDB.getInstance().connect();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		setSize(1345, 705);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		getContentPane().setBackground(new Color(166, 169, 248));
+		setResizable(false);
 		getContentPane().setLayout(null);
 		
 		
@@ -36,33 +76,23 @@ public class FrameHoaDon extends JFrame{
 		lblQunLHa.setBounds(10, 0, 1311, 47);
 		getContentPane().add(lblQunLHa);
 		
-		JLabel lblNewLabel_1_3_7 = new JLabel("Ngày lập:");
+		JLabel lblNewLabel_1_3_7 = new JLabel("Ngày lập hóa đơn:");
 		lblNewLabel_1_3_7.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_1_3_7.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblNewLabel_1_3_7.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1_3_7.setBounds(97, 575, 159, 30);
+		lblNewLabel_1_3_7.setBounds(107, 615, 159, 37);
 		getContentPane().add(lblNewLabel_1_3_7);
 		
 		txtNgayLap = new JDateChooser();
 		txtNgayLap.setDateFormatString("yyyy-MM-dd");
-		txtNgayLap.setBounds(266, 575, 351, 32);
+		txtNgayLap.setBounds(276, 615, 331, 37);
+		txtNgayLap.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txtNgayLap.setDate(new Date());
 		getContentPane().add(txtNgayLap);
-		
-		JLabel lblNewLabel_1_3_7_1 = new JLabel("Số lượng:");
-		lblNewLabel_1_3_7_1.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_1_3_7_1.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblNewLabel_1_3_7_1.setBackground(new Color(166, 169, 248));
-		lblNewLabel_1_3_7_1.setBounds(97, 619, 159, 30);
-		getContentPane().add(lblNewLabel_1_3_7_1);
-		
-		txtSoLuong = new JTextField();
-		txtSoLuong.setColumns(10);
-		txtSoLuong.setBounds(266, 619, 351, 32);
-		getContentPane().add(txtSoLuong);
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(147, 112, 219));
-		panel.setBounds(97, 45, 1135, 53);
+		panel.setBounds(97, 45, 989, 53);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -73,16 +103,56 @@ public class FrameHoaDon extends JFrame{
 		lblNewLabel_1_2_1_1.setBounds(10, 10, 168, 32);
 		panel.add(lblNewLabel_1_2_1_1);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(177, 12, 839, 32);
-		panel.add(comboBox);
+		JComboBox cboTimHopDong = new JComboBox();
+		cboTimHopDong.setEditable(true);
+		AutoCompleteDecorator.decorate(cboTimHopDong);
+		cboTimHopDong.setFont(new Font("Tahoma", Font.PLAIN, 16));
+
+		cboTimHopDong.setBounds(177, 12, 839, 32);
+
+		cboTimHopDong.setBounds(177, 12, 693, 32);
+
+		cboTimHopDong.addItem("");
+		panel.add(cboTimHopDong);
 		
-		FixButton btnTimKH = new FixButton("Tìm");
-		btnTimKH.setForeground(Color.WHITE);
-		btnTimKH.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnTimKH.setBackground(new Color(107, 96, 236));
-		btnTimKH.setBounds(1026, 10, 99, 32);
-		panel.add(btnTimKH);
+		FixButton btnTimHopDong = new FixButton("Tìm");
+		
+		btnTimHopDong.setIcon(new ImageIcon("image\\timkiem.png"));
+		btnTimHopDong.setForeground(Color.WHITE);
+		btnTimHopDong.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnTimHopDong.setBackground(new Color(107, 96, 236));
+		btnTimHopDong.setBounds(880, 10, 99, 32);
+		panel.add(btnTimHopDong);
+		
+		dao_hopDong = new DAO_HopDong();
+		dao_khachHang = new DAO_KhachHang();
+		dao_nhanvien = new NhanVien_DAO();
+		dao_xe =  new Xe_DAO();
+		for (HopDong hopdong : dao_hopDong.getAllHopDong()) {
+			String tenKH = "";
+			String tenNV = "";
+			String tenXe = "";
+			String trangThai = "";
+			for (KhachHang kh : dao_khachHang.getAllKH()) {
+				if (kh.getMaKH().equalsIgnoreCase(hopdong.getKhachHang().getMaKH())) {
+					tenKH = kh.getTenKH();
+				}
+			}
+			for (NhanVien nhanvien : dao_nhanvien.getAllNhanVien()) {
+				if (nhanvien.getMaNV().equalsIgnoreCase(hopdong.getNhanVien().getMaNV())) {
+					tenNV = nhanvien.getTenNV();
+				}
+			}
+			for (Xe xe : dao_xe.getDanhSachXe()) {
+				if (xe.getMaXe().equalsIgnoreCase(hopdong.getXe().getMaXe())) {
+					tenXe = xe.getTenXe();
+					
+				}
+			}
+			if (hopdong.getTrangThai().equalsIgnoreCase("Chưa thanh toán")) {
+				cboTimHopDong.addItem(hopdong.getMaHopDong()+" - "+hopdong.getKhachHang().getMaKH()+" - "+tenKH+" - "+hopdong.getNhanVien().getMaNV()+" - "+tenNV+" - "+hopdong.getXe().getMaXe()+" - "+tenXe+" ("+hopdong.getNgayLapHopDong()+")");
+			}
+		}
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(166, 169, 248));
@@ -100,6 +170,7 @@ public class FrameHoaDon extends JFrame{
 		panel_2.add(lblNewLabel_1_3);
 		
 		txtMaKH = new JTextField();
+		txtMaKH.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtMaKH.setEditable(false);
 		txtMaKH.setColumns(10);
 		txtMaKH.setBounds(179, 18, 331, 32);
@@ -113,6 +184,7 @@ public class FrameHoaDon extends JFrame{
 		panel_2.add(lblNewLabel_1_3_1);
 		
 		txtTenKH = new JTextField();
+		txtTenKH.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtTenKH.setEditable(false);
 		txtTenKH.setColumns(10);
 		txtTenKH.setBounds(179, 72, 331, 32);
@@ -126,6 +198,7 @@ public class FrameHoaDon extends JFrame{
 		panel_2.add(lblNewLabel_1_3_2);
 		
 		txtCCCD = new JTextField();
+		txtCCCD.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtCCCD.setEditable(false);
 		txtCCCD.setColumns(10);
 		txtCCCD.setBounds(179, 126, 331, 32);
@@ -139,6 +212,7 @@ public class FrameHoaDon extends JFrame{
 		panel_2.add(lblNewLabel_1_3_3);
 		
 		txtDiaChi = new JTextField();
+		txtDiaChi.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtDiaChi.setEditable(false);
 		txtDiaChi.setColumns(10);
 		txtDiaChi.setBounds(179, 180, 331, 32);
@@ -152,6 +226,7 @@ public class FrameHoaDon extends JFrame{
 		panel_2.add(lblNewLabel_1_3_4);
 		
 		txtSDT = new JTextField();
+		txtSDT.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtSDT.setEditable(false);
 		txtSDT.setColumns(10);
 		txtSDT.setBounds(179, 234, 331, 32);
@@ -173,6 +248,7 @@ public class FrameHoaDon extends JFrame{
 		panel_3.add(lblNewLabel_1_3_8);
 		
 		txtMaXe = new JTextField();
+		txtMaXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtMaXe.setEditable(false);
 		txtMaXe.setColumns(10);
 		txtMaXe.setBounds(179, 20, 331, 32);
@@ -186,6 +262,7 @@ public class FrameHoaDon extends JFrame{
 		panel_3.add(lblNewLabel_1_3_1_1);
 		
 		txtTenXe = new JTextField();
+		txtTenXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtTenXe.setEditable(false);
 		txtTenXe.setColumns(10);
 		txtTenXe.setBounds(179, 76, 331, 32);
@@ -199,6 +276,7 @@ public class FrameHoaDon extends JFrame{
 		panel_3.add(lblNewLabel_1_3_2_1);
 		
 		txtMauXe = new JTextField();
+		txtMauXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtMauXe.setEditable(false);
 		txtMauXe.setColumns(10);
 		txtMauXe.setBounds(179, 132, 331, 32);
@@ -212,6 +290,7 @@ public class FrameHoaDon extends JFrame{
 		panel_3.add(lblNewLabel_1_3_3_1);
 		
 		txtSoKhung = new JTextField();
+		txtSoKhung.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtSoKhung.setEditable(false);
 		txtSoKhung.setColumns(10);
 		txtSoKhung.setBounds(179, 188, 331, 32);
@@ -225,6 +304,7 @@ public class FrameHoaDon extends JFrame{
 		panel_3.add(lblNewLabel_1_3_4_1);
 		
 		txtSoMay = new JTextField();
+		txtSoMay.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtSoMay.setEditable(false);
 		txtSoMay.setColumns(10);
 		txtSoMay.setBounds(179, 244, 331, 32);
@@ -238,6 +318,7 @@ public class FrameHoaDon extends JFrame{
 		panel_3.add(lblNewLabel_1_3_5_1);
 		
 		txtLoaiXe = new JTextField();
+		txtLoaiXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtLoaiXe.setEditable(false);
 		txtLoaiXe.setColumns(10);
 		txtLoaiXe.setBounds(179, 300, 331, 32);
@@ -251,12 +332,14 @@ public class FrameHoaDon extends JFrame{
 		panel_3.add(lblNewLabel_1_3_6_1);
 		
 		txtHangSX = new JTextField();
+		txtHangSX.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtHangSX.setEditable(false);
 		txtHangSX.setColumns(10);
 		txtHangSX.setBounds(179, 356, 331, 32);
 		panel_3.add(txtHangSX);
 		
 		txtGiaXe = new JTextField();
+		txtGiaXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtGiaXe.setEditable(false);
 		txtGiaXe.setColumns(10);
 		txtGiaXe.setBounds(179, 412, 331, 32);
@@ -284,7 +367,11 @@ public class FrameHoaDon extends JFrame{
 		lblNewLabel_1_3_5.setBounds(10, 22, 159, 35);
 		panel_4.add(lblNewLabel_1_3_5);
 		
+		
+		
 		txtMaNV = new JTextField();
+		txtMaNV.setToolTipText("");
+		txtMaNV.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtMaNV.setEditable(false);
 		txtMaNV.setColumns(10);
 		txtMaNV.setBounds(179, 20, 331, 37);
@@ -298,6 +385,7 @@ public class FrameHoaDon extends JFrame{
 		panel_4.add(lblNewLabel_1_3_6);
 		
 		txtTenNV = new JTextField();
+		txtTenNV.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtTenNV.setEditable(false);
 		txtTenNV.setColumns(10);
 		txtTenNV.setBounds(179, 88, 331, 37);
@@ -317,12 +405,25 @@ public class FrameHoaDon extends JFrame{
 		panel_1.add(lblThnhTin);
 		
 		JLabel lblThanhTien = new JLabel("...");
+		lblThanhTien.setToolTipText("Đã bao gồm 5% giá trị thuế VAT");
 		lblThanhTien.setForeground(new Color(247, 237, 0));
 		lblThanhTien.setFont(new Font("Tahoma", Font.BOLD, 30));
 		lblThanhTien.setBounds(140, 24, 237, 37);
+		
 		panel_1.add(lblThanhTien);
 		
-		FixButton btnThanhTien = new FixButton("Làm mới");
+		FixButton btnThanhTien = new FixButton();
+		btnThanhTien.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (txtGiaXe.getText().equalsIgnoreCase("")) {
+					JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin trước khi tính thành tiền!");
+				} else {
+					double giaXe = Double.parseDouble(txtGiaXe.getText());
+					double thanhTien = giaXe + giaXe*5/100;
+					lblThanhTien.setText(currencyVN.format(thanhTien));
+				}
+			}
+		});
 		btnThanhTien.setIcon(new ImageIcon("image\\thanhtoan.png"));
 		btnThanhTien.setText("");
 		btnThanhTien.setForeground(Color.WHITE);
@@ -331,7 +432,58 @@ public class FrameHoaDon extends JFrame{
 		btnThanhTien.setBounds(383, 10, 60, 60);
 		panel_1.add(btnThanhTien);
 		
-		FixButton btnXuat = new FixButton("Làm mới");
+		FixButton btnXuat = new FixButton();
+		btnXuat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (txtGiaXe.getText().equalsIgnoreCase("")||lblThanhTien.getText().equalsIgnoreCase("...")) {
+					JOptionPane.showMessageDialog(null, "Vui lòng điền đủ thông tin và tính thành tiền trước khi xuất hóa đơn!");
+				} else {
+					String ma = cboTimHopDong.getSelectedItem().toString().substring(0,11);
+//					String tenKH = (dao_khachHang.getKHtheoMaHopDong(ma)).getTenKH();
+//					String tenNV = (dao_nhanvien.getNVtheoMaHopDong(ma)).getTenNV();
+//					String tenXe = (dao_xe.getXeTheoMaHopDong(ma)).getTenXe();
+//					String mauXe = (dao_xe.getXeTheoMaHopDong(ma)).getMauXe();
+//					String soKhung = (dao_xe.getXeTheoMaHopDong(ma)).getSoKhung();
+//					String soMay = (dao_xe.getXeTheoMaHopDong(ma)).getSoMay();
+//					String loaiXe = (dao_xe.getXeTheoMaHopDong(ma)).getLoaiXe().getTenLoaiXe();
+//					String hang = (dao_xe.getXeTheoMaHopDong(ma)).getHangSanXuat().getTenHangSX();
+//					double tien = (dao_xe.getXeTheoMaHopDong(ma)).getGiaXe();
+					String tenKH = txtTenKH.getText();
+					String tenNV = txtTenNV.getText();
+					Date ngay = txtNgayLap.getDate();
+					java.sql.Date ngayLap = new java.sql.Date(ngay.getYear(), ngay.getMonth(), ngay.getDate());
+					String tenXe = txtTenXe.getText();
+					String mauXe = txtMauXe.getText();
+					String soKhung = txtSoKhung.getText();
+					String soMay = txtSoMay.getText();
+					String loaiXe = txtLoaiXe.getText();
+					String hang = txtHangSX.getText();
+					double tien = Double.parseDouble(txtGiaXe.getText());
+					double tong = tien + tien*5/100;
+					
+					String maHD = txtMaHoaDon.getText();
+					String maXe = txtMaXe.getText();
+					HoaDon hd = new HoaDon(maHD, new HopDong(ma), ngayLap, tong);
+					if (dao_hoadon.getAllHoaDon().contains(hd)) {
+						JOptionPane.showMessageDialog(null, "Mã hóa đơn đã tồn tại!");
+					} else {
+						try {
+							dao_hoadon.create(hd);
+							dao_xe.update(maXe, "Đã bán");
+							dao_hopDong.update(ma, "Đã thanh toán");
+							JOptionPane.showMessageDialog(null, "Lưu hóa đơn thành công!");
+							new FrameHoaDonTinhTien(tenKH, tenNV, ngayLap, 
+									tenXe, mauXe, soKhung, soMay, loaiXe, hang, tien, tong).setVisible(true);
+						} catch (Exception e) {
+							// TODO: handle exception
+							JOptionPane.showMessageDialog(null, "Lưu hóa đơn thất bại!");
+						}
+					}
+					
+				}
+
+			}
+		});
 		btnXuat.setIcon(new ImageIcon("image\\xuatexcel.png"));
 		btnXuat.setText("");
 		btnXuat.setForeground(Color.WHITE);
@@ -339,11 +491,145 @@ public class FrameHoaDon extends JFrame{
 		btnXuat.setBackground(new Color(107, 96, 236));
 		btnXuat.setBounds(453, 10, 60, 60);
 		panel_1.add(btnXuat);
+		
+		FixButton btnLamMoiKH = new FixButton("Làm mới");
+		btnLamMoiKH.setIcon(new ImageIcon("image\\lammoi.png"));
+		btnLamMoiKH.setForeground(Color.WHITE);
+		btnLamMoiKH.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnLamMoiKH.setBackground(new Color(107, 96, 236));
+		btnLamMoiKH.setBounds(1096, 49, 136, 49);
+		getContentPane().add(btnLamMoiKH);
+		
+		JLabel lblNewLabel_1_3_6_2 = new JLabel("Mã hóa đơn:");
+		lblNewLabel_1_3_6_2.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_1_3_6_2.setFont(new Font("Tahoma", Font.BOLD, 16));
+		lblNewLabel_1_3_6_2.setBackground(new Color(166, 169, 248));
+		lblNewLabel_1_3_6_2.setBounds(108, 572, 159, 35);
+		getContentPane().add(lblNewLabel_1_3_6_2);
+		
+		txtMaHoaDon = new JTextField();
+		txtMaHoaDon.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		txtMaHoaDon.setEditable(false);
+		txtMaHoaDon.setColumns(10);
+		txtMaHoaDon.setBounds(277, 570, 331, 37);
+		getContentPane().add(txtMaHoaDon);
+		btnTimHopDong.addActionListener(new ActionListener() {
+			private LoaiXe_DAO daoloaixe;
+			private HangSanXuat_DAO daohsx;
 
+			public void actionPerformed(ActionEvent e) {
+				if (cboTimHopDong.getSelectedItem().toString().equalsIgnoreCase("")) {
+					JOptionPane.showMessageDialog(null, "Vui lòng chọn hợp đồng!");
+				} else {
+					String ma = cboTimHopDong.getSelectedItem().toString().substring(0,11);
+					for (HopDong hopdong : dao_hopDong.getAllHopDong()) {
+						if (hopdong.getMaHopDong().equalsIgnoreCase(ma)) {
+							String maKH = hopdong.getKhachHang().getMaKH();
+							String maNV = hopdong.getNhanVien().getMaNV();
+							String maXe = hopdong.getXe().getMaXe();
+							for (KhachHang kh : dao_khachHang.getAllKH()) {
+								if (kh.getMaKH().equalsIgnoreCase(maKH)) {
+									txtMaKH.setText(kh.getMaKH());
+									txtTenKH.setText(kh.getTenKH());
+									txtCCCD.setText(kh.getcCCD());
+									txtDiaChi.setText(kh.getDiaChi());
+									txtSDT.setText(kh.getsDT());
+								}
+							}
+							for (NhanVien nhanvien : dao_nhanvien.getAllNhanVien()) {
+								if (nhanvien.getMaNV().equalsIgnoreCase(maNV)) {
+									txtMaNV.setText(nhanvien.getMaNV());
+									txtTenNV.setText(nhanvien.getTenNV());
+								}
+							}
+							for (Xe xe : dao_xe.getDanhSachXe()) {
+								if (xe.getMaXe().equalsIgnoreCase(maXe)) {
+									txtMaXe.setText(xe.getMaXe());
+									txtTenXe.setText(xe.getTenXe());
+									txtMauXe.setText(xe.getMauXe());
+									txtSoKhung.setText(xe.getSoKhung());
+									txtSoMay.setText(xe.getSoMay());
+									
+									daoloaixe = new LoaiXe_DAO();
+									daohsx = new HangSanXuat_DAO();
+									
+									LoaiXe lx = daoloaixe.getLoaiXeTheoMa(xe.getLoaiXe().getMaLoaiXe());
+									txtLoaiXe.setText(lx.getTenLoaiXe());
+									
+									HangSanXuat hsx = daohsx.getHSXTheoMa(xe.getHangSanXuat().getMaHangSX());
+									txtHangSX.setText(hsx.getTenHangSX());
+									DecimalFormat cd = new DecimalFormat("###.0");
+									txtGiaXe.setText(cd.format(xe.getGiaXe()));
+								}
+							}
+						}
+					}
+				}
+				
+			}
+		});
+		btnLamMoiKH.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cboTimHopDong.setSelectedIndex(0);
+				
+				txtMaKH.setText("");
+				txtTenKH.setText("");
+				txtCCCD.setText("");
+				txtDiaChi.setText("");
+				txtSDT.setText("");
+				
+				txtMaNV.setText("");
+				txtTenNV.setText("");
+				
+				txtMaXe.setText("");
+				txtTenXe.setText("");
+				txtMauXe.setText("");
+				txtSoKhung.setText("");
+				txtSoMay.setText("");
+				txtLoaiXe.setText("");
+				txtHangSX.setText("");
+				txtGiaXe.setText("");
+				
+				lblThanhTien.setText("...");
+				phatSinhMaHopDong();
+				
+				Date d = new Date();
+				
+				txtNgayLap.setDate(d);
+				
+				cboTimHopDong.removeAllItems();
+				cboTimHopDong.addItem("");
+				for (HopDong hopdong : dao_hopDong.getAllHopDong()) {
+					String tenKH = "";
+					String tenNV = "";
+					String tenXe = "";
+					String trangThai = "";
+					for (KhachHang kh : dao_khachHang.getAllKH()) {
+						if (kh.getMaKH().equalsIgnoreCase(hopdong.getKhachHang().getMaKH())) {
+							tenKH = kh.getTenKH();
+						}
+					}
+					for (NhanVien nhanvien : dao_nhanvien.getAllNhanVien()) {
+						if (nhanvien.getMaNV().equalsIgnoreCase(hopdong.getNhanVien().getMaNV())) {
+							tenNV = nhanvien.getTenNV();
+						}
+					}
+					for (Xe xe : dao_xe.getDanhSachXe()) {
+						if (xe.getMaXe().equalsIgnoreCase(hopdong.getXe().getMaXe())) {
+							tenXe = xe.getTenXe();
+							
+						}
+					}
+					if (hopdong.getTrangThai().equalsIgnoreCase("Chưa thanh toán")) {
+						cboTimHopDong.addItem(hopdong.getMaHopDong()+" - "+hopdong.getKhachHang().getMaKH()+" - "+tenKH+" - "+hopdong.getNhanVien().getMaNV()+" - "+tenNV+" - "+hopdong.getXe().getMaXe()+" - "+tenXe+" ("+hopdong.getNgayLapHopDong()+")");
+					}
+				}
+			}
+		});
+		phatSinhMaHopDong();
 	}
 	private JButton lbl;
 	private JDateChooser txtNgayLap;
-	private JTextField txtSoLuong;
 	private JTextField txtMaKH;
 	private JTextField txtTenKH;
 	private JTextField txtCCCD;
@@ -359,13 +645,31 @@ public class FrameHoaDon extends JFrame{
 	private JTextField txtMaNV;
 	private JTextField txtTenNV;
 	private JTextField txtGiaXe;
+	private JTextField txtMaHoaDon;
+	private DAO_HoaDon dao_hoadon;
 	public JPanel createPanelHoaDon() {
 		JPanel pnlContentPane = new JPanel();
 		pnlContentPane.setBackground(Color.WHITE);
 		setContentPane(pnlContentPane);
-		pnlContentPane.add(lbl = new JButton("Gảgagag"));
+		
 		return pnlContentPane;
 	}
+	private void phatSinhMaHopDong() {
+		dao_hoadon = new DAO_HoaDon();
+		if (dao_hoadon.getAllHoaDon().isEmpty()) {
+			txtMaHoaDon.setText("HOADON0001");
+		} else {
+			
+			String ma = dao_hoadon.getMaHDCuoi();
+			String ma1 = ma.substring(0, 6);
+			String ma2 = ma.substring(6);
+			int ma3 = Integer.parseInt(ma2)+1;
+			DecimalFormat df = new DecimalFormat("0000");
+			txtMaHoaDon.setText(ma1+df.format(ma3));
+		}
+		
+	}
+	
 	public static void main(String[] args) {
 		new FrameHoaDon().setVisible(true);
 	}
