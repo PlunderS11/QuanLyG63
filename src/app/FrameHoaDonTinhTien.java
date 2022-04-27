@@ -210,11 +210,16 @@ public class FrameHoaDonTinhTien extends JFrame{
 					return dialog;
 				}
 			};
+			FileFilter filter = new FileNameExtensionFilter("PDF(.pdf)", ".pdf");
 			fileDialog.setAcceptAllFileFilterUsed(false);
+			fileDialog.addChoosableFileFilter(filter);
 			int returnVal = fileDialog.showSaveDialog(null);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				java.io.File file = fileDialog.getSelectedFile();
 				String filePath = file.getAbsolutePath();
+				if(!(filePath.endsWith(".pdf"))) {
+					filePath += ".pdf";
+				}
 				Document doc = new Document(PageSize.A5);
 				try {
 					PdfWriter.getInstance(doc, new FileOutputStream(filePath));
