@@ -473,6 +473,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		txtHangSanXuat.setText("");
 		txtGiaNhap.setText("");
 		txtTimKiem.setSelectedIndex(0);;
+		txtMauXe.setText("");
 	}
 	
 	public void themXe() {
@@ -480,7 +481,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 			if(regex.regexTen(txtTenXe) && regex.regexSoKhung(txtSoKhung) && regex.regexSoMay(txtSoMay) && regex.regexNhaCungCap(txtNhaCungCap) && regex.regexHangSanXuat(txtHangSanXuat) && regex.regexGiaXe(txtGiaNhap)) {
 				String maXe = daoXe.getMaXe();
 				String tenXe = txtTenXe.getText();
-				String mauXe = cboMauXe.getSelectedItem().toString();
+				String mauXe = txtMauXe.getText();
 				String soKhung = txtSoKhung.getText();
 				String soMay = txtSoMay.getText();
 				String nhaCungCap = txtNhaCungCap.getText();
@@ -521,7 +522,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 				if(regex.regexTen(txtTenXe) && regex.regexSoKhung(txtSoKhung) && regex.regexSoMay(txtSoMay) && regex.regexNhaCungCap(txtNhaCungCap) && regex.regexHangSanXuat(txtHangSanXuat) && regex.regexGiaXe(txtTam)) {
 					try {	
 						String tenXe = txtTenXe.getText();
-						String mauXe = cboMauXe.getSelectedItem().toString();
+						String mauXe = txtMauXe.getText();
 						String soKhung = txtSoKhung.getText();
 						String soMay = txtSoMay.getText();
 						String nhaCungCap = txtNhaCungCap.getText();
