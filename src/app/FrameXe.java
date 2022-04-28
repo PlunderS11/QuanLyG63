@@ -15,6 +15,8 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
 import connection.ConnectDB;
 import dao.HangSanXuat_DAO;
 import dao.LoaiXe_DAO;
@@ -22,6 +24,7 @@ import dao.Regex;
 import dao.Xe_DAO;
 import entity.HangSanXuat;
 import entity.LoaiXe;
+import entity.NhanVien;
 import entity.Xe;
 
 import javax.swing.JLabel;
@@ -222,16 +225,18 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		lblTimKiem.setBounds(9, 22, 91, 14);
 		panel.add(lblTimKiem);
 		
-		txtTimKiem = new JTextField();
+		txtTimKiem = new JComboBox();
 		txtTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtTimKiem.setBounds(102, 17, 215, 28);
+		txtTimKiem.addItem("");
+		AutoCompleteDecorator.decorate(txtTimKiem);
 		panel.add(txtTimKiem);
-		txtTimKiem.setColumns(10);
+		for(Xe x : daoXe.getDanhSachXe()) {
+			txtTimKiem.addItem(x.getMaXe());
+		}
 		
 		btnTimXe = new FixButton("Tìm");
 		btnTimXe.setIcon(new ImageIcon("image\\timkiem.png"));
-	
-		
 		btnTimXe.setForeground(Color.WHITE);
 		btnTimXe.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnTimXe.setBackground(new Color(107,96,236));
@@ -387,7 +392,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 	private JTextField txtNhaCungCap;
 	private JTextField txtHangSanXuat;
 	private JTextField txtGiaNhap;	
-	private JTextField txtTimKiem;
+	private JComboBox txtTimKiem;
 	private JTable tableXe;
 	private Xe_DAO daoXe;
 	private HangSanXuat_DAO daoHSX;
@@ -467,7 +472,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		txtNhaCungCap.setText("");
 		txtHangSanXuat.setText("");
 		txtGiaNhap.setText("");
-		txtTimKiem.setText("");
+		txtTimKiem.setSelectedIndex(0);;
 	}
 	
 	public void themXe() {
@@ -573,15 +578,11 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 	}
 	
 	public void timXe() {
-		
-		String regexMaXe = "((X|x)[0-9]{4})";
-			if(!txtTimKiem.getText().equals("")) {
-				if(regex.timMaXe(txtTimKiem)) {
-					if(txtTimKiem.getText().trim().matches(regexMaXe)) {
-						Xe xe = daoXe.getGiaXeTheoMa(txtTimKiem.getText());
-						loadThongTinXe(xe);
-					}
-				}
+		String ma = txtTimKiem.getSelectedItem().toString();
+			if(!ma.equals("")) {
+				Xe xe = daoXe.getGiaXeTheoMa(ma);
+				clearTable();
+				loadThongTinXe(xe);
 			}
 			else {
 				clearTable();

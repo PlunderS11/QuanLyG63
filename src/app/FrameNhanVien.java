@@ -36,6 +36,7 @@ import com.toedter.calendar.JDateChooser;
 
 import dao.NhanVien_DAO;
 import dao.TaiKhoan_DAO;
+import dao.TrangChu_DAO;
 import entity.NhanVien;
 import entity.TaiKhoan;
 import java.awt.event.MouseAdapter;
@@ -64,6 +65,7 @@ public class FrameNhanVien extends JFrame{
 	private ButtonGroup grNV;
 	private static DefaultTableModel model;
 	private JComboBox cboTimNV;
+	private TrangChu_DAO trangchu_dao;
 	public FrameNhanVien() {
 		
 		// khởi tạo kết nối đến CSDL
@@ -77,6 +79,7 @@ public class FrameNhanVien extends JFrame{
 		
 		nhanvien_dao = new NhanVien_DAO();
 		taikhoan_dao = new TaiKhoan_DAO();
+		trangchu_dao = new TrangChu_DAO();
 		
 		setSize(1345, 705);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -256,26 +259,30 @@ public class FrameNhanVien extends JFrame{
 						List<NhanVien> dsNV = new ArrayList<NhanVien>();
 						String maNV = table.getValueAt(r, 0).toString();
 						String tenTaiKhoan = "";
-//						for(NhanVien nv : dsNV) {
-//							if (nv.getMaNV().equalsIgnoreCase(maNV)) {
-//								tenTaiKhoan = nv.getTaiKhoan().getTenTaiKhoan();
-//								break;
+//							for(NhanVien nv : dsNV) {
+//								if (nv.getMaNV().equalsIgnoreCase(maNV)) {
+//									tenTaiKhoan = nv.getTaiKhoan().getTenTaiKhoan();
+//									break;
+//								}
 //							}
-//						}
 						nhanvien_dao.delete(maNV);
 						taikhoan_dao.delete(maNV);
 						xoaHetDL();
 						docDuLieuDatabaseVaoTable();
 					}
-				}
-			}	
-		);
+			}
+		});
 		btnXoaNV.setIcon(new ImageIcon("image\\xoa.png"));
 		btnXoaNV.setForeground(Color.WHITE);
 		btnXoaNV.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnXoaNV.setBackground(new Color(107,96,236));
 		btnXoaNV.setBounds(139, 400, 105, 49);
 		panel.add(btnXoaNV);
+		
+		NhanVien nv123 = trangchu_dao.getNhanVienSuDung(NewSignin.getTaiKhoan());
+		String chucVu = nv123.getMaNV().substring(0, 2);
+		if(chucVu.equalsIgnoreCase("NV"))
+			btnXoaNV.setEnabled(false);
 		
 		btnSuaNV = new FixButton("Sửa");
 		btnSuaNV.addActionListener(new ActionListener() {
