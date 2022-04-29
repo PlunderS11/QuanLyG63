@@ -63,12 +63,12 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 	private Regex regex;
 	private FixButton btnThemXe;
 	private FixButton btnSuaXe;
-	private DecimalFormat dfGiaXe;
+	private static DecimalFormat dfGiaXe;
 	private FixButton btnXoaXe;
 	private FixButton btnTimXe;
 	private JComboBox<String> cboSapXep;
 	private JTextField txtMauXe;
-	private DefaultTableModel modelXe;
+	private static DefaultTableModel modelXe;
 	private JTextField txtMaXe;
 	private JTextField txtTenXe;
 	private JTextField txtSoKhung;
@@ -79,8 +79,8 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 	private JComboBox txtTimKiem;
 	private JTable tableXe;
 	private Xe_DAO daoXe;
-	private HangSanXuat_DAO daoHSX;
-	private LoaiXe_DAO daoLoaiXe;
+	private static HangSanXuat_DAO daoHSX;
+	private static LoaiXe_DAO daoLoaiXe;
 	private JComboBox<String> cboTrangThai;
 
 	public FrameXe() {
@@ -205,12 +205,18 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		lblLoaiXe.setBounds(369, 135, 128, 23);
 		panel.add(lblLoaiXe);
 		
+
 //		String loaiXe[] = {"Xe tay ga","Xe tay côn","Xe số"};
 		 cboLoaiXe = new JComboBox<String>();
 		 cboLoaiXe.addItem("Xe tay ga");
 		 cboLoaiXe.addItem("Xe tay côn");
 		 cboLoaiXe.addItem("Xe số");
 		 cboLoaiXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
+
+		String loaiXe[] = {"Xe tay ga", "Xe số"};
+		cboLoaiXe = new JComboBox<String>(loaiXe);
+		cboLoaiXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
+
 		cboLoaiXe.setBounds(507, 130, 214, 28);
 		panel.add(cboLoaiXe);
 		
@@ -308,7 +314,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		
 		JPanel pSapXep = new JPanel();
 		pSapXep.setLayout(null);
-		pSapXep.setBounds(800, 116, 482, 86);
+		pSapXep.setBounds(800, 116, 482, 71);
 		pSapXep.setBackground(new Color(166, 169, 248));
 		pSapXep.setBorder(new LineBorder(Color.BLACK));
 		pSapXep.setBorder(new TitledBorder(new LineBorder(Color.BLACK, 1, true), "Sắp xếp",
@@ -398,6 +404,32 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		hienThiDanhSachXe();
 		scrollPane.setViewportView(tableXe);
 		
+		FixButton btnThemNhieuXe = new FixButton("Thêm nhiều xe");
+		btnThemNhieuXe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new FormThemXe().setVisible(true);
+			}
+		});
+		btnThemNhieuXe.setIcon(new ImageIcon("image\\them.png"));
+		btnThemNhieuXe.setForeground(Color.WHITE);
+		btnThemNhieuXe.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnThemNhieuXe.setBackground(new Color(107, 96, 236));
+		btnThemNhieuXe.setBounds(861, 198, 174, 49);
+		getContentPane().add(btnThemNhieuXe);
+		
+		FixButton btnNhapExcel = new FixButton("Nhập Excel");
+		btnNhapExcel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
+		btnNhapExcel.setIcon(new ImageIcon("image\\docfile.png"));
+		btnNhapExcel.setForeground(Color.WHITE);
+		btnNhapExcel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnNhapExcel.setBackground(new Color(107, 96, 236));
+		btnNhapExcel.setBounds(1076, 198, 174, 49);
+		getContentPane().add(btnNhapExcel);
+		
 		btnLamMoiXe.addActionListener(this);
 		tableXe.addMouseListener(this);
 		btnThemXe.addActionListener(this);
@@ -406,7 +438,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		btnTimXe.addActionListener(this);
 
 	}
-	
+
 	
 	public void hienThiDanhSachXe() {
 		clearTable();
@@ -445,7 +477,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		}
 	}
 	
-	public void loadThongTinXe(Xe xe) {
+	public static void loadThongTinXe(Xe xe) {
 		HangSanXuat hsx = daoHSX.getHSXTheoMa(xe.getHangSanXuat().getMaHangSX());
 		LoaiXe lx = daoLoaiXe.getLoaiXeTheoMa(xe.getLoaiXe().getMaLoaiXe());
 		modelXe.addRow(new Object[] {
