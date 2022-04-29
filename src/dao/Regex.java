@@ -9,7 +9,7 @@ import javax.swing.JTextField;
 public class Regex {
 	public boolean regexTen(JTextField txtTen2) {
 		String input = txtTen2.getText().trim();
-		String regex = "^([ A-Za-za-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]*(\\s?))+$";
+		String regex = "^([ A-Za-za-zA-Z]*(\\s?))+$";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(input);
 		if (!matcher.find()) {
@@ -67,14 +67,23 @@ public class Regex {
 	}
 	
 	public boolean regexGiaXe(JTextField txtGiaXe) {
-		String input = txtGiaXe.getText();
-		String regex = "^[1-9]+[0-9]*$";
-		if (!input.matches(regex)) {
-			JOptionPane.showMessageDialog(null,
-					"Giá xe không được để trống và không được có kí tự chữ", "Thông báo",
-					JOptionPane.ERROR_MESSAGE);
+		String giaXe = txtGiaXe.toString();
+		if(giaXe.trim().length() > 0) {
+			try {
+				double x = Double.parseDouble(giaXe);
+				if(x <= 0) {
+					JOptionPane.showMessageDialog(null, "Giá xe phải lớn hơn 0", "Lỗi", JOptionPane.ERROR_MESSAGE);
+					txtGiaXe.requestFocus();
+					return false;
+				}
+			}catch (NumberFormatException e) {
+				JOptionPane.showMessageDialog(null, "Error: Giá xe phải nhập số", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				txtGiaXe.requestFocus();
+				return false;
+			}
+		}else {
+			JOptionPane.showMessageDialog(null, "Giá xe không được để trống", "Lỗi", JOptionPane.ERROR_MESSAGE);
 			txtGiaXe.requestFocus();
-			txtGiaXe.selectAll();
 			return false;
 		}
 		return true;
