@@ -15,6 +15,9 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import connection.ConnectDB;
@@ -31,13 +34,18 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileInputStream;
 import java.sql.SQLException;
 
 import java.text.DecimalFormat;
@@ -45,6 +53,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.swing.JScrollPane;
@@ -402,30 +411,35 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		hienThiDanhSachXe();
 		scrollPane.setViewportView(tableXe);
 		
-		FixButton btnThemNhieuXe = new FixButton("Thêm nhiều xe");
-		btnThemNhieuXe.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new FormThemXe().setVisible(true);
-			}
-		});
-		btnThemNhieuXe.setIcon(new ImageIcon("image\\them.png"));
-		btnThemNhieuXe.setForeground(Color.WHITE);
-		btnThemNhieuXe.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnThemNhieuXe.setBackground(new Color(107, 96, 236));
-		btnThemNhieuXe.setBounds(861, 198, 174, 49);
-		getContentPane().add(btnThemNhieuXe);
-		
 		FixButton btnNhapExcel = new FixButton("Nhập Excel");
 		btnNhapExcel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				JFileChooser fileDialog = new JFileChooser() {
+					@Override
+					protected JDialog createDialog(Component parent) throws HeadlessException {
+						JDialog dialog = super.createDialog(parent);
+						return dialog;
+					}
+				};
+				int returnVal = fileDialog.showOpenDialog(null);
+				if (returnVal == JFileChooser.APPROVE_OPTION) {
+					java.io.File file = fileDialog.getSelectedFile();
+					if (file.getName().endsWith(".xls")) {
+						docFileExcel(file.getAbsolutePath());
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Vui lòng chọn file Excel để đọc file", "Lỗi",
+								JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+				}
 			}
 		});
 		btnNhapExcel.setIcon(new ImageIcon("image\\docfile.png"));
 		btnNhapExcel.setForeground(Color.WHITE);
 		btnNhapExcel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnNhapExcel.setBackground(new Color(107, 96, 236));
-		btnNhapExcel.setBounds(1076, 198, 174, 49);
+		btnNhapExcel.setBounds(976, 198, 174, 49);
 		getContentPane().add(btnNhapExcel);
 		
 		btnLamMoiXe.addActionListener(this);
@@ -633,13 +647,10 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		String ma = txtTimKiem.getSelectedItem().toString();
 			if(!ma.equalsIgnoreCase("")) {
 				Xe xe = daoXe.getGiaXeTheoMa(ma);
-				
-					clearTable();
-					loadThongTinXe(xe);
-				
+				clearTable();
+				loadThongTinXe(xe);
 			}
 			else {
-				
 				JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin tìm kiếm!", "Thông báo",
 						JOptionPane.WARNING_MESSAGE);
 			}
@@ -735,6 +746,102 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 			DecimalFormat df = new DecimalFormat("0000");
 			txtMaXe.setText(ma1+df.format(ma3));
 		}
-		
+	}
+	public void docFileExcel(String filePath) {
+		List<Xe> dsXeDocTuFile = new ArrayList<Xe>();
+		try {
+			FileInputStream iStream = null;
+			HSSFWorkbook workbook;
+			try {
+				iStream = new FileInputStream(filePath);
+				workbook = new HSSFWorkbook(iStream);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this, "File không hợp lệ!!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			HSSFSheet worksheet = workbook.getSheet("DANH SÁCH XE");
+
+			if (worksheet == null) {
+				JOptionPane.showMessageDialog(this, "File không có worksheet \"DANH SÁCH XE\"", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				workbook.close();
+				return;
+			}
+
+			String[] title = { "STT", "Tên xe", "Màu xe", "Số khung", "Số máy", "Nhà cung cấp", "Hãng cung cấp", "Loại xe", "Giá xe" };
+			HSSFRow row0 = worksheet.getRow(0);
+			for (int i = 0; i < title.length; i++) {
+				String temp = "";
+				try {
+					temp = row0.getCell(i).getStringCellValue();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(this, "File không hợp lệ", "Lỗi", JOptionPane.ERROR_MESSAGE);
+					workbook.close();
+					return;
+				}
+				if (!temp.trim().equals(title[i])) {
+					JOptionPane.showMessageDialog(this, "File excel không đúng định dạng", "Lỗi", JOptionPane.ERROR_MESSAGE);
+					workbook.close();
+					return;
+				}
+			}
+
+			HSSFRow row = worksheet.getRow(1);
+			int i = 1;
+			// Đọc dữ liệu vào list
+			String temp = "";
+			try {
+				temp = row.getCell(1).getStringCellValue();
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this, "Dòng "+(i+1)+" file Excel sai định dạng!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				workbook.close();
+				return;
+			}
+			while (!temp.trim().equals("")) {
+				try {
+					String maXe = "ma";
+					String tenXe = row.getCell(1).getStringCellValue();
+					String mauXe = row.getCell(2).getStringCellValue();
+					int soKhungcell = (int) row.getCell(3).getNumericCellValue();
+					String soKhung = String.valueOf(soKhungcell);
+					int soMaycell = (int) row.getCell(4).getNumericCellValue();
+					String soMay = String.valueOf(soMaycell);
+					String NCC = row.getCell(5).getStringCellValue();
+					String HSXcell = row.getCell(6).getStringCellValue();
+					HangSanXuat HSX = new HangSanXuat(daoHSX.getMaTheoHangSanXuat(HSXcell));
+					String lxcell = row.getCell(7).getStringCellValue();
+					LoaiXe loaiXe = new LoaiXe(daoLoaiXe.getMaTheoLoaiXe(lxcell));
+					double giaTien = row.getCell(8).getNumericCellValue();
+					String trangThai = "Còn hàng";
+					Xe x = new Xe(maXe, tenXe, mauXe, soKhung, soMay , NCC, giaTien, HSX, loaiXe, trangThai);
+					dsXeDocTuFile.add(x);
+					row = worksheet.getRow(++i);
+					if (row == null)
+						break;
+					temp = row.getCell(1).getStringCellValue();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(this, "Dòng "+(i+1)+" file Excel sai định dạng", "Lỗi", JOptionPane.ERROR_MESSAGE);
+					workbook.close();
+					return;
+				}
+			}
+			workbook.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (dsXeDocTuFile == null) {
+			JOptionPane.showMessageDialog(this, "File không hợp lệ!!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+			return;
+		}	
+		for(Xe xeDocTuFile : dsXeDocTuFile) {
+			String ma = daoXe.getMaXeCuoi();				
+			int layMaSo = Integer.parseInt(ma.substring(1, ma.length())); 
+			String maXe = "X" + (layMaSo + 1);
+			xeDocTuFile.setMaXe(maXe);
+			Xe x = new Xe(xeDocTuFile.getMaXe(), xeDocTuFile.getTenXe(), xeDocTuFile.getMauXe(), xeDocTuFile.getSoKhung(), 
+					xeDocTuFile.getSoMay(), xeDocTuFile.getNhaCungCap(), xeDocTuFile.getGiaXe(), xeDocTuFile.getHangSanXuat(), 
+					xeDocTuFile.getLoaiXe(), "Còn hàng");
+			daoXe.themDanhSachXe(x);
+			loadDanhSachXe();
+		}
 	}
 }

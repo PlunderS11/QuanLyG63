@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,6 +26,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
+
 import dao.HangSanXuat_DAO;
 import dao.Regex;
 import dao.Xe_DAO;
@@ -33,7 +36,7 @@ import entity.LoaiXe;
 import entity.Xe;
 
 public class FrameHangSanXuat extends JFrame implements ActionListener, MouseListener{
-	private JTextField txtTimKiem;
+	private JComboBox txtTimKiem;
 	private JTextField txtMaHangXe;
 	private JTextField txtTenHangXe;
 	private JTextField txtNguonGoc;
@@ -80,11 +83,15 @@ public class FrameHangSanXuat extends JFrame implements ActionListener, MouseLis
 		lblTimKiem.setBounds(20, 22, 91, 14);
 		panel.add(lblTimKiem);
 		
-		txtTimKiem = new JTextField();
+		txtTimKiem = new JComboBox();
 		txtTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtTimKiem.setBounds(108, 18, 214, 28);
+		txtTimKiem.addItem("");
+		AutoCompleteDecorator.decorate(txtTimKiem);
 		panel.add(txtTimKiem);
-		txtTimKiem.setColumns(10);
+		for(HangSanXuat hsx : daoHSX.getDanhSachHangSanXat()) {
+			txtTimKiem.addItem(hsx.getMaHangSX());
+		}
 		
 		btnTimHX = new FixButton("Tìm");
 		btnTimHX.setIcon(new ImageIcon("image\\timkiem.png"));
@@ -172,7 +179,7 @@ public class FrameHangSanXuat extends JFrame implements ActionListener, MouseLis
 		
 
 		
-		 btnSuaHX = new FixButton("Sửa");
+		btnSuaHX = new FixButton("Sửa");
 	
 		btnSuaHX.setIcon(new ImageIcon("image\\capnhat.png"));
 		btnSuaHX.setForeground(Color.WHITE);
@@ -181,7 +188,7 @@ public class FrameHangSanXuat extends JFrame implements ActionListener, MouseLis
 		btnSuaHX.setBounds(244, 336, 109, 49);
 		pChucNang.add(btnSuaHX);
 		
-		 btnLamMoiHX = new FixButton("Làm mới");
+		btnLamMoiHX = new FixButton("Làm mới");
 		btnLamMoiHX.setIcon(new ImageIcon("image\\lammoi.png"));
 		btnLamMoiHX.setForeground(Color.WHITE);
 		btnLamMoiHX.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -349,23 +356,21 @@ public class FrameHangSanXuat extends JFrame implements ActionListener, MouseLis
 		}
 	}
 	public void timXe() {
-		String regexMaXe = "((X|x)[0-9]{4})";
-			if(!txtTimKiem.getText().equals("")) {
-				if(regex.timMaXe(txtTimKiem)) {
-					if(txtTimKiem.getText().trim().matches(regexMaXe)) {
-						Xe xe = daoXe.getGiaXeTheoMa(txtTimKiem.getText());
-						HangSanXuat hsx = daoHSX.getHSXTheoMa(xe.getLoaiXe().getMaLoaiXe());
-						JOptionPane.showMessageDialog(this, "Xe "+xe.getMaXe()+" có hãng sản xuất là "+hsx.getTenHangSX()+"", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-					}
-				}
-			}
-			else {
-				JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin tìm kiếm!", "Thông báo",
-						JOptionPane.WARNING_MESSAGE);
-			}
+		String ma = txtTimKiem.getSelectedItem().toString();
+		if(!ma.equalsIgnoreCase("")) {
+			HangSanXuat hsx = daoHSX.getHSXTheoMa(ma);
+			clearTableHangXe();
+			clearTableXe();
+			modelHangXe.addRow(new Object [] {
+					hsx.getMaHangSX(), hsx.getTenHangSX(), hsx.getNguonGoc()
+				});	
+		}
+		else {
+			JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin tìm kiếm!", "Thông báo",
+					JOptionPane.WARNING_MESSAGE);
+		}
 	}
-	
-	
+		
 	public void clearAll() {
 		txtMaHangXe.setText("");
 		txtTenHangXe.setText("");
