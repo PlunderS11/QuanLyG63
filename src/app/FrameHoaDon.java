@@ -521,7 +521,14 @@ public class FrameHoaDon extends JFrame{
 				if (cboTimHopDong.getSelectedItem().toString().equalsIgnoreCase("")) {
 					JOptionPane.showMessageDialog(null, "Vui lòng chọn hợp đồng!");
 				} else {
-					String ma = cboTimHopDong.getSelectedItem().toString().substring(0,11);
+					String ma = "";
+					try {
+						ma = cboTimHopDong.getSelectedItem().toString().substring(0,11);
+					} catch (Exception e2) {
+						// TODO: handle exception
+						JOptionPane.showMessageDialog(null, "Lỗi nhập liệu!");
+					}
+					
 					for (HopDong hopdong : dao_hopDong.getAllHopDong()) {
 						if (hopdong.getMaHopDong().equalsIgnoreCase(ma)) {
 							String maKH = hopdong.getKhachHang().getMaKH();
@@ -563,6 +570,9 @@ public class FrameHoaDon extends JFrame{
 								}
 							}
 						}
+					}
+					if (txtMaKH.getText().equalsIgnoreCase("")) {
+						JOptionPane.showMessageDialog(null, "Không tìm thấy hợp đồng!");
 					}
 				}
 				

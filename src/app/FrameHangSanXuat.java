@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -47,6 +48,7 @@ public class FrameHangSanXuat extends JFrame implements ActionListener, MouseLis
 	private FixButton btnLamMoiHX;
 	private Regex regex;
 	private FixButton btnTimHX;
+	private FixButton btnXoaHX;
 	
 	public FrameHangSanXuat() {
 		
@@ -145,6 +147,28 @@ public class FrameHangSanXuat extends JFrame implements ActionListener, MouseLis
 		btnThemHX.setBackground(new Color(107,96,236));
 		btnThemHX.setBounds(0, 336, 115, 49);
 		pChucNang.add(btnThemHX);
+		 
+		 btnXoaHX = new FixButton("Thêm");
+		 btnXoaHX.addActionListener(new ActionListener() {
+		 	public void actionPerformed(ActionEvent e) {
+		 		int r = tableHangXe.getSelectedRow();
+				if (r==-1) {
+					JOptionPane.showMessageDialog(null, "Vui lòng chọn dòng cần xóa!");
+				} else {
+					if (JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa khách hàng này không?", "Cảnh báo", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
+						daoHSX.delete(modelHangXe.getValueAt(r, 0).toString());
+						modelHangXe.removeRow(r);
+						JOptionPane.showMessageDialog(null, "Xóa thành công!");
+					}
+				}
+		 	}
+		 });
+		 btnXoaHX.setIcon(new ImageIcon("image\\xoa.png"));
+		 btnXoaHX.setText("Xóa");
+		 btnXoaHX.setForeground(Color.WHITE);
+		 btnXoaHX.setFont(new Font("Tahoma", Font.BOLD, 14));
+		 btnXoaHX.setBackground(new Color(107, 96, 236));
+		 pChucNang.add(btnXoaHX);
 		
 
 		
@@ -262,11 +286,14 @@ public class FrameHangSanXuat extends JFrame implements ActionListener, MouseLis
 		btnSuaHX.addActionListener(this);
 		btnLamMoiHX.addActionListener(this);
 		btnTimHX.addActionListener(this);
+		phatSinhMaHSX();
 	}
 	public void themHangSanXuat() {
 		try {
-			if(regex.regexHangSanXuat(txtTenHangXe) &&regex.regexTen(txtNguonGoc)) {
-				String maHSX = daoHSX.getMaHSX();
+			if (!kiemTra()) {
+				return;
+			} else {
+				String maHSX = txtMaHangXe.getText();
 				String tenHSX = txtTenHangXe.getText();
 				String nguonGoc = txtNguonGoc.getText();
 				
@@ -275,8 +302,10 @@ public class FrameHangSanXuat extends JFrame implements ActionListener, MouseLis
 				clearTableHangXe();
 				loadDanhSachHangXe();
 				JOptionPane.showMessageDialog(this, "Thêm hãng xe thành công");	
-				
 			}
+				
+				
+			
 		} catch (Exception e) {
 			// TODO: handle exception
 			JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin", "Thông báo", JOptionPane.WARNING_MESSAGE);
@@ -291,9 +320,11 @@ public class FrameHangSanXuat extends JFrame implements ActionListener, MouseLis
 			int update = JOptionPane.showConfirmDialog(this, "Bạn muốn sửa thông tin hãng này không?", "Thông báo",
 					JOptionPane.YES_NO_OPTION);
 			if(update == JOptionPane.YES_OPTION) {
-				if(regex.regexHangSanXuat(txtTenHangXe) &&regex.regexTen(txtNguonGoc)) {
+				if (!kiemTra1()) {
+					return;
+				} else {
 					try {	
-						String maHSX = daoHSX.getMaHSX();
+						String maHSX = txtMaHangXe.getText();
 						String tenHSX = txtTenHangXe.getText();
 						String nguonGoc = txtNguonGoc.getText();
 						HangSanXuat hsx = new HangSanXuat(maHSX, tenHSX, nguonGoc);
@@ -308,6 +339,8 @@ public class FrameHangSanXuat extends JFrame implements ActionListener, MouseLis
 								JOptionPane.ERROR_MESSAGE);
 					}
 				}
+					
+				
 			}
 			else {
 				JOptionPane.showMessageDialog(null, "Vui lòng chọn thông tin hãng cần sửa!", "Thông báo",
@@ -337,6 +370,10 @@ public class FrameHangSanXuat extends JFrame implements ActionListener, MouseLis
 		txtMaHangXe.setText("");
 		txtTenHangXe.setText("");
 		txtNguonGoc.setText("");
+		clearTableHangXe();
+		clearTableXe();
+		loadDanhSachHangXe();
+		phatSinhMaHSX();
 	}
 	
 	public void loadDanhSachHangXe() {
@@ -423,5 +460,82 @@ public class FrameHangSanXuat extends JFrame implements ActionListener, MouseLis
 			clearAll();
 		if(o.equals(btnTimHX))
 			timXe();
+	}
+	private void phatSinhMaHSX() {
+		
+		if (daoHSX.getDanhSachHangSanXat().isEmpty()) {
+			txtMaHangXe.setText("HSX0001");
+		} else {
+			
+			String ma = daoHSX.getMaXeCuoi();
+			String ma1 = ma.substring(0, 3);
+			String ma2 = ma.substring(3);
+			int ma3 = Integer.parseInt(ma2)+1;
+			DecimalFormat df = new DecimalFormat("0000");
+			txtMaHangXe.setText(ma1+df.format(ma3));
+		}
+		
+	}
+	public boolean kiemTra() {
+		String ten = txtTenHangXe.getText();
+		String nguon = txtNguonGoc.getText();
+		for (HangSanXuat hsx : daoHSX.getDanhSachHangSanXat()) {
+			if (hsx.getTenHangSX().equalsIgnoreCase(ten)) {
+				JOptionPane.showMessageDialog(null, "Tên hãng xe đã tòn tại!");
+				txtTenHangXe.requestFocus();
+				return false;
+			}
+		}
+		if (ten.trim().length()>0) {
+			if (!ten.matches("[^!@#$%^&*()]+")) {
+				JOptionPane.showMessageDialog(null, "Tên hãng xe không bao gồm ký tự đặc biệt!");
+				txtTenHangXe.requestFocus();
+				return false;
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Tên hãng xe không được để trống!");
+			txtTenHangXe.requestFocus();
+			return false;
+		}
+		if (nguon.trim().length()>0) {
+			if (!nguon.matches("[^!@#$%^&*()]+")) {
+				JOptionPane.showMessageDialog(null, "Nguồn gốc xe không bao gồm ký tự đặc biệt!");
+				txtNguonGoc.requestFocus();
+				return false;
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Nguồn gốc xe không được để trống!");
+			txtNguonGoc.requestFocus();
+			return false;
+		}
+		return true;
+	}
+	public boolean kiemTra1() {
+		String ten = txtTenHangXe.getText();
+		String nguon = txtNguonGoc.getText();
+		
+		if (ten.trim().length()>0) {
+			if (!ten.matches("[^!@#$%^&*()]+")) {
+				JOptionPane.showMessageDialog(null, "Tên hãng xe không bao gồm ký tự đặc biệt!");
+				txtTenHangXe.requestFocus();
+				return false;
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Tên hãng xe không được để trống!");
+			txtTenHangXe.requestFocus();
+			return false;
+		}
+		if (nguon.trim().length()>0) {
+			if (!nguon.matches("[^!@#$%^&*()]+")) {
+				JOptionPane.showMessageDialog(null, "Nguồn gốc xe không bao gồm ký tự đặc biệt!");
+				txtNguonGoc.requestFocus();
+				return false;
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Nguồn gốc xe không được để trống!");
+			txtNguonGoc.requestFocus();
+			return false;
+		}
+		return true;
 	}
 }

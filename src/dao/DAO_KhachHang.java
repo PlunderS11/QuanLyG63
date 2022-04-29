@@ -42,6 +42,8 @@ public class DAO_KhachHang {
 		return dsKH;
 	}
 	
+	
+	
 	public String getMaKHCuoi() {
 		
 		String maCuoi = null;	
@@ -144,8 +146,7 @@ public class DAO_KhachHang {
 	}
 	
 public  KhachHang getKHtheoCCCD(String cccd) {
-		
-		
+		KhachHang kh  = new KhachHang();
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();			
 		try {
@@ -153,7 +154,7 @@ public  KhachHang getKHtheoCCCD(String cccd) {
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			while(rs.next()){
-				KhachHang kh = new KhachHang();
+				
 				kh.setMaKH(rs.getString("maKH"));
 				kh.setTenKH(rs.getString("tenKH"));
 				kh.setNgaySinh(rs.getDate("ngaySinh"));

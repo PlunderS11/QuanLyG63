@@ -74,7 +74,6 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 	private JTextField txtSoKhung;
 	private JTextField txtSoMay;
 	private JTextField txtNhaCungCap;
-	private JTextField txtHangSanXuat;
 	private JTextField txtGiaNhap;	
 	private JComboBox txtTimKiem;
 	private JTable tableXe;
@@ -82,6 +81,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 	private static HangSanXuat_DAO daoHSX;
 	private static LoaiXe_DAO daoLoaiXe;
 	private JComboBox<String> cboTrangThai;
+	private JComboBox<String> cboHSX;
 
 	public FrameXe() {
 		
@@ -194,12 +194,6 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		lblHangSanXuat.setBounds(369, 101, 128, 23);
 		panel.add(lblHangSanXuat);
 		
-		txtHangSanXuat = new JTextField();
-		txtHangSanXuat.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		txtHangSanXuat.setBounds(507, 96, 214, 28);
-		panel.add(txtHangSanXuat);
-		txtHangSanXuat.setColumns(10);
-		
 		JLabel lblLoaiXe = new JLabel("Loại xe:");
 		lblLoaiXe.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblLoaiXe.setBounds(369, 135, 128, 23);
@@ -212,11 +206,6 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		 cboLoaiXe.addItem("Xe tay côn");
 		 cboLoaiXe.addItem("Xe số");
 		 cboLoaiXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
-
-		String loaiXe[] = {"Xe tay ga", "Xe số"};
-		cboLoaiXe = new JComboBox<String>(loaiXe);
-		cboLoaiXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
-
 		cboLoaiXe.setBounds(507, 130, 214, 28);
 		panel.add(cboLoaiXe);
 		
@@ -267,6 +256,15 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		cboTrangThai.addItem("Đã bán");
 		cboTrangThai.setBounds(507, 202, 214, 28);
 		panel.add(cboTrangThai);
+		
+		cboHSX = new JComboBox<String>();
+		cboHSX.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		cboHSX.setBounds(507, 94, 214, 28);
+		
+		for (HangSanXuat hsx : daoHSX.getDanhSachHangSanXat()) {
+			cboHSX.addItem(hsx.getTenHangSX());
+		}
+		panel.add(cboHSX);
 		
 		
 		JPanel pChucNang = new JPanel();
@@ -436,6 +434,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		btnSuaXe.addActionListener(this);
 		btnXoaXe.addActionListener(this);
 		btnTimXe.addActionListener(this);
+		phatSinhMaXe();
 
 	}
 
@@ -512,25 +511,30 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		txtSoKhung.setText("");
 		txtSoMay.setText("");
 		txtNhaCungCap.setText("");
-		txtHangSanXuat.setText("");
+		cboHSX.setSelectedIndex(0);
 		txtGiaNhap.setText("");
 		txtTimKiem.setSelectedIndex(0);;
 		cboTrangThai.setSelectedIndex(0);
 		cboLoaiXe.setSelectedIndex(0);
 		cboSapXep.setSelectedIndex(0);
 		txtMauXe.setText("");
+		phatSinhMaXe();
+		cboHSX.removeAllItems();
+		for (HangSanXuat hsx : daoHSX.getDanhSachHangSanXat()) {
+			cboHSX.addItem(hsx.getTenHangSX());
+		}
 	}
 	
 	public void themXe() {
 		try {
-			if(regex.regexTen(txtTenXe) && regex.regexSoKhung(txtSoKhung) && regex.regexSoMay(txtSoMay) && regex.regexNhaCungCap(txtNhaCungCap) && regex.regexHangSanXuat(txtHangSanXuat) && regex.regexGiaXe(txtGiaNhap)) {
-				String maXe = daoXe.getMaXe();
+			if(regex.regexTen(txtTenXe) && regex.regexSoKhung(txtSoKhung) && regex.regexSoMay(txtSoMay) && regex.regexNhaCungCap(txtNhaCungCap) && regex.regexGiaXe(txtGiaNhap)) {
+				String maXe = txtMaXe.getText();
 				String tenXe = txtTenXe.getText();
 				String mauXe = txtMauXe.getText();
 				String soKhung = txtSoKhung.getText();
 				String soMay = txtSoMay.getText();
 				String nhaCungCap = txtNhaCungCap.getText();
-				HangSanXuat hangSanXuat = new HangSanXuat(daoHSX.getMaTheoHangSanXuat(txtHangSanXuat.getText())); 
+				HangSanXuat hangSanXuat = new HangSanXuat(daoHSX.getMaTheoHangSanXuat(cboHSX.getSelectedItem().toString())); 
 				String trangThai = cboTrangThai.getSelectedItem().toString();
 				
 				LoaiXe loaiXe = new LoaiXe( daoLoaiXe.getMaTheoLoaiXe(cboLoaiXe.getSelectedItem().toString()));
@@ -556,22 +560,24 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 			int update = JOptionPane.showConfirmDialog(this, "Bạn muốn sửa thông tin xe này không?", "Thông báo",
 					JOptionPane.YES_NO_OPTION);
 			if(update == JOptionPane.YES_OPTION) {
-				JTextField txtTam = new JTextField();
-				String maXe = modelXe.getValueAt(row, 0).toString();
-				double gia = Math.round(daoXe.getGiaXeTheoMa(maXe).getGiaXe());
-				//System.out.println(gia);
-				double giaXe = Double.parseDouble(txtGiaNhap.getText().toString());
-				
-				txtTam.setText(String.valueOf(Math.round(giaXe)));
+//				JTextField txtTam = new JTextField();
+//				String maXe = modelXe.getValueAt(row, 0).toString();
+//				double gia = Math.round(daoXe.getGiaXeTheoMa(maXe).getGiaXe());
+//				//System.out.println(gia);
+//				
+//				
+//				txtTam.setText(String.valueOf(Math.round(giaXe)));
 				//System.out.println(regex.regexGiaXe(txtTam));
-				if(regex.regexTen(txtTenXe) && regex.regexSoKhung(txtSoKhung) && regex.regexSoMay(txtSoMay) && regex.regexNhaCungCap(txtNhaCungCap) && regex.regexHangSanXuat(txtHangSanXuat) && regex.regexGiaXe(txtTam)) {
+				if(regex.regexTen(txtTenXe) && regex.regexSoKhung(txtSoKhung) && regex.regexSoMay(txtSoMay) && regex.regexNhaCungCap(txtNhaCungCap) && regex.regexGiaXe(txtGiaNhap)) {
 					try {	
+						String maXe = txtMaXe.getText();
 						String tenXe = txtTenXe.getText();
 						String mauXe = txtMauXe.getText();
 						String soKhung = txtSoKhung.getText();
 						String soMay = txtSoMay.getText();
 						String nhaCungCap = txtNhaCungCap.getText();
-						HangSanXuat hangSanXuat = new HangSanXuat(daoHSX.getMaTheoHangSanXuat(txtHangSanXuat.getText())); 
+						double giaXe = Double.parseDouble(txtGiaNhap.getText().toString());
+						HangSanXuat hangSanXuat = new HangSanXuat(daoHSX.getMaTheoHangSanXuat(cboHSX.getSelectedItem().toString())); 
 						String trangThai = cboTrangThai.getSelectedItem().toString();
 						LoaiXe loaiXe = new LoaiXe( daoLoaiXe.getMaTheoLoaiXe(cboLoaiXe.getSelectedItem().toString()));
 						Xe xe = new Xe(maXe, tenXe, mauXe, soKhung, soMay, nhaCungCap, giaXe, hangSanXuat, loaiXe, trangThai);
@@ -625,13 +631,15 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 	
 	public void timXe() {
 		String ma = txtTimKiem.getSelectedItem().toString();
-			if(!ma.equals("")) {
+			if(!ma.equalsIgnoreCase("")) {
 				Xe xe = daoXe.getGiaXeTheoMa(ma);
-				clearTable();
-				loadThongTinXe(xe);
+				
+					clearTable();
+					loadThongTinXe(xe);
+				
 			}
 			else {
-				clearTable();
+				
 				JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin tìm kiếm!", "Thông báo",
 						JOptionPane.WARNING_MESSAGE);
 			}
@@ -676,7 +684,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 			txtSoKhung.setText(modelXe.getValueAt(row, 3).toString());
 			txtSoMay.setText(modelXe.getValueAt(row, 4).toString());
 			txtNhaCungCap.setText(modelXe.getValueAt(row, 5).toString());
-			txtHangSanXuat.setText(modelXe.getValueAt(row, 6).toString());
+			cboHSX.setSelectedItem(modelXe.getValueAt(row, 6).toString());
 			cboLoaiXe.setSelectedItem(modelXe.getValueAt(row, 7).toString());
 			txtGiaNhap.setText(modelXe.getValueAt(row, 8).toString());
 
@@ -714,4 +722,19 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		// TODO Auto-generated method stub
 		
 	}
+	private void phatSinhMaXe() {
+		
+		if (daoXe.getDanhSachXe().isEmpty()) {
+			txtMaXe.setText("X0001");
+		} else {
+			
+			String ma = daoXe.getMaXeCuoi();
+			String ma1 = ma.substring(0, 1);
+			String ma2 = ma.substring(1);
+			int ma3 = Integer.parseInt(ma2)+1;
+			DecimalFormat df = new DecimalFormat("0000");
+			txtMaXe.setText(ma1+df.format(ma3));
+		}
+		
 	}
+}

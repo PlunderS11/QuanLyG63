@@ -391,10 +391,16 @@ public class FrameHopDong extends JFrame{
 				if (cboTimXe.getSelectedItem().toString().equalsIgnoreCase("")) {
 					JOptionPane.showMessageDialog(null, "Vui lòng chọn sản phẩm!");
 				} else {
-					String ma = cboTimXe.getSelectedItem().toString().substring(0,5);
+					
 					daoHSX = new HangSanXuat_DAO();
 					daoLoaiXe = new LoaiXe_DAO();
-					
+					String ma = "";
+					try {
+						ma = cboTimXe.getSelectedItem().toString().substring(0,5);
+					} catch (Exception e2) {
+						// TODO: handle exception
+						JOptionPane.showMessageDialog(null, "Lỗi nhập liệu!");
+					}
 					for (Xe xe : dao_xe.getDanhSachXe()) {
 						HangSanXuat hsx = daoHSX.getHSXTheoMa(xe.getHangSanXuat().getMaHangSX());
 						LoaiXe lx = daoLoaiXe.getLoaiXeTheoMa(xe.getLoaiXe().getMaLoaiXe());
@@ -404,11 +410,14 @@ public class FrameHopDong extends JFrame{
 							txtSoMay.setText(xe.getSoMay());
 							txtHSX.setText(hsx.getTenHangSX());
 							txtLoaiXe.setText(lx.getTenLoaiXe());
-							
 							txtGiaNhap.setText(currencyVN.format(xe.getGiaXe()));
 							
 						}
 					}
+					if (txtMauXe.getText().equalsIgnoreCase("")) {
+						JOptionPane.showMessageDialog(null, "Không tìm thấy sản phẩm!");
+					}
+
 				}
 				
 			}
@@ -494,6 +503,9 @@ public class FrameHopDong extends JFrame{
 							txtCCCD.setText(kh.getcCCD());
 						}
 					}
+					if (txtMaKH.getText().equalsIgnoreCase("")) {
+						JOptionPane.showMessageDialog(null, "Không tìm thấy khách hàng!");
+					}
 				}
 				
 			}
@@ -567,7 +579,7 @@ public class FrameHopDong extends JFrame{
 				cboTimXe.removeAllItems();
 				cboTimXe.addItem("");
 				for (Xe x : dao_xe.getDanhSachXe()) {
-					if (x.getTrangThai().equalsIgnoreCase("Chưa bán")) {
+					if (x.getTrangThai().equalsIgnoreCase("Còn hàng")) {
 						cboTimXe.addItem(x.getMaXe()+" - "+x.getTenXe());
 					}
 				}

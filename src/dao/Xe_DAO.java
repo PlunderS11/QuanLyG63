@@ -53,7 +53,25 @@ public class Xe_DAO {
 		}
 		return n>0;
 	}
-	
+	public String getMaXeCuoi() {
+		
+		String maCuoi = null;	
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();			
+		try {
+			String sql = "select top 1 maXe from dbo.Xe order by maXe desc";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()) {
+				maCuoi = rs.getString("maXe");
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return maCuoi;
+	}
 	public boolean suaThongTinXe(Xe xe) {
 
 		ConnectDB.getInstance();

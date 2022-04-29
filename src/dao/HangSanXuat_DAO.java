@@ -187,6 +187,45 @@ public ArrayList<Xe> getDanhSachXe(String maHangSanXuat){
 	
 	
 }
-
-
+	public String getMaXeCuoi() {
+	
+		String maCuoi = null;	
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();			
+		try {
+			String sql = "select top 1 maHangSX from dbo.HangSanXuat order by maHangSX desc";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()) {
+				maCuoi = rs.getString("maHangSX");
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return maCuoi;
+	}
+	public boolean delete(String ma){
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		PreparedStatement stmt = null;
+		int n = 0;
+		try {
+			stmt = con.prepareStatement("delete HangSanXuat where maHangSX = ?");
+			stmt.setString(1, ma);
+			n = stmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally{
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+		return n > 0;
+	}
 }

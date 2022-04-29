@@ -291,29 +291,34 @@ public class FrameNhanVien extends JFrame{
 				if(r == -1)
 					JOptionPane.showMessageDialog(null, "Vui lòng chọn dòng cần sửa", "Lỗi", JOptionPane.ERROR_MESSAGE);
 				else {
-					String maNV = txtMaNV.getText();
-					String tenNV = txtTenNV.getText();
-					boolean gioiTinh = radMaleNV.isSelected();
-					String cccd = txtCCCD.getText();
-					String sdt = txtSoDT.getText();
-					String diaChi = txtDiaChi.getText();
-					String chucVu = cbbChucVu.getSelectedItem().toString();
-					Date ngaySinhNV = txtNgaySinh.getDate();
-					java.sql.Date ngaySinh = new java.sql.Date(ngaySinhNV.getYear(), ngaySinhNV.getMonth(), ngaySinhNV.getDate());
-					String taiKhoan = (String) model.getValueAt(r, 8);
-					
-					List<TaiKhoan> dsTK = taikhoan_dao.getAllTaiKhoan();
-					for (TaiKhoan tkhoan : dsTK) {
-						if (tkhoan.getTenTaiKhoan().equals(taiKhoan)) {
-							TaiKhoan tk = new TaiKhoan(taiKhoan, tkhoan.getMatKhau());
-							NhanVien nv = new NhanVien(maNV, tenNV, ngaySinh, diaChi, sdt, cccd, gioiTinh, chucVu, tk);
-							nhanvien_dao.update(nv);
+					if (!validInput1()) {
+						return;
+					} else {
+						String maNV = txtMaNV.getText();
+						String tenNV = txtTenNV.getText();
+						boolean gioiTinh = radMaleNV.isSelected();
+						String cccd = txtCCCD.getText();
+						String sdt = txtSoDT.getText();
+						String diaChi = txtDiaChi.getText();
+						String chucVu = cbbChucVu.getSelectedItem().toString();
+						Date ngaySinhNV = txtNgaySinh.getDate();
+						java.sql.Date ngaySinh = new java.sql.Date(ngaySinhNV.getYear(), ngaySinhNV.getMonth(), ngaySinhNV.getDate());
+						String taiKhoan = (String) model.getValueAt(r, 8);
+						
+						List<TaiKhoan> dsTK = taikhoan_dao.getAllTaiKhoan();
+						for (TaiKhoan tkhoan : dsTK) {
+							if (tkhoan.getTenTaiKhoan().equals(taiKhoan)) {
+								TaiKhoan tk = new TaiKhoan(taiKhoan, tkhoan.getMatKhau());
+								NhanVien nv = new NhanVien(maNV, tenNV, ngaySinh, diaChi, sdt, cccd, gioiTinh, chucVu, tk);
+								nhanvien_dao.update(nv);
+							}
 						}
+						JOptionPane.showMessageDialog(null, "Cập nhật thành công!", "Thành công",
+								JOptionPane.INFORMATION_MESSAGE);
+						xoaHetDL();
+						docDuLieuDatabaseVaoTable();
 					}
-					JOptionPane.showMessageDialog(null, "Cập nhật thành công!", "Thành công",
-							JOptionPane.INFORMATION_MESSAGE);
-					xoaHetDL();
-					docDuLieuDatabaseVaoTable();
+					
 				}
 			}
 		});
@@ -454,14 +459,25 @@ public class FrameNhanVien extends JFrame{
 		btnTimNV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String cccd = cboTimNV.getSelectedItem().toString();
-				for (NhanVien nv : nhanvien_dao.getAllNhanVien()) {
-					if (nv.getcCCD().equalsIgnoreCase(cccd)) {
-						xoaHetDL();
-						model.addRow(new Object[] { nv.getMaNV().trim(), nv.getTenNV().trim(), nv.getNgaySinh(),
-								nv.getDiaChi().trim(), nv.getSoDT().trim(), nv.getcCCD().trim(),nv.isGioiTinh() == true ? "Nam" : "Nữ",
-								nv.getChucVu().trim(), nv.getTaiKhoan().getTenTaiKhoan() });
+				if (cccd.equalsIgnoreCase("")) {
+					JOptionPane.showMessageDialog(null, "Vui lòng nhập CCCD nhân viên cần tìm!");
+				} else {
+					int temp = -1;
+					for (NhanVien nv : nhanvien_dao.getAllNhanVien()) {
+						if (nv.getcCCD().equalsIgnoreCase(cccd)) {
+							xoaHetDL();
+							model.addRow(new Object[] { nv.getMaNV().trim(), nv.getTenNV().trim(), nv.getNgaySinh(),
+									nv.getDiaChi().trim(), nv.getSoDT().trim(), nv.getcCCD().trim(),nv.isGioiTinh() == true ? "Nam" : "Nữ",
+									nv.getChucVu().trim(), nv.getTaiKhoan().getTenTaiKhoan() });
+							temp = 1;
+						}
+
+					}
+					if (temp == -1) {
+						JOptionPane.showMessageDialog(null, "Không tìm thấy nhân viên cần tìm!");
 					}
 				}
+				
 			}
 		});
 		getContentPane().add(cboTimNV);
@@ -517,6 +533,87 @@ public class FrameNhanVien extends JFrame{
 				return false;
 			}
 		}
+		if (cccd.trim().length() > 0) {
+			if (!(cccd.matches("[0-9]{9}")) && !(cccd.matches("[0-9]{12}"))) {
+				JOptionPane.showMessageDialog(this, "CCCD phải gồm 9 hoặc 12 số", "Lỗi",
+						JOptionPane.ERROR_MESSAGE);
+				txtCCCD.requestFocus();
+				return false;
+			}
+		} else {
+			JOptionPane.showMessageDialog(this, "CCCD không được để trống", "Lỗi",
+					JOptionPane.ERROR_MESSAGE);
+			txtCCCD.requestFocus();
+			return false;
+		}
+		if (sdt.trim().length() > 0) {
+			if (!(sdt.matches("[0-9]{10,11}"))) {
+				JOptionPane.showMessageDialog(this, "Số điện thoại phải gồm 10 đến 11 số", "Lỗi",
+						JOptionPane.ERROR_MESSAGE);
+				txtSoDT.requestFocus();
+				return false;
+			}
+		} else {
+			JOptionPane.showMessageDialog(this, "Số điện thoại không được để trống", "Lỗi",
+					JOptionPane.ERROR_MESSAGE);
+			txtSoDT.requestFocus();
+			return false;
+		}
+		if(diaChi.trim().length() > 0) {
+			if (!(diaChi.matches("[^\\@\\!\\$\\^\\&\\*\\(\\)]+"))) {
+				JOptionPane.showMessageDialog(this, "Địa chỉ không chứa ký tự đặc biệt", "Lỗi",
+						JOptionPane.ERROR_MESSAGE);
+				txtDiaChi.requestFocus();
+				return false;				
+			}
+		} else {
+			JOptionPane.showMessageDialog(this, "Địa chỉ không được để trống", "Lỗi",
+					JOptionPane.ERROR_MESSAGE);
+			txtDiaChi.requestFocus();
+			return false;
+		}
+		return true;
+	}
+	private boolean validInput1() {
+		String maNV = txtMaNV.getText();
+		String tenNV = txtTenNV.getText();
+		Date ngaySinh = txtNgaySinh.getDate();
+		String cccd = txtCCCD.getText();
+		String sdt = txtSoDT.getText();
+		String diaChi = txtDiaChi.getText();
+		
+		if(maNV.equals("")) {
+			JOptionPane.showMessageDialog(null, "Vui lòng phát sinh mã Nhân viên!","Lỗi", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		if (tenNV.trim().length() > 0) {
+			if (!(tenNV.matches("[^\\@\\!\\$\\^\\&\\*\\(\\)]+"))) {
+				JOptionPane.showMessageDialog(this, "Tên nhân viên không chứa ký tự đặc biệt", "Lỗi",
+						JOptionPane.ERROR_MESSAGE);
+				txtTenNV.requestFocus();
+				return false;				
+			}
+		} else {
+			JOptionPane.showMessageDialog(this, "Tên nhân viên không được để trống", "Lỗi",
+					JOptionPane.ERROR_MESSAGE);
+			txtTenNV.requestFocus();
+			return false;
+		}
+		if (ngaySinh == null) {
+			JOptionPane.showMessageDialog(this, "Ngày sinh không được để trống", "Lỗi",
+					JOptionPane.ERROR_MESSAGE);
+			txtNgaySinh.requestFocus();
+			return false;
+		} else {
+			Date ngayHienTai = new Date();
+			if (ngayHienTai.getYear() - ngaySinh.getYear() < 18) {
+				JOptionPane.showMessageDialog(this, "Nhân viên chưa đủ 18 tuổi", "Lỗi",
+						JOptionPane.ERROR_MESSAGE);
+				txtNgaySinh.requestFocus();
+				return false;
+			}
+		}
+		
 		if (cccd.trim().length() > 0) {
 			if (!(cccd.matches("[0-9]{9}")) && !(cccd.matches("[0-9]{12}"))) {
 				JOptionPane.showMessageDialog(this, "CCCD phải gồm 9 hoặc 12 số", "Lỗi",

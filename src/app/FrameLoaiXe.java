@@ -34,7 +34,6 @@ import javax.swing.JTable;
 
 public class FrameLoaiXe extends JFrame implements MouseListener, ActionListener{	
 	private JButton lbl;
-	private JTextField txtTimKiem;
 	private JTextField txtMaLoaiXe;
 	private JTextField txtTenLoaiXe;
 	private JTable tableLoaiXe;
@@ -45,7 +44,6 @@ public class FrameLoaiXe extends JFrame implements MouseListener, ActionListener
 	private Xe_DAO daoXe;
 	private FixButton btnLamMoi;
 	private Regex regex;
-	private FixButton btnTimLX;
 	public JPanel createPanelLoaiXe() {
 		JPanel pnlContentPane = new JPanel();
 		pnlContentPane.setBackground(Color.WHITE);
@@ -66,53 +64,30 @@ public class FrameLoaiXe extends JFrame implements MouseListener, ActionListener
 		JPanel panel = new JPanel();
 		//panel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
 		panel.setBackground(new Color(166, 169, 248));
-		panel.setBounds(10, 0, 1311, 115);
+		panel.setBounds(10, 0, 1311, 77);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		
-		
-		JLabel lblTimKiem = new JLabel("Tìm kiếm:");
-		lblTimKiem.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblTimKiem.setBounds(10, 33, 91, 14);
-		panel.add(lblTimKiem);
-		
-		txtTimKiem = new JTextField();
-		txtTimKiem.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		txtTimKiem.setBounds(111, 28, 214, 28);
-		panel.add(txtTimKiem);
-		txtTimKiem.setColumns(10);
-		
-		btnTimLX = new FixButton("Tìm");
-		btnTimLX.setIcon(new ImageIcon("image\\timkiem.png"));
-	
-		
-		btnTimLX.setForeground(Color.WHITE);
-		btnTimLX.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnTimLX.setBackground(new Color(107,96,236));
-		btnTimLX.setBounds(337, 26, 99, 32);
-		panel.add(btnTimLX);
-		
 		JLabel lblMaLoaiXe = new JLabel("Mã loại xe:");
 		lblMaLoaiXe.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblMaLoaiXe.setBounds(10, 76, 104, 20);
+		lblMaLoaiXe.setBounds(10, 26, 104, 20);
 		panel.add(lblMaLoaiXe);
 		
 		txtMaLoaiXe = new JTextField();
 		txtMaLoaiXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtMaLoaiXe.setEditable(false);
-		txtMaLoaiXe.setBounds(111, 74, 214, 28);
+		txtMaLoaiXe.setBounds(111, 24, 214, 28);
 		panel.add(txtMaLoaiXe);
 		txtMaLoaiXe.setColumns(10);
 		
 		JLabel lblTenLoaiXe = new JLabel("Tên loại xe:");
 		lblTenLoaiXe.setFont(new Font("Tahoma", Font.BOLD, 16));
-		lblTenLoaiXe.setBounds(373, 82, 104, 15);
+		lblTenLoaiXe.setBounds(373, 32, 104, 15);
 		panel.add(lblTenLoaiXe);
 		
 		txtTenLoaiXe = new JTextField();
 		txtTenLoaiXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		txtTenLoaiXe.setBounds(487, 76, 214, 28);
+		txtTenLoaiXe.setBounds(487, 26, 214, 28);
 		panel.add(txtTenLoaiXe);
 		txtTenLoaiXe.setColumns(10);
 		
@@ -121,11 +96,11 @@ public class FrameLoaiXe extends JFrame implements MouseListener, ActionListener
 		btnLamMoi.setForeground(Color.WHITE);
 		btnLamMoi.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnLamMoi.setBackground(new Color(107, 96, 236));
-		btnLamMoi.setBounds(733, 73, 145, 32);
+		btnLamMoi.setBounds(733, 23, 145, 32);
 		panel.add(btnLamMoi);
 		
 		JScrollPane scrlLoaiXe = new JScrollPane();
-		scrlLoaiXe.setBounds(10, 140, 1309, 215);
+		scrlLoaiXe.setBounds(10, 87, 1309, 135);
 		getContentPane().add(scrlLoaiXe);
 		
 		//tableLoaiXe = new JTable();
@@ -172,7 +147,7 @@ public class FrameLoaiXe extends JFrame implements MouseListener, ActionListener
 		scrlLoaiXe.setViewportView(tableLoaiXe);
 		
 		JScrollPane scrlTenXe = new JScrollPane();
-		scrlTenXe.setBounds(10, 365, 1309, 240);
+		scrlTenXe.setBounds(10, 232, 1309, 373);
 		
 		
 		getContentPane().add(scrlTenXe);
@@ -223,7 +198,6 @@ public class FrameLoaiXe extends JFrame implements MouseListener, ActionListener
 		
 		tableLoaiXe.addMouseListener(this);
 		btnLamMoi.addActionListener(this);
-		btnTimLX.addActionListener(this);
 	}
 	
 	public void loadDanhSachLoaiXe() {
@@ -262,22 +236,7 @@ public class FrameLoaiXe extends JFrame implements MouseListener, ActionListener
 			
 		}
 	}
-	public void timXe() {
-		String regexMaXe = "((X|x)[0-9]{4})";
-			if(!txtTimKiem.getText().equals("")) {
-				if(regex.timMaXe(txtTimKiem)) {
-					if(txtTimKiem.getText().trim().matches(regexMaXe)) {
-						Xe xe = daoXe.getGiaXeTheoMa(txtTimKiem.getText());
-						LoaiXe lx = daoLoaiXe.getLoaiXeTheoMa(xe.getLoaiXe().getMaLoaiXe());
-						JOptionPane.showMessageDialog(this, "Xe "+xe.getMaXe()+" là "+lx.getTenLoaiXe()+"", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-					}
-				}
-			}
-			else {
-				JOptionPane.showMessageDialog(this, "Vui lòng nhập thông tin tìm kiếm!", "Thông báo",
-						JOptionPane.WARNING_MESSAGE);
-			}
-	}
+	
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -304,8 +263,16 @@ public class FrameLoaiXe extends JFrame implements MouseListener, ActionListener
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
 		if(o.equals(btnLamMoi))
+			txtTenLoaiXe.setText("");
+			txtMaLoaiXe.setText("");
+			XoaDL();
+			loadDanhSachLoaiXe();
 			clearTableXe();
-		if(o.equals(btnTimLX))
-			timXe();
+			
+		
+	}
+	private void XoaDL() {
+		DefaultTableModel dm = (DefaultTableModel) tableLoaiXe.getModel();
+		dm.getDataVector().removeAllElements();
 	}
 }

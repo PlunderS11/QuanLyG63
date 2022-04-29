@@ -67,7 +67,7 @@ public class Regex {
 	}
 	
 	public boolean regexGiaXe(JTextField txtGiaXe) {
-		String giaXe = txtGiaXe.toString();
+		String giaXe = txtGiaXe.getText().trim();
 		if(giaXe.trim().length() > 0) {
 			try {
 				double x = Double.parseDouble(giaXe);
