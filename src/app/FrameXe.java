@@ -60,7 +60,6 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 	private FixButton btnLamMoiXe;
 	private JComboBox<String> cboMauXe;
 	private JComboBox<String> cboLoaiXe;
-	private JComboBox<String> cboTrangThai;
 	private Regex regex;
 	private FixButton btnThemXe;
 	private FixButton btnSuaXe;
@@ -69,6 +68,20 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 	private FixButton btnTimXe;
 	private JComboBox<String> cboSapXep;
 	private JTextField txtMauXe;
+	private DefaultTableModel modelXe;
+	private JTextField txtMaXe;
+	private JTextField txtTenXe;
+	private JTextField txtSoKhung;
+	private JTextField txtSoMay;
+	private JTextField txtNhaCungCap;
+	private JTextField txtHangSanXuat;
+	private JTextField txtGiaNhap;	
+	private JComboBox txtTimKiem;
+	private JTable tableXe;
+	private Xe_DAO daoXe;
+	private HangSanXuat_DAO daoHSX;
+	private LoaiXe_DAO daoLoaiXe;
+	private JComboBox<String> cboTrangThai;
 
 	public FrameXe() {
 		
@@ -95,6 +108,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		setSize(1345, 705);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
+		setResizable(false);
 		getContentPane().setBackground(new Color(166, 169, 248));	
 		getContentPane().setLayout(null);
 		
@@ -191,8 +205,11 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		lblLoaiXe.setBounds(369, 135, 128, 23);
 		panel.add(lblLoaiXe);
 		
-		String loaiXe[] = {"Xe tay ga", "Xe số"};
-		 cboLoaiXe = new JComboBox<String>(loaiXe);
+//		String loaiXe[] = {"Xe tay ga","Xe tay côn","Xe số"};
+		 cboLoaiXe = new JComboBox<String>();
+		 cboLoaiXe.addItem("Xe tay ga");
+		 cboLoaiXe.addItem("Xe tay côn");
+		 cboLoaiXe.addItem("Xe số");
 		 cboLoaiXe.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		cboLoaiXe.setBounds(507, 130, 214, 28);
 		panel.add(cboLoaiXe);
@@ -212,13 +229,6 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		lblTrangThai.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblTrangThai.setBounds(369, 207, 128, 23);
 		panel.add(lblTrangThai);
-		
-		String trangThai[] = {"Còn hàng", "Đang bán", "Đã bán"};
-		cboTrangThai = new JComboBox<String>(trangThai);
-		cboTrangThai.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		cboTrangThai.setEnabled(false);
-		cboTrangThai.setBounds(507, 202, 214, 28);
-		panel.add(cboTrangThai);
 		
 		JLabel lblTimKiem = new JLabel("Tìm kiếm:");
 		lblTimKiem.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -242,6 +252,15 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		btnTimXe.setBackground(new Color(107,96,236));
 		btnTimXe.setBounds(325, 15, 99, 32);
 		panel.add(btnTimXe);
+		
+		cboTrangThai = new JComboBox<String>();
+		cboTrangThai.setEnabled(false);
+		cboTrangThai.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		cboTrangThai.addItem("Còn hàng");
+		cboTrangThai.addItem("Đang bán");
+		cboTrangThai.addItem("Đã bán");
+		cboTrangThai.setBounds(507, 202, 214, 28);
+		panel.add(cboTrangThai);
 		
 		
 		JPanel pChucNang = new JPanel();
@@ -301,8 +320,11 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		lblSapXep.setBounds(74, 30, 108, 23);
 		pSapXep.add(lblSapXep);
 		
-		String sapXep[] = {"Chọn phương thức sắp xếp","Giá tiền từ thấp đến cao", "Giá tiền từ cao đến thấp"};
-		cboSapXep = new JComboBox<String>(sapXep);
+//		String sapXep[] = {"Chọn phương thức sắp xếp","Giá tiền từ thấp đến cao", "Giá tiền từ cao đến thấp"};
+		cboSapXep = new JComboBox<String>();
+		cboSapXep.addItem("Chọn phương thức sắp xếp");
+		cboSapXep.addItem("Giá tiền từ thấp đến cao");
+		cboSapXep.addItem("Giá tiền từ cao đến thấp");
 		cboSapXep.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		cboSapXep.setBounds(192, 25, 230, 28);
 		//loadDanhSachXe();
@@ -384,19 +406,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		btnTimXe.addActionListener(this);
 
 	}
-	private DefaultTableModel modelXe;
-	private JTextField txtMaXe;
-	private JTextField txtTenXe;
-	private JTextField txtSoKhung;
-	private JTextField txtSoMay;
-	private JTextField txtNhaCungCap;
-	private JTextField txtHangSanXuat;
-	private JTextField txtGiaNhap;	
-	private JComboBox txtTimKiem;
-	private JTable tableXe;
-	private Xe_DAO daoXe;
-	private HangSanXuat_DAO daoHSX;
-	private LoaiXe_DAO daoLoaiXe;
+	
 	
 	public void hienThiDanhSachXe() {
 		clearTable();
@@ -473,6 +483,9 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		txtHangSanXuat.setText("");
 		txtGiaNhap.setText("");
 		txtTimKiem.setSelectedIndex(0);;
+		cboTrangThai.setSelectedIndex(0);
+		cboLoaiXe.setSelectedIndex(0);
+		cboSapXep.setSelectedIndex(0);
 		txtMauXe.setText("");
 	}
 	
@@ -622,20 +635,27 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		Object o = e.getSource();
-		if(o.equals(tableXe)) {
+	
+		
 			int row = tableXe.getSelectedRow();
-			txtMaXe.setText(tableXe.getValueAt(row, 0).toString());
-			txtTenXe.setText(tableXe.getValueAt(row, 1).toString());
-			txtMauXe.setText(tableXe.getValueAt(row, 2).toString());
-			txtSoKhung.setText(tableXe.getValueAt(row, 3).toString());
-			txtSoMay.setText(tableXe.getValueAt(row, 4).toString());
-			txtNhaCungCap.setText(tableXe.getValueAt(row, 5).toString());
-			txtHangSanXuat.setText(tableXe.getValueAt(row, 6).toString());
-			cboLoaiXe.setSelectedItem(tableXe.getValueAt(row, 7).toString());
-			txtGiaNhap.setText(tableXe.getValueAt(row, 8).toString());
-			cboTrangThai.setSelectedItem(tableXe.getValueAt(row, 9).toString());
-		}
+			txtMaXe.setText(modelXe.getValueAt(row, 0).toString());
+			txtTenXe.setText(modelXe.getValueAt(row, 1).toString());
+			txtMauXe.setText(modelXe.getValueAt(row, 2).toString());
+			txtSoKhung.setText(modelXe.getValueAt(row, 3).toString());
+			txtSoMay.setText(modelXe.getValueAt(row, 4).toString());
+			txtNhaCungCap.setText(modelXe.getValueAt(row, 5).toString());
+			txtHangSanXuat.setText(modelXe.getValueAt(row, 6).toString());
+			cboLoaiXe.setSelectedItem(modelXe.getValueAt(row, 7).toString());
+			txtGiaNhap.setText(modelXe.getValueAt(row, 8).toString());
+
+			String trangThai =  modelXe.getValueAt(row, 9).toString();
+			if (trangThai.equalsIgnoreCase("Còn hàng")) {
+				cboTrangThai.setSelectedIndex(0);
+			} else if(trangThai.equalsIgnoreCase("Đang bán")) {
+				cboTrangThai.setSelectedIndex(1);
+			} else {
+				cboTrangThai.setSelectedIndex(2);
+			}
 
 	}
 
@@ -662,5 +682,4 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		// TODO Auto-generated method stub
 		
 	}
-
 	}
