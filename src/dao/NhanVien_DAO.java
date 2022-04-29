@@ -44,6 +44,35 @@ public class NhanVien_DAO {
 		}
 		return dsnv;
 	}
+	
+	public List<NhanVien> getAllNhanVienTruCCCD(String cccd1){
+		List<NhanVien> dsnv = new ArrayList<NhanVien>();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();
+		try {
+			String sql = "Select * from NhanVien where cCCD <> '"+cccd1+"'";
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			// Duyệt trên kết quả trả về
+			while (rs.next()) {
+				String maNV = rs.getString("maNV");
+				String tenNV = rs.getString("tenNV");
+				Date ngaySinh = rs.getDate("ngaySinh");
+				String diaChi = rs.getString("diaChi");
+				String sdt = rs.getString("sDT");
+				String cccd = rs.getString("cCCD");
+				boolean gioiTinh = rs.getBoolean("gioiTinh");
+				String chucVu = rs.getString("chucVu");
+				String tenTK = rs.getString("tenTaiKhoan");
+				TaiKhoan tk = new TaiKhoan(tenTK, "123");
+				NhanVien nv = new NhanVien(maNV, tenNV, ngaySinh, diaChi, sdt, cccd, gioiTinh, chucVu, tk);
+				dsnv.add(nv);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dsnv;
+	}
 	public boolean createNVCoTK(NhanVien nv) {
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();

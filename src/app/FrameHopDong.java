@@ -401,6 +401,7 @@ public class FrameHopDong extends JFrame{
 						// TODO: handle exception
 						JOptionPane.showMessageDialog(null, "Lỗi nhập liệu!");
 					}
+					int temp = -1;
 					for (Xe xe : dao_xe.getDanhSachXe()) {
 						HangSanXuat hsx = daoHSX.getHSXTheoMa(xe.getHangSanXuat().getMaHangSX());
 						LoaiXe lx = daoLoaiXe.getLoaiXeTheoMa(xe.getLoaiXe().getMaLoaiXe());
@@ -411,10 +412,10 @@ public class FrameHopDong extends JFrame{
 							txtHSX.setText(hsx.getTenHangSX());
 							txtLoaiXe.setText(lx.getTenLoaiXe());
 							txtGiaNhap.setText(currencyVN.format(xe.getGiaXe()));
-							
+							temp = 1;
 						}
 					}
-					if (txtMauXe.getText().equalsIgnoreCase("")) {
+					if (temp==-1) {
 						JOptionPane.showMessageDialog(null, "Không tìm thấy sản phẩm!");
 					}
 
@@ -496,14 +497,16 @@ public class FrameHopDong extends JFrame{
 				if (cboTimKHCu.getSelectedItem().toString().equalsIgnoreCase("")) {
 					JOptionPane.showMessageDialog(null, "Vui lòng nhập CCCD của khách hàng!");
 				} else {
+					int temp = -1;
 					for (KhachHang kh : dao_khachHang.getAllKH()) {
 						if (kh.getcCCD().equalsIgnoreCase(cboTimKHCu.getSelectedItem().toString())) {
 							txtMaKH.setText(kh.getMaKH());
 							txtTenKH.setText(kh.getTenKH());
 							txtCCCD.setText(kh.getcCCD());
+							temp = 1;
 						}
 					}
-					if (txtMaKH.getText().equalsIgnoreCase("")) {
+					if (temp==-1) {
 						JOptionPane.showMessageDialog(null, "Không tìm thấy khách hàng!");
 					}
 				}

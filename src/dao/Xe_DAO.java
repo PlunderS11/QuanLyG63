@@ -149,7 +149,65 @@ public class Xe_DAO {
 		ArrayList<Xe> lsXe = new ArrayList<Xe>();
 		ConnectDB.getInstance();
 		Connection con = ConnectDB.getConnection();	
-		String sql = "Select * from Xe where not trangThai = N'Đã bán'";	
+		String sql = "Select * from Xe";	
+		try {
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				Xe xe = new Xe();
+				xe.setMaXe(rs.getString(1));
+				xe.setTenXe(rs.getString(2));
+				xe.setMauXe(rs.getString(3));
+				xe.setSoKhung(rs.getString(4));
+				xe.setSoMay(rs.getString(5));
+				xe.setNhaCungCap(rs.getString(6));
+				xe.setHangSanXuat(new HangSanXuat(rs.getString(7)));
+				xe.setLoaiXe(new LoaiXe(rs.getString(8)));
+				xe.setGiaXe(rs.getDouble(9));
+				xe.setTrangThai(rs.getString(10));
+
+				
+				lsXe.add(xe);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lsXe;
+	}
+	public ArrayList<Xe> getDanhSachXeTruSoKhung(String soKhung){
+		ArrayList<Xe> lsXe = new ArrayList<Xe>();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();	
+		String sql = "Select * from Xe where soKhung <> '"+soKhung+"'";	
+		try {
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				Xe xe = new Xe();
+				xe.setMaXe(rs.getString(1));
+				xe.setTenXe(rs.getString(2));
+				xe.setMauXe(rs.getString(3));
+				xe.setSoKhung(rs.getString(4));
+				xe.setSoMay(rs.getString(5));
+				xe.setNhaCungCap(rs.getString(6));
+				xe.setHangSanXuat(new HangSanXuat(rs.getString(7)));
+				xe.setLoaiXe(new LoaiXe(rs.getString(8)));
+				xe.setGiaXe(rs.getDouble(9));
+				xe.setTrangThai(rs.getString(10));
+
+				
+				lsXe.add(xe);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lsXe;
+	}
+	public ArrayList<Xe> getDanhSachXeTruSoMay(String soMay){
+		ArrayList<Xe> lsXe = new ArrayList<Xe>();
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();	
+		String sql = "Select * from Xe where soMay <> '"+soMay+"'";	
 		try {
 			Statement statement = con.createStatement();
 			ResultSet rs = statement.executeQuery(sql);

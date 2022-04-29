@@ -217,13 +217,13 @@ public ArrayList<Xe> getDanhSachXe(String maHangSanXuat){
 			n = stmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO: handle exception
-			e.printStackTrace();
+			
 		}finally{
 			try {
 				stmt.close();
 			} catch (SQLException e) {
 				// TODO: handle exception
-				e.printStackTrace();
+				
 			}
 		}
 		return n > 0;

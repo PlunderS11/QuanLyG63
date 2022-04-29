@@ -6,7 +6,11 @@ import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import entity.Xe;
+
 public class Regex {
+	private Xe_DAO daoXe;
+
 	public boolean regexTen(JTextField txtTen2) {
 		String input = txtTen2.getText().trim();
 		String regex = "^([ A-Za-za-zA-Z]*(\\s?))+$";
@@ -26,6 +30,16 @@ public class Regex {
 		String regex = "^[a-zA-Z0-9]{1,17}$";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(input);
+		daoXe = new Xe_DAO();
+		for (Xe xe : daoXe.getDanhSachXe()) {
+			if (xe.getSoKhung().equalsIgnoreCase(input)) {
+				JOptionPane.showMessageDialog(null, "Số khung xe đã tồn tại!", "Thông báo",
+						JOptionPane.ERROR_MESSAGE);
+				txtTen2.requestFocus();
+				txtTen2.selectAll();
+				return false;
+			}
+		}
 		if (!matcher.find()) {
 			JOptionPane.showMessageDialog(null, "Số khung không hợp lệ chỉ giới hạn trong 17 kí tự!", "Thông báo",
 					JOptionPane.ERROR_MESSAGE);
@@ -36,11 +50,22 @@ public class Regex {
 			return true;
 	}
 	
+	
 	public boolean regexSoMay(JTextField txtTen2) {
 		String input = txtTen2.getText().trim();
 		String regex = "^[a-zA-Z0-9]{1,17}$";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(input);
+		daoXe = new Xe_DAO();
+		for (Xe xe : daoXe.getDanhSachXe()) {
+			if (xe.getSoMay().equalsIgnoreCase(input)) {
+				JOptionPane.showMessageDialog(null, "Số máy xe đã tồn tại!", "Thông báo",
+						JOptionPane.ERROR_MESSAGE);
+				txtTen2.requestFocus();
+				txtTen2.selectAll();
+				return false;
+			}
+		}
 		if (!matcher.find()) {
 			JOptionPane.showMessageDialog(null, "Số máy không hợp lệ chỉ giới hạn trong 17 kí tự!", "Thông báo",
 					JOptionPane.ERROR_MESSAGE);
@@ -50,6 +75,7 @@ public class Regex {
 		} else
 			return true;
 	}
+	
 	
 	public boolean regexHangSanXuat(JTextField txtTen2) {
 		String input = txtTen2.getText().trim();

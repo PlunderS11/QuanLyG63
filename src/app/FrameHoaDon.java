@@ -528,9 +528,10 @@ public class FrameHoaDon extends JFrame{
 						// TODO: handle exception
 						JOptionPane.showMessageDialog(null, "Lỗi nhập liệu!");
 					}
-					
+					int temp = -1;
 					for (HopDong hopdong : dao_hopDong.getAllHopDong()) {
 						if (hopdong.getMaHopDong().equalsIgnoreCase(ma)) {
+							temp = 1;
 							String maKH = hopdong.getKhachHang().getMaKH();
 							String maNV = hopdong.getNhanVien().getMaNV();
 							String maXe = hopdong.getXe().getMaXe();
@@ -571,7 +572,7 @@ public class FrameHoaDon extends JFrame{
 							}
 						}
 					}
-					if (txtMaKH.getText().equalsIgnoreCase("")) {
+					if (temp==-1) {
 						JOptionPane.showMessageDialog(null, "Không tìm thấy hợp đồng!");
 					}
 				}

@@ -613,7 +613,17 @@ public class FrameNhanVien extends JFrame{
 				return false;
 			}
 		}
-		
+		int r = table.getSelectedRow();
+		for (NhanVien nv : nhanvien_dao.getAllNhanVienTruCCCD(model.getValueAt(r, 5).toString())) {
+			if (nv.getcCCD().equalsIgnoreCase(cccd)) {
+				
+					JOptionPane.showMessageDialog(this, "CCCD nhân viên đã tồn tại!", "Lỗi",
+							JOptionPane.ERROR_MESSAGE);
+					txtCCCD.requestFocus();
+					return false;
+				
+			}
+		}
 		if (cccd.trim().length() > 0) {
 			if (!(cccd.matches("[0-9]{9}")) && !(cccd.matches("[0-9]{12}"))) {
 				JOptionPane.showMessageDialog(this, "CCCD phải gồm 9 hoặc 12 số", "Lỗi",

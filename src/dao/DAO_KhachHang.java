@@ -41,7 +41,31 @@ public class DAO_KhachHang {
 		}
 		return dsKH;
 	}
-	
+	public  ArrayList<KhachHang> getAllKHTruCCCD(String cccd) {
+		
+		ArrayList<KhachHang> dsKH = new ArrayList<KhachHang>();		
+		ConnectDB.getInstance();
+		Connection con = ConnectDB.getConnection();			
+		try {
+			String sql = "select * from KhachHang where cCCD <>'"+cccd+"'";
+			Statement statement = con.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			while(rs.next()){
+				KhachHang kh = new KhachHang();
+				kh.setMaKH(rs.getString("maKH"));
+				kh.setTenKH(rs.getString("tenKH"));
+				kh.setNgaySinh(rs.getDate("ngaySinh"));
+				kh.setDiaChi(rs.getString("diaChi"));
+				kh.setsDT(rs.getString("sDT"));
+				kh.setcCCD(rs.getString("cCCD"));
+				kh.setGioiTinh(rs.getBoolean("gioiTinh"));
+				dsKH.add(kh);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dsKH;
+	}
 	
 	
 	public String getMaKHCuoi() {

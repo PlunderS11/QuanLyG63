@@ -163,9 +163,12 @@ public class FrameHangSanXuat extends JFrame implements ActionListener, MouseLis
 					JOptionPane.showMessageDialog(null, "Vui lòng chọn dòng cần xóa!");
 				} else {
 					if (JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa khách hàng này không?", "Cảnh báo", JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION) {
-						daoHSX.delete(modelHangXe.getValueAt(r, 0).toString());
-						modelHangXe.removeRow(r);
-						JOptionPane.showMessageDialog(null, "Xóa thành công!");
+						if (daoHSX.delete(modelHangXe.getValueAt(r, 0).toString())) {
+							modelHangXe.removeRow(r);
+							JOptionPane.showMessageDialog(null, "Xóa thành công!");
+						} else {
+							JOptionPane.showMessageDialog(null, "Xóa thất bại! Phải xóa hết tất cả xe thuộc HSX này trước khi xóa HSX!");
+						}
 					}
 				}
 		 	}
@@ -375,6 +378,7 @@ public class FrameHangSanXuat extends JFrame implements ActionListener, MouseLis
 		txtMaHangXe.setText("");
 		txtTenHangXe.setText("");
 		txtNguonGoc.setText("");
+		txtTimKiem.setSelectedIndex(0);
 		clearTableHangXe();
 		clearTableXe();
 		loadDanhSachHangXe();
