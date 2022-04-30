@@ -13,11 +13,11 @@ public class Regex {
 
 	public boolean regexTen(JTextField txtTen2) {
 		String input = txtTen2.getText().trim();
-		String regex = "^([ A-Za-za-zA-Z]*(\\s?))+$";
+		String regex = "[^\\@\\!\\$\\^\\&\\*\\(\\)]+";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(input);
 		if (!matcher.find()) {
-			JOptionPane.showMessageDialog(null, "Họ tên không hợp lệ!\nMẫu họ tên: Nguyễn Văn A", "Thông báo",
+			JOptionPane.showMessageDialog(null, "Tên xe không hợp lệ!", "Thông báo",
 					JOptionPane.ERROR_MESSAGE);
 			txtTen2.requestFocus();
 			txtTen2.selectAll();
@@ -49,6 +49,20 @@ public class Regex {
 		} else
 			return true;
 	}
+	public boolean regexSuaSoKhung(JTextField txtTen2) {
+		String input = txtTen2.getText().trim();
+		String regex = "^[a-zA-Z0-9]{1,17}$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(input);
+		if (!matcher.find()) {
+			JOptionPane.showMessageDialog(null, "Số khung không hợp lệ chỉ giới hạn trong 17 kí tự!", "Thông báo",
+					JOptionPane.ERROR_MESSAGE);
+			txtTen2.requestFocus();
+			txtTen2.selectAll();
+			return false;
+		} else
+			return true;
+	}
 	
 	
 	public boolean regexSoMay(JTextField txtTen2) {
@@ -66,6 +80,20 @@ public class Regex {
 				return false;
 			}
 		}
+		if (!matcher.find()) {
+			JOptionPane.showMessageDialog(null, "Số máy không hợp lệ chỉ giới hạn trong 17 kí tự!", "Thông báo",
+					JOptionPane.ERROR_MESSAGE);
+			txtTen2.requestFocus();
+			txtTen2.selectAll();
+			return false;
+		} else
+			return true;
+	}
+	public boolean regexSuaSoMay(JTextField txtTen2) {
+		String input = txtTen2.getText().trim();
+		String regex = "^[a-zA-Z0-9]{1,17}$";
+		Pattern pattern = Pattern.compile(regex);
+		Matcher matcher = pattern.matcher(input);
 		if (!matcher.find()) {
 			JOptionPane.showMessageDialog(null, "Số máy không hợp lệ chỉ giới hạn trong 17 kí tự!", "Thông báo",
 					JOptionPane.ERROR_MESSAGE);

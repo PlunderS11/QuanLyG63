@@ -44,12 +44,7 @@ public class FrameLoaiXe extends JFrame implements MouseListener, ActionListener
 	private Xe_DAO daoXe;
 	private FixButton btnLamMoi;
 	private Regex regex;
-	public JPanel createPanelLoaiXe() {
-		JPanel pnlContentPane = new JPanel();
-		pnlContentPane.setBackground(Color.WHITE);
-		setContentPane(pnlContentPane);
-		pnlContentPane.add(lbl = new JButton("Gagag"));
-		return pnlContentPane;}
+
 	public FrameLoaiXe(){
 		regex = new Regex();
 		daoLoaiXe = new LoaiXe_DAO();

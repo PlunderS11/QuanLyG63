@@ -582,7 +582,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 //				
 //				txtTam.setText(String.valueOf(Math.round(giaXe)));
 				//System.out.println(regex.regexGiaXe(txtTam));
-				if(regex.regexTen(txtTenXe) && regex.regexSoKhung(txtSoKhung) && regex.regexSoMay(txtSoMay) && regex.regexNhaCungCap(txtNhaCungCap) && regex.regexGiaXe(txtGiaNhap)) {
+				if(regex.regexTen(txtTenXe) && regex.regexSuaSoKhung(txtSoKhung) && regex.regexSuaSoMay(txtSoMay) && regex.regexNhaCungCap(txtNhaCungCap) && regex.regexGiaXe(txtGiaNhap)) {
 					try {	
 						String maXe = txtMaXe.getText();
 						String tenXe = txtTenXe.getText();
@@ -595,12 +595,10 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 						String trangThai = cboTrangThai.getSelectedItem().toString();
 						LoaiXe loaiXe = new LoaiXe( daoLoaiXe.getMaTheoLoaiXe(cboLoaiXe.getSelectedItem().toString()));
 						Xe xe = new Xe(maXe, tenXe, mauXe, soKhung, soMay, nhaCungCap, giaXe, hangSanXuat, loaiXe, trangThai);
-						System.out.println(xe);
-						clearTable();
 						daoXe.suaThongTinXe(xe);
-						loadThongTinXe(xe);
+						loadDanhSachXe();
 						JOptionPane.showMessageDialog(this, "Thông tin xe đã được sửa!", "Thông báo",
-								JOptionPane.OK_OPTION);
+								JOptionPane.INFORMATION_MESSAGE);
 					} catch (Exception e) {
 						// TODO: handle exception
 						JOptionPane.showMessageDialog(null, "Vui lòng kiểm tra lại thông tin xe!!", "Thông báo",
@@ -842,6 +840,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 					xeDocTuFile.getLoaiXe(), "Còn hàng");
 			daoXe.themDanhSachXe(x);
 			loadDanhSachXe();
+			JOptionPane.showMessageDialog(this, "Đọc file thành công!!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 }
