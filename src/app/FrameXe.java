@@ -838,16 +838,34 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 			return;
 		}	
 		for(Xe xeDocTuFile : dsXeDocTuFile) {
-			String ma = daoXe.getMaXeCuoi();				
-			int layMaSo = Integer.parseInt(ma.substring(1, ma.length())); 
-			String maXe = "X" + (layMaSo + 1);
-			xeDocTuFile.setMaXe(maXe);
+			if (daoXe.getDanhSachXe().isEmpty()) {
+				xeDocTuFile.setMaXe("X0001");
+			} else {
+				DecimalFormat df = new DecimalFormat("0000");
+				String ma = daoXe.getMaXeCuoi();				
+				int layMaSo = Integer.parseInt(ma.substring(1, ma.length())); 
+				String maXe = "X" + df.format(layMaSo + 1);
+				
+				xeDocTuFile.setMaXe(maXe);
+			}
+			
+//			if (daoXe.getDanhSachXe().isEmpty()) {
+//				xeDocTuFile.setMauXe("X0001");
+//			} else {
+//				
+//				String ma = daoXe.getMaXeCuoi();
+//				String ma1 = ma.substring(0, 1);
+//				String ma2 = ma.substring(1);
+//				int ma3 = Integer.parseInt(ma2)+1;
+//				DecimalFormat df = new DecimalFormat("0000");
+//				xeDocTuFile.setMauXe(ma1+df.format(ma3));
+//			}
 			Xe x = new Xe(xeDocTuFile.getMaXe(), xeDocTuFile.getTenXe(), xeDocTuFile.getMauXe(), xeDocTuFile.getSoKhung(), 
 					xeDocTuFile.getSoMay(), xeDocTuFile.getNhaCungCap(), xeDocTuFile.getGiaXe(), xeDocTuFile.getHangSanXuat(), 
 					xeDocTuFile.getLoaiXe(), "Còn hàng");
 			daoXe.themDanhSachXe(x);
-			loadDanhSachXe();
-			JOptionPane.showMessageDialog(this, "Đọc file thành công!!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
+			loadDanhSachXe();	
 		}
+		JOptionPane.showMessageDialog(this, "Đọc file thành công!!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
 	}
 }
