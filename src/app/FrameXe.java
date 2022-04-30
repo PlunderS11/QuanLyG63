@@ -582,7 +582,8 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 //				
 //				txtTam.setText(String.valueOf(Math.round(giaXe)));
 				//System.out.println(regex.regexGiaXe(txtTam));
-				if(regex.regexTen(txtTenXe) && regex.regexSuaSoKhung(txtSoKhung) && regex.regexSuaSoMay(txtSoMay) && regex.regexNhaCungCap(txtNhaCungCap) && regex.regexGiaXe(txtGiaNhap)) {
+				int r = tableXe.getSelectedRow();
+				if(regex.regexTen(txtTenXe) && regex.regexSuaSoKhung(txtSoKhung,modelXe.getValueAt(r, 3).toString()) && regex.regexSuaSoMay(txtSoMay,modelXe.getValueAt(r, 4).toString()) && regex.regexNhaCungCap(txtNhaCungCap) && regex.regexGiaXe(txtGiaNhap)) {
 					try {	
 						String maXe = txtMaXe.getText();
 						String tenXe = txtTenXe.getText();
@@ -616,24 +617,30 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 	private boolean xoaThongTinXe() {
 		int row = tableXe.getSelectedRow();
 		if (row >= 0) {
-			int cancel = JOptionPane.showConfirmDialog(null, "Bạn muốn xóa thông tin xe này?", "Thông báo",
-					JOptionPane.YES_NO_OPTION);
-			if (cancel == JOptionPane.YES_OPTION) {
-				String maXe = tableXe.getValueAt(row, 0).toString();
-				try {
-					modelXe.removeRow(row);
-					clearTable();
-					daoXe.xoaXe(maXe);
-					hienThiDanhSachXe();
-					JOptionPane.showMessageDialog(null, "Đã xóa Xe!", "Thông báo", JOptionPane.OK_OPTION);
-				} catch (Exception e1) {
-					e1.printStackTrace();
-					JOptionPane.showMessageDialog(null, "xóa thông tin xe thất bại!", "Thông báo",
-							JOptionPane.ERROR_MESSAGE);
+			if (modelXe.getValueAt(row, 9).toString().equalsIgnoreCase("Còn hàng")) {
+				int cancel = JOptionPane.showConfirmDialog(null, "Bạn muốn xóa thông tin xe này?", "Thông báo",
+						JOptionPane.YES_NO_OPTION);
+				if (cancel == JOptionPane.YES_OPTION) {
+					String maXe = tableXe.getValueAt(row, 0).toString();
+					try {
+						daoXe.xoaXe(maXe);
+						modelXe.removeRow(row);
+						clearTable();					
+						hienThiDanhSachXe();
+						JOptionPane.showMessageDialog(null, "Đã xóa Xe!", "Thông báo", JOptionPane.OK_OPTION);
+					} catch (Exception e1) {
+						e1.printStackTrace();
+						JOptionPane.showMessageDialog(null, "Xóa thông tin xe thất bại!", "Thông báo",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "Vui lòng chọn lại");
 				}
-			}else {
-				JOptionPane.showMessageDialog(null, "Vui lòng chọn lại");
+			} else {
+				JOptionPane.showMessageDialog(null, "Chỉ xóa được những xe có trạng thái 'Còn hàng'!", "Thông báo",
+						JOptionPane.ERROR_MESSAGE);
 			}
+			
 		} else {
 			JOptionPane.showMessageDialog(null, "Bạn chưa chọn thông tin xe cần hủy!", "Thông báo",
 					JOptionPane.WARNING_MESSAGE);
