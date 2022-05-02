@@ -684,11 +684,18 @@ public class FrameNhanVien extends JFrame{
 			maNV = "QL" + (layMaSo + 1);
 			txtMaNV.setText(maNV);
 		}else if(chucVu.equals("Nhân viên bán hàng")){
-			String maNVCuoi = dsNV.get(dsNV.size() - 1).getMaNV().trim();
-			int layMaSo = Integer.parseInt(maNVCuoi.substring(2, maNVCuoi.length()));
-			maNV = "NV" + (layMaSo + 1);
-			txtMaNV.setText(maNV);
+			for(NhanVien nv : dsNV) {
+				List<NhanVien> dsTam = new ArrayList<NhanVien>();
+				if(nv.getMaNV().substring(0, 2).equals("NV")) {
+					dsTam.add(nv);
+					String maNVCuoi = dsTam.get(dsTam.size() - 1).getMaNV().trim();
+					int layMaSo = Integer.parseInt(maNVCuoi.substring(2, maNVCuoi.length()));
+					maNV = "NV" + (layMaSo + 1);
+					txtMaNV.setText(maNV);
+				}
+			}
 		}
+		System.out.println(dsNV.get(dsNV.size()-1).getMaNV().trim());
 	}
 	public void lamMoi() {
 		txtMaNV.setText("");
