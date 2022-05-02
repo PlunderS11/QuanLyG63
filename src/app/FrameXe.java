@@ -62,7 +62,7 @@ import javax.swing.JTable;
 
 public class FrameXe extends JFrame implements ActionListener,MouseListener{
 	Locale localeVN = new Locale("vi", "VN");
-    NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
+    NumberFormat dfGiaXe = NumberFormat.getCurrencyInstance(localeVN);
 
 
 
@@ -72,7 +72,6 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 	private Regex regex;
 	private FixButton btnThemXe;
 	private FixButton btnSuaXe;
-	private static DecimalFormat dfGiaXe;
 	private FixButton btnXoaXe;
 	private FixButton btnTimXe;
 	private JComboBox<String> cboSapXep;
@@ -91,7 +90,6 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 	private static LoaiXe_DAO daoLoaiXe;
 	private JComboBox<String> cboTrangThai;
 	private JComboBox<String> cboHSX;
-
 	public FrameXe() {
 		
 		//Connect database
@@ -111,7 +109,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		regex = new Regex();
 		
 		//dinh dang
-		dfGiaXe=new DecimalFormat("###,###");
+		
 		
 		//Giao dien
 		setSize(1345, 705);
@@ -477,7 +475,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 				HangSanXuat hsx = daoHSX.getHSXTheoMa(xe.getHangSanXuat().getMaHangSX());
 				LoaiXe lx = daoLoaiXe.getLoaiXeTheoMa(xe.getLoaiXe().getMaLoaiXe());
 				modelXe.addRow(new Object[] {
-						xe.getMaXe(), xe.getTenXe(), xe.getMauXe(), xe.getSoKhung(), xe.getSoMay(), xe.getNhaCungCap(), hsx.getTenHangSX(), lx.getTenLoaiXe(), currencyVN.format(xe.getGiaXe()), xe.getTrangThai()
+						xe.getMaXe(), xe.getTenXe(), xe.getMauXe(), xe.getSoKhung(), xe.getSoMay(), xe.getNhaCungCap(), hsx.getTenHangSX(), lx.getTenLoaiXe(), dfGiaXe.format(xe.getGiaXe()), xe.getTrangThai()
 
 				});
 			
@@ -490,7 +488,7 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 		}
 	}
 	
-	public static void loadThongTinXe(Xe xe) {
+	public void loadThongTinXe(Xe xe) {
 		HangSanXuat hsx = daoHSX.getHSXTheoMa(xe.getHangSanXuat().getMaHangSX());
 		LoaiXe lx = daoLoaiXe.getLoaiXeTheoMa(xe.getLoaiXe().getMaLoaiXe());
 		modelXe.addRow(new Object[] {
@@ -571,46 +569,49 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 	public void suaThongTinXe() {
 		int row = tableXe.getSelectedRow();
 		if(row >= 0 ) {
-			int update = JOptionPane.showConfirmDialog(this, "Bạn muốn sửa thông tin xe này không?", "Thông báo",
-					JOptionPane.YES_NO_OPTION);
-			if(update == JOptionPane.YES_OPTION) {
-//				JTextField txtTam = new JTextField();
-//				String maXe = modelXe.getValueAt(row, 0).toString();
-//				double gia = Math.round(daoXe.getGiaXeTheoMa(maXe).getGiaXe());
-//				//System.out.println(gia);
-//				
-//				
-//				txtTam.setText(String.valueOf(Math.round(giaXe)));
-				//System.out.println(regex.regexGiaXe(txtTam));
-				int r = tableXe.getSelectedRow();
-				if(regex.regexTen(txtTenXe) && regex.regexSuaSoKhung(txtSoKhung,modelXe.getValueAt(r, 3).toString()) && regex.regexSuaSoMay(txtSoMay,modelXe.getValueAt(r, 4).toString()) && regex.regexNhaCungCap(txtNhaCungCap) && regex.regexGiaXe(txtGiaNhap)) {
-					try {	
-						String maXe = txtMaXe.getText();
-						String tenXe = txtTenXe.getText();
-						String mauXe = txtMauXe.getText();
-						String soKhung = txtSoKhung.getText();
-						String soMay = txtSoMay.getText();
-						String nhaCungCap = txtNhaCungCap.getText();
-						double giaXe = Double.parseDouble(txtGiaNhap.getText().toString());
-						HangSanXuat hangSanXuat = new HangSanXuat(daoHSX.getMaTheoHangSanXuat(cboHSX.getSelectedItem().toString())); 
-						String trangThai = cboTrangThai.getSelectedItem().toString();
-						LoaiXe loaiXe = new LoaiXe( daoLoaiXe.getMaTheoLoaiXe(cboLoaiXe.getSelectedItem().toString()));
-						Xe xe = new Xe(maXe, tenXe, mauXe, soKhung, soMay, nhaCungCap, giaXe, hangSanXuat, loaiXe, trangThai);
-						daoXe.suaThongTinXe(xe);
-						loadDanhSachXe();
-						JOptionPane.showMessageDialog(this, "Thông tin xe đã được sửa!", "Thông báo",
-								JOptionPane.INFORMATION_MESSAGE);
-					} catch (Exception e) {
-						// TODO: handle exception
-						JOptionPane.showMessageDialog(null, "Vui lòng kiểm tra lại thông tin xe!!", "Thông báo",
-								JOptionPane.ERROR_MESSAGE);
-					}
-				}
-			}
-			else {
-				JOptionPane.showMessageDialog(null, "Vui lòng chọn thông tin xe cần sửa!", "Thông báo",
-						JOptionPane.WARNING_MESSAGE);
-			}
+			if(cboTrangThai.getSelectedItem().toString().equalsIgnoreCase("Còn hàng")) {
+				int update = JOptionPane.showConfirmDialog(this, "Bạn muốn sửa thông tin xe này không?", "Thông báo",
+						JOptionPane.YES_NO_OPTION);
+				if(update == JOptionPane.YES_OPTION) {
+//					JTextField txtTam = new JTextField();
+//					String maXe = modelXe.getValueAt(row, 0).toString();
+//					double gia = Math.round(daoXe.getGiaXeTheoMa(maXe).getGiaXe());
+//					//System.out.println(gia);
+//					
+//					
+//					txtTam.setText(String.valueOf(Math.round(giaXe)));
+					//System.out.println(regex.regexGiaXe(txtTam));
+					int r = tableXe.getSelectedRow();
+					System.out.println(modelXe.getValueAt(r, 9));
+						if(regex.regexTen(txtTenXe) && regex.regexSuaSoKhung(txtSoKhung,modelXe.getValueAt(r, 3).toString()) && regex.regexSuaSoMay(txtSoMay,modelXe.getValueAt(r, 4).toString()) && regex.regexNhaCungCap(txtNhaCungCap) && regex.regexGiaXe(txtGiaNhap)) {
+							try {	
+								String maXe = txtMaXe.getText();
+								String tenXe = txtTenXe.getText();
+								String mauXe = txtMauXe.getText();
+								String soKhung = txtSoKhung.getText();
+								String soMay = txtSoMay.getText();
+								String nhaCungCap = txtNhaCungCap.getText();
+								double giaXe = Double.parseDouble(txtGiaNhap.getText().toString());
+								HangSanXuat hangSanXuat = new HangSanXuat(daoHSX.getMaTheoHangSanXuat(cboHSX.getSelectedItem().toString())); 
+								String trangThai = cboTrangThai.getSelectedItem().toString();
+								LoaiXe loaiXe = new LoaiXe( daoLoaiXe.getMaTheoLoaiXe(cboLoaiXe.getSelectedItem().toString()));
+								Xe xe = new Xe(maXe, tenXe, mauXe, soKhung, soMay, nhaCungCap, giaXe, hangSanXuat, loaiXe, trangThai);
+								daoXe.suaThongTinXe(xe);
+								loadDanhSachXe();
+								JOptionPane.showMessageDialog(this, "Thông tin xe đã được sửa!", "Thông báo",
+										JOptionPane.INFORMATION_MESSAGE);
+							} catch (Exception e) {
+								// TODO: handle exception
+								JOptionPane.showMessageDialog(null, "Vui lòng kiểm tra lại thông tin xe!!", "Thông báo",
+										JOptionPane.ERROR_MESSAGE);
+							}
+						}
+				}				
+			}else
+				JOptionPane.showMessageDialog(this, "Chỉ có thể cập nhật thông tin xe chưa bán");
+		}else {
+			JOptionPane.showMessageDialog(null, "Vui lòng chọn thông tin xe cần sửa!", "Thông báo",
+					JOptionPane.WARNING_MESSAGE);
 		}
 	}
 	
@@ -702,8 +703,11 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 			txtNhaCungCap.setText(modelXe.getValueAt(row, 5).toString());
 			cboHSX.setSelectedItem(modelXe.getValueAt(row, 6).toString());
 			cboLoaiXe.setSelectedItem(modelXe.getValueAt(row, 7).toString());
-			txtGiaNhap.setText(modelXe.getValueAt(row, 8).toString());
-
+			//Chuyển định đạng tiền thành số
+			String aa = modelXe.getValueAt(row, 8).toString();
+			String ab = aa.substring(0, (aa.length()-2));
+			txtGiaNhap.setText(ab.replaceAll("\\.", ""));
+			
 			String trangThai =  modelXe.getValueAt(row, 9).toString();
 			if (trangThai.equalsIgnoreCase("Còn hàng")) {
 				cboTrangThai.setSelectedIndex(0);
