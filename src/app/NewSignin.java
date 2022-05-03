@@ -31,7 +31,7 @@ public class NewSignin extends JFrame implements KeyListener{
 	private static JTextField txtTK;
 	private JPasswordField txtMK;
 	private TaiKhoan_DAO taikhoan_dao;
-	private JButton btnLogIn;
+	private FixButton btnLogIn;
 	public NewSignin() {
 		
 		// khởi tạo kết nối đến CSDL
@@ -85,7 +85,7 @@ public class NewSignin extends JFrame implements KeyListener{
 		txtMK.setBorder(BorderFactory.createLineBorder(new Color(169, 224, 49)));
 		pnlDN.add(txtMK);
 		
-		btnLogIn = new JButton("Sign In");
+		btnLogIn = new FixButton("Sign In");
 		btnLogIn.setFont(new Font("Arial", Font.BOLD, 20));
 		btnLogIn.setBackground(new Color(152, 201, 45));
 		btnLogIn.setForeground(Color.WHITE);

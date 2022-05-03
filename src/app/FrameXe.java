@@ -810,10 +810,8 @@ public class FrameXe extends JFrame implements ActionListener,MouseListener{
 					String maXe = "ma";
 					String tenXe = row.getCell(1).getStringCellValue();
 					String mauXe = row.getCell(2).getStringCellValue();
-					int soKhungcell = (int) row.getCell(3).getNumericCellValue();
-					String soKhung = String.valueOf(soKhungcell);
-					int soMaycell = (int) row.getCell(4).getNumericCellValue();
-					String soMay = String.valueOf(soMaycell);
+					String soKhung = row.getCell(3).getStringCellValue();
+					String soMay = row.getCell(4).getStringCellValue();
 					String NCC = row.getCell(5).getStringCellValue();
 					String HSXcell = row.getCell(6).getStringCellValue();
 					HangSanXuat HSX = new HangSanXuat(daoHSX.getMaTheoHangSanXuat(HSXcell));
