@@ -165,7 +165,7 @@ public class Regex {
 	
 	public boolean regexNhaCungCap(JTextField txtTen2) {
 		String input = txtTen2.getText().trim();
-		String regex = "^(Cty )([a-zA-Z0-9]*(\\s?))+$";
+		String regex = "^(Cty )([^\\@\\!\\$\\^\\&\\*\\(\\)]+)+$";
 		Pattern pattern = Pattern.compile(regex);
 		Matcher matcher = pattern.matcher(input);
 		if (!matcher.find()) {
