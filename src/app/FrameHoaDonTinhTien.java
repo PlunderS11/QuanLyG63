@@ -237,7 +237,7 @@ public class FrameHoaDonTinhTien extends JFrame{
 							+ "		Loai xe: \t \t \t \t \t \t \t \t \t \t \t   "+loaiXe+"\n"
 							+ "		Hang san xuat: \t \t \t \t \t \t "+hang+"\n"
 							+ "		Gia xe: \t \t \t \t \t \t \t \t \t \t \t \t  "+currencyVN.format(tien)+"\n"
-							+ "\t \t \t \t \t \t \t \t Tong hoa đon:   "+tong+"\n"
+							+ "\t \t \t \t \t \t \t \t Tong hoa đon:   "+currencyVN.format(tong)+"\n"
 							+ "\t \t \t \t \t \t \t XIN CAM ON VA HEN GAP LAI QUY KHACH !"));
 					doc.close();
 				} catch (FileNotFoundException e1) {
