@@ -586,6 +586,11 @@ public class FrameHopDong extends JFrame{
 						cboTimXe.addItem(x.getMaXe()+" - "+x.getTenXe());
 					}
 				}
+				cboTimKHCu.removeAllItems();
+				cboTimKHCu.addItem("");
+				for(KhachHang kh : dao_khachHang.getAllKH()) {
+					cboTimKHCu.addItem(kh.getcCCD());
+				}
 				
 				txtMauXe.setText("");
 				txtSoKhung.setText("");
