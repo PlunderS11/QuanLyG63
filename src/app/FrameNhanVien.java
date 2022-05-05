@@ -687,7 +687,7 @@ public class FrameNhanVien extends JFrame{
 					}
 				}
 				if (dsTam.isEmpty()) {
-					maNV = "NV1001";
+					maNV = "QL1001";
 					txtMaNV.setText(maNV);
 				} else {
 					String maNVCuoi = dsTam.get(dsTam.size() - 1).getMaNV().trim();
