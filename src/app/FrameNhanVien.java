@@ -670,32 +670,50 @@ public class FrameNhanVien extends JFrame{
 		String maNV = "";
 		List<NhanVien> dsNV = nhanvien_dao.getAllNhanVien();
 		if(dsNV.size() == 0) {
-			if(chucVu.equals("Quản lí")) {
+			if(chucVu.equalsIgnoreCase("Quản lí")) {
 				maNV = "QL1001";
 				txtMaNV.setText(maNV);
 			}
-			else if(chucVu.equals("Nhân viên bán hàng")) {
+			else if(chucVu.equalsIgnoreCase("Nhân viên bán hàng")) {
 				maNV = "NV1001";
 				txtMaNV.setText(maNV);
 			}
-		}else if(chucVu.equals("Quản lí")){
-			String maNVCuoi = dsNV.get(dsNV.size() - 1).getMaNV().trim();
-			int layMaSo = Integer.parseInt(maNVCuoi.substring(2, maNVCuoi.length()));
-			maNV = "QL" + (layMaSo + 1);
-			txtMaNV.setText(maNV);
-		}else if(chucVu.equals("Nhân viên bán hàng")){
-			for(NhanVien nv : dsNV) {
+		}else {
+			if(chucVu.equalsIgnoreCase("Quản lí")){
 				List<NhanVien> dsTam = new ArrayList<NhanVien>();
-				if(nv.getMaNV().substring(0, 2).equals("NV")) {
-					dsTam.add(nv);
+				for(NhanVien nv : dsNV) {
+					if(nv.getMaNV().substring(0, 2).equalsIgnoreCase("QL")) {
+						dsTam.add(nv);
+					}
+				}
+				if (dsTam.isEmpty()) {
+					maNV = "NV1001";
+					txtMaNV.setText(maNV);
+				} else {
+					String maNVCuoi = dsTam.get(dsTam.size() - 1).getMaNV().trim();
+					int layMaSo = Integer.parseInt(maNVCuoi.substring(2, maNVCuoi.length()));
+					maNV = "QL" + (layMaSo + 1);
+					txtMaNV.setText(maNV);
+				}
+			}else {
+				List<NhanVien> dsTam = new ArrayList<NhanVien>();
+				for(NhanVien nv : dsNV) {
+					if(nv.getMaNV().substring(0, 2).equalsIgnoreCase("NV")) {
+						dsTam.add(nv);
+					}
+				}
+				if (dsTam.isEmpty()) {
+					maNV = "NV1001";
+					txtMaNV.setText(maNV);
+				} else {
 					String maNVCuoi = dsTam.get(dsTam.size() - 1).getMaNV().trim();
 					int layMaSo = Integer.parseInt(maNVCuoi.substring(2, maNVCuoi.length()));
 					maNV = "NV" + (layMaSo + 1);
 					txtMaNV.setText(maNV);
 				}
-			}
+			}	
 		}
-		System.out.println(dsNV.get(dsNV.size()-1).getMaNV().trim());
+//		System.out.println(dsNV.get(dsNV.size()-1).getMaNV().trim());
 	}
 	public void lamMoi() {
 		txtMaNV.setText("");
